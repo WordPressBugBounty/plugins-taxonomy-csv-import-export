@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+<defs>
+  <linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#7164e6"/>
+    <stop offset="100%" stop-color="#9580ff"/>
+  </linearGradient>
+</defs>
+
+<!-- Admin bar -->
+<rect width="900" height="32" fill="#1d2327"/>
+<circle cx="16" cy="16" r="7" fill="none" stroke="#a0a5aa" stroke-width="1.5"/>
+<text x="12" y="21" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#c9d3dc">W</text>
+<text x="34" y="21" font-family="Arial,sans-serif" font-size="13" fill="#a0a5aa">My WordPress</text>
+<text x="795" y="21" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Howdy, Admin</text>
+
+<!-- Sidebar -->
+<rect x="0" y="32" width="160" height="468" fill="#23282d"/>
+<text x="38" y="66" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Dashboard</text>
+<text x="38" y="91" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Posts</text>
+<text x="38" y="116" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Media</text>
+<text x="38" y="141" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Plugins</text>
+<text x="38" y="166" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Settings</text>
+<rect x="14" y="176" width="132" height="1" fill="#3c434a"/>
+<rect x="0" y="182" width="160" height="28" fill="#0073aa"/>
+<text x="38" y="200" font-family="Arial,sans-serif" font-size="12.5" fill="white" font-weight="600">Taxonomy CSV</text>
+<rect x="0" y="210" width="160" height="98" fill="#2c3338"/>
+<text x="46" y="226" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Import / Export</text>
+<text x="46" y="250" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Create Term</text>
+<!-- Register Taxonomy active -->
+<rect x="0" y="258" width="160" height="24" fill="#32373c"/>
+<rect x="0" y="258" width="3" height="24" fill="#72aee6"/>
+<text x="46" y="274" font-family="Arial,sans-serif" font-size="12" fill="white">Register Taxonomy</text>
+<text x="46" y="298" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Users</text>
+
+<!-- Content background -->
+<rect x="160" y="32" width="740" height="468" fill="#f0f0f1"/>
+<text x="180" y="62" font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#1d2327">Register Taxonomy</text>
+
+<!-- Card -->
+<rect x="182" y="73" width="700" height="414" rx="3" fill="#dcdcde"/>
+<rect x="180" y="71" width="700" height="414" rx="3" fill="white"/>
+<rect x="180" y="71" width="700" height="8" rx="3" fill="url(#hg)"/>
+
+<!-- Page header -->
+<text x="200" y="102" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#1d2327">Register Taxonomy</text>
+<text x="200" y="119" font-family="Arial,sans-serif" font-size="12" fill="#646970">Create a new custom taxonomy and attach it to post types. Persists across page loads.</text>
+
+<rect x="200" y="130" width="640" height="1" fill="#f0f0f1"/>
+
+<!-- 3-column input grid: Label / Singular Label / Slug -->
+<text x="200" y="150" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Label <tspan fill="#cc1818">*</tspan></text>
+<rect x="200" y="156" width="196" height="28" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="212" y="174" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">Topics</text>
+
+<text x="408" y="150" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Singular Label</text>
+<rect x="408" y="156" width="196" height="28" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="420" y="174" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">Topic</text>
+
+<text x="616" y="150" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Slug <tspan fill="#cc1818">*</tspan></text>
+<rect x="616" y="156" width="204" height="28" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="628" y="174" font-family="monospace" font-size="12" fill="#1d2327">topics</text>
+
+<!-- Description textarea -->
+<text x="200" y="202" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Description</text>
+<rect x="200" y="208" width="620" height="36" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="212" y="230" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Optional description for this taxonomy...</text>
+
+<!-- Type selector label -->
+<text x="200" y="262" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Type</text>
+<!-- Tags card -->
+<rect x="200" y="268" width="148" height="52" rx="4" fill="white" stroke="#dcdcde" stroke-width="1.5"/>
+<circle cx="218" cy="285" r="5" fill="none" stroke="#8c8f94" stroke-width="1.5"/>
+<text x="230" y="289" font-family="Arial,sans-serif" font-size="13" font-weight="600" fill="#1d2327">Tags</text>
+<text x="218" y="309" font-family="Arial,sans-serif" font-size="11" fill="#646970">Non-hierarchical</text>
+<!-- Categories card (active) -->
+<rect x="358" y="268" width="148" height="52" rx="4" fill="#ede9fb" stroke="#7164e6" stroke-width="2"/>
+<circle cx="376" cy="285" r="5" fill="#7164e6"/>
+<circle cx="376" cy="285" r="2.5" fill="white"/>
+<text x="388" y="289" font-family="Arial,sans-serif" font-size="13" font-weight="600" fill="#7164e6">Categories</text>
+<text x="376" y="309" font-family="Arial,sans-serif" font-size="11" fill="#7164e6">Hierarchical</text>
+
+<!-- Post types -->
+<text x="200" y="342" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Attach to Post Types <tspan fill="#cc1818">*</tspan></text>
+<!-- Checkboxes -->
+<rect x="200" y="350" width="13" height="13" rx="2" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<rect x="202" y="352" width="9" height="9" rx="1" fill="#7164e6"/>
+<text x="220" y="361" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">post</text>
+<rect x="268" y="350" width="13" height="13" rx="2" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="286" y="361" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">page</text>
+<rect x="334" y="350" width="13" height="13" rx="2" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="352" y="361" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">attachment</text>
+
+<!-- Register button -->
+<rect x="200" y="376" width="148" height="30" rx="3" fill="#7164e6"/>
+<text x="274" y="395" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="white">Register Taxonomy</text>
+
+<!-- Registered taxonomies table -->
+<text x="200" y="424" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#1d2327">Registered Taxonomies</text>
+<rect x="200" y="430" width="640" height="24" rx="2" fill="#f6f7f7" stroke="#dcdcde" stroke-width="1"/>
+<text x="214" y="446" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1d2327">Label</text>
+<text x="340" y="446" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1d2327">Slug</text>
+<text x="470" y="446" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1d2327">Type</text>
+<text x="580" y="446" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1d2327">Post Types</text>
+<text x="720" y="446" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1d2327">Actions</text>
+<rect x="200" y="454" width="640" height="24" fill="white" stroke="#dcdcde" stroke-width="0.5"/>
+<text x="214" y="470" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Topics</text>
+<text x="340" y="470" font-family="monospace" font-size="11" fill="#1d2327">topics</text>
+<text x="470" y="470" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">Categories</text>
+<text x="580" y="470" font-family="Arial,sans-serif" font-size="12" fill="#1d2327">post</text>
+<rect x="714" y="458" width="52" height="18" rx="2" fill="white" stroke="#cc1818" stroke-width="1"/>
+<text x="740" y="471" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#cc1818">Delete</text>
+
+</svg>

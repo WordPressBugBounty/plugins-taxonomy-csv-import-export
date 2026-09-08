@@ -1,0 +1,10 @@
+.gitattributes
+.gitignore
+.distignore
+assets/dev-js
+.git
+composer.json
+composer.lock
+vendor
+.vscode
+phpcs.xml

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+<defs>
+  <linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#7164e6"/>
+    <stop offset="100%" stop-color="#9580ff"/>
+  </linearGradient>
+</defs>
+
+<!-- Admin bar -->
+<rect width="900" height="32" fill="#1d2327"/>
+<circle cx="16" cy="16" r="7" fill="none" stroke="#a0a5aa" stroke-width="1.5"/>
+<text x="12" y="21" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#c9d3dc">W</text>
+<text x="34" y="21" font-family="Arial,sans-serif" font-size="13" fill="#a0a5aa">My WordPress</text>
+<text x="795" y="21" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Howdy, Admin</text>
+
+<!-- Sidebar -->
+<rect x="0" y="32" width="160" height="468" fill="#23282d"/>
+<text x="38" y="66" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Dashboard</text>
+<text x="38" y="91" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Posts</text>
+<text x="38" y="116" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Media</text>
+<text x="38" y="141" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Plugins</text>
+<text x="38" y="166" font-family="Arial,sans-serif" font-size="12.5" fill="#a0a5aa">Settings</text>
+<rect x="14" y="176" width="132" height="1" fill="#3c434a"/>
+<rect x="0" y="182" width="160" height="28" fill="#0073aa"/>
+<text x="38" y="200" font-family="Arial,sans-serif" font-size="12.5" fill="white" font-weight="600">Taxonomy CSV</text>
+<rect x="0" y="210" width="160" height="98" fill="#2c3338"/>
+<text x="46" y="226" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Import / Export</text>
+<!-- Create Term active -->
+<rect x="0" y="234" width="160" height="24" fill="#32373c"/>
+<rect x="0" y="234" width="3" height="24" fill="#72aee6"/>
+<text x="46" y="250" font-family="Arial,sans-serif" font-size="12" fill="white">Create Term</text>
+<text x="46" y="274" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Register Taxonomy</text>
+<text x="46" y="298" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Users</text>
+
+<!-- Content background -->
+<rect x="160" y="32" width="740" height="468" fill="#f0f0f1"/>
+<text x="180" y="62" font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#1d2327">Create Taxonomy Terms</text>
+
+<!-- Card -->
+<rect x="182" y="73" width="700" height="414" rx="3" fill="#dcdcde"/>
+<rect x="180" y="71" width="700" height="414" rx="3" fill="white"/>
+<rect x="180" y="71" width="700" height="8" rx="3" fill="url(#hg)"/>
+
+<!-- Page header inside card -->
+<text x="200" y="102" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#1d2327">Create Term</text>
+<text x="200" y="119" font-family="Arial,sans-serif" font-size="12" fill="#646970">Expand a taxonomy and add a new term with a title and optional description.</text>
+
+<rect x="200" y="130" width="640" height="1" fill="#f0f0f1"/>
+
+<!-- Accordion row 1: category (collapsed) -->
+<rect x="200" y="138" width="640" height="40" rx="3" fill="#f6f7f7" stroke="#dcdcde" stroke-width="1"/>
+<text x="218" y="163" font-family="Arial,sans-serif" font-size="13" font-weight="600" fill="#1d2327">Categories</text>
+<text x="360" y="163" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">category</text>
+<text x="500" y="163" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">post</text>
+<text x="820" y="163" font-family="Arial,sans-serif" font-size="13" fill="#646970">▾</text>
+
+<!-- Accordion row 2: post_tag (EXPANDED) -->
+<rect x="200" y="186" width="640" height="40" rx="3" fill="#ede9fb" stroke="#7164e6" stroke-width="1.5"/>
+<text x="218" y="211" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#7164e6">Tags</text>
+<text x="316" y="211" font-family="Arial,sans-serif" font-size="12" fill="#7164e6">post_tag</text>
+<text x="500" y="211" font-family="Arial,sans-serif" font-size="12" fill="#7164e6">post</text>
+<text x="820" y="211" font-family="Arial,sans-serif" font-size="13" fill="#7164e6">▴</text>
+<!-- Expanded body -->
+<rect x="200" y="226" width="640" height="114" rx="3" fill="white" stroke="#7164e6" stroke-width="1.5"/>
+<!-- Title input -->
+<text x="216" y="248" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Term Title</text>
+<rect x="216" y="254" width="280" height="28" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="228" y="272" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">e.g. JavaScript</text>
+<!-- Description input -->
+<text x="514" y="248" font-family="Arial,sans-serif" font-size="12" font-weight="600" fill="#1d2327">Description <tspan fill="#a0a5aa">(optional)</tspan></text>
+<rect x="514" y="254" width="310" height="28" rx="3" fill="white" stroke="#8c8f94" stroke-width="1"/>
+<text x="526" y="272" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">Short description...</text>
+<!-- Create button -->
+<rect x="216" y="295" width="108" height="30" rx="3" fill="#7164e6"/>
+<text x="270" y="314" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="white">Create Term</text>
+<!-- Success feedback -->
+<text x="336" y="313" font-family="Arial,sans-serif" font-size="12" fill="#00a32a">&#10003; <tspan font-weight="700">JavaScript</tspan> created (slug: <tspan font-family="monospace" font-size="11">javascript</tspan>).</text>
+
+<!-- Accordion row 3: custom_taxonomy (collapsed) -->
+<rect x="200" y="348" width="640" height="40" rx="3" fill="#f6f7f7" stroke="#dcdcde" stroke-width="1"/>
+<text x="218" y="373" font-family="Arial,sans-serif" font-size="13" font-weight="600" fill="#1d2327">Topics</text>
+<text x="316" y="373" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">topics</text>
+<text x="500" y="373" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">post, page</text>
+<text x="820" y="373" font-family="Arial,sans-serif" font-size="13" fill="#646970">▾</text>
+
+<!-- Accordion row 4: genre (collapsed) -->
+<rect x="200" y="396" width="640" height="40" rx="3" fill="#f6f7f7" stroke="#dcdcde" stroke-width="1"/>
+<text x="218" y="421" font-family="Arial,sans-serif" font-size="13" font-weight="600" fill="#1d2327">Genre</text>
+<text x="316" y="421" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">genre</text>
+<text x="500" y="421" font-family="Arial,sans-serif" font-size="12" fill="#a0a5aa">post</text>
+<text x="820" y="421" font-family="Arial,sans-serif" font-size="13" fill="#646970">▾</text>
+
+</svg>

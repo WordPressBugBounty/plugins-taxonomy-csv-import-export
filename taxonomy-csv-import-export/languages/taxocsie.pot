@@ -1,0 +1,728 @@
+# Copyright (C) 2026 Md.Rakib Hossen
+# This file is distributed under the GPL2+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Taxonomy CSV Import Export 1.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/taxonomy-csv-import-export\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-08T16:32:50+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: taxonomy-csv-import-export\n"
+
+#. Plugin Name of the plugin
+#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
+msgid "Taxonomy CSV Import Export"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
+msgid "https://wordpress.org/plugins/taxonomy-csv-import-export"
+msgstr ""
+
+#. Description of the plugin
+#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
+msgid "Export and import all registered taxonomies with terms to/from CSV. Includes parent relationships."
+msgstr ""
+
+#. Author of the plugin
+#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
+msgid "Md.Rakib Hossen"
+msgstr ""
+
+#. Author URI of the plugin
+#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
+msgid "https://rlorakib.com/"
+msgstr ""
+
+#. translators: 1: Missing headers
+#: includes/admin.php:176
+msgid "Missing required headers: %s"
+msgstr ""
+
+#: includes/admin.php:437
+#: includes/admin.php:503
+#: includes/admin.php:684
+#: includes/admin.php:777
+#: includes/admin.php:811
+#: includes/admin.php:845
+#: includes/import-preview.php:17
+#: includes/taxonomy-creator.php:50
+#: includes/taxonomy-creator.php:103
+msgid "Unauthorized."
+msgstr ""
+
+#: includes/admin.php:442
+#: includes/assets.php:65
+msgid "Please upload a CSV file."
+msgstr ""
+
+#: includes/admin.php:447
+#: includes/admin.php:785
+#: includes/admin.php:817
+#: includes/admin.php:851
+msgid "Invalid taxonomy."
+msgstr ""
+
+#: includes/admin.php:457
+#: includes/assets.php:71
+msgid "No data found in CSV file."
+msgstr ""
+
+#: includes/admin.php:517
+msgid "No preview data found. Please analyze the CSV first."
+msgstr ""
+
+#. translators: 1: Imported count, 2: Updated count, 3: Skipped count
+#: includes/admin.php:529
+msgid "Import completed! %1$d imported, %2$d updated, %3$d skipped."
+msgstr ""
+
+#. translators: 1: Row number, 2: Error messages
+#: includes/admin.php:555
+msgid "Stopped at row %1$d: %2$s"
+msgstr ""
+
+#: includes/admin.php:789
+msgid "Term name is required."
+msgstr ""
+
+#: includes/admin.php:862
+msgid "Failed to fetch terms."
+msgstr ""
+
+#: includes/admin.php:903
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: includes/admin.php:907
+#: includes/menu.php:865
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/admin.php:918
+#: includes/menu.php:880
+msgid "Invalid taxonomy selected."
+msgstr ""
+
+#: includes/admin.php:922
+#: includes/menu.php:887
+msgid "Please enter a number between 1 and 500."
+msgstr ""
+
+#: includes/admin.php:931
+msgid "No terms were created. All terms might already exist."
+msgstr ""
+
+#. translators: 1: Number of terms created, 2: Taxonomy name
+#: includes/admin.php:938
+msgid "Generated %1$d terms in \"%2$s\"."
+msgstr ""
+
+#. translators: 1: Number of skipped terms
+#: includes/admin.php:946
+msgid "Skipped %1$d existing terms."
+msgstr ""
+
+#. translators: 1: Number of errors
+#: includes/admin.php:954
+msgid "%1$d errors occurred."
+msgstr ""
+
+#: includes/admin/preview-table.php:22
+msgid "No data to preview."
+msgstr ""
+
+#: includes/admin/preview-table.php:34
+msgid "Row"
+msgstr ""
+
+#: includes/admin/preview-table.php:35
+msgid "Name"
+msgstr ""
+
+#: includes/admin/preview-table.php:36
+#: includes/menu.php:261
+#: includes/menu.php:330
+#: includes/menu.php:484
+#: includes/menu.php:553
+msgid "Slug"
+msgstr ""
+
+#: includes/admin/preview-table.php:37
+msgid "Parent"
+msgstr ""
+
+#: includes/admin/preview-table.php:38
+msgid "Status"
+msgstr ""
+
+#: includes/admin/preview-table.php:39
+msgid "Message"
+msgstr ""
+
+#: includes/admin/preview-table.php:63
+msgid "Suggestion:"
+msgstr ""
+
+#: includes/admin/preview-table.php:82
+msgid "Ready"
+msgstr ""
+
+#: includes/admin/preview-table.php:95
+#: includes/assets.php:68
+msgid "Download Error Report"
+msgstr ""
+
+#: includes/admin/preview-table.php:103
+#: includes/assets.php:63
+msgid "Start Import"
+msgstr ""
+
+#: includes/admin/preview-table.php:106
+msgid "Cancel"
+msgstr ""
+
+#: includes/admin/preview-table.php:123
+msgid "Import Summary"
+msgstr ""
+
+#: includes/admin/preview-table.php:126
+msgid "Total Rows:"
+msgstr ""
+
+#: includes/admin/preview-table.php:130
+msgid "New:"
+msgstr ""
+
+#: includes/admin/preview-table.php:134
+msgid "Update:"
+msgstr ""
+
+#: includes/admin/preview-table.php:138
+msgid "Skip:"
+msgstr ""
+
+#: includes/admin/preview-table.php:142
+msgid "Warnings:"
+msgstr ""
+
+#: includes/admin/preview-table.php:146
+msgid "Errors:"
+msgstr ""
+
+#: includes/admin/preview-table.php:150
+msgid "Ready to Import:"
+msgstr ""
+
+#: includes/admin/validator.php:67
+msgid "Name is required"
+msgstr ""
+
+#: includes/admin/validator.php:68
+msgid "Please provide a name for the taxonomy term."
+msgstr ""
+
+#: includes/admin/validator.php:81
+msgid "Invalid slug format"
+msgstr ""
+
+#: includes/admin/validator.php:82
+msgid "Slug should only contain lowercase letters, numbers, hyphens, and underscores."
+msgstr ""
+
+#. translators: 1: Original slug, 2: Suggested slug
+#: includes/admin/validator.php:92
+msgid "Slug \"%1$s\" was sanitized to \"%2$s\""
+msgstr ""
+
+#. translators: 1: Parent term name
+#: includes/admin/validator.php:116
+msgid "Parent term \"%1$s\" not found"
+msgstr ""
+
+#: includes/admin/validator.php:117
+msgid "Create the parent term first or check the spelling."
+msgstr ""
+
+#. translators: 1: Slug, 2: Row number
+#: includes/admin/validator.php:150
+msgid "Duplicate slug \"%1$s\" found in row %2$d"
+msgstr ""
+
+#. translators: 1: Name, 2: Row number
+#: includes/admin/validator.php:166
+msgid "Duplicate name \"%1$s\" found in row %2$d"
+msgstr ""
+
+#. translators: 1: Existing term slug, 2: Current slug
+#: includes/admin/validator.php:207
+msgid "Term exists with slug \"%1$s\". Current slug \"%2$s\" will be ignored."
+msgstr ""
+
+#. translators: 1: Slug, 2: Name
+#: includes/admin/validator.php:227
+msgid "Term exists with slug \"%1$s\" but different name \"%2$s\"."
+msgstr ""
+
+#: includes/assets.php:60
+msgid "Analyzing CSV..."
+msgstr ""
+
+#: includes/assets.php:61
+msgid "Importing..."
+msgstr ""
+
+#: includes/assets.php:62
+#: includes/menu.php:80
+#: includes/menu.php:201
+msgid "Import CSV"
+msgstr ""
+
+#: includes/assets.php:64
+msgid "Please select a CSV file."
+msgstr ""
+
+#: includes/assets.php:66
+msgid "Are you sure you want to start the import? This action cannot be undone."
+msgstr ""
+
+#: includes/assets.php:67
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: includes/assets.php:69
+msgid "Clear preview data? This will discard all analysis results."
+msgstr ""
+
+#: includes/assets.php:70
+msgid "Large file detected. Dry run mode is recommended."
+msgstr ""
+
+#: includes/assets.php:72
+msgid "rows ready to import."
+msgstr ""
+
+#: includes/assets.php:73
+msgid "rows have errors."
+msgstr ""
+
+#: includes/assets.php:74
+msgid "No rows are ready to import. Please fix the errors."
+msgstr ""
+
+#: includes/assets.php:75
+msgid "Import completed!"
+msgstr ""
+
+#: includes/assets.php:76
+msgid "Preview data cleared."
+msgstr ""
+
+#: includes/assets.php:77
+msgid "Request timed out. The file may be too large."
+msgstr ""
+
+#: includes/assets.php:78
+msgid "Invalid response from server. Please check your file."
+msgstr ""
+
+#: includes/helper.php:185
+#: includes/menu.php:1070
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/helper.php:191
+msgid "Users"
+msgstr ""
+
+#: includes/helper.php:197
+#: includes/menu.php:378
+#: includes/menu.php:428
+msgid "Create Term"
+msgstr ""
+
+#: includes/helper.php:203
+#: includes/menu.php:454
+#: includes/menu.php:536
+msgid "Register Taxonomy"
+msgstr ""
+
+#: includes/helper.php:210
+#: includes/menu.php:697
+msgid "Demo Generator"
+msgstr ""
+
+#: includes/import-preview.php:21
+#: includes/import-processor.php:16
+msgid "No file uploaded."
+msgstr ""
+
+#: includes/menu.php:20
+msgid "Import Export"
+msgstr ""
+
+#: includes/menu.php:58
+msgid "Taxonomy Import / Export"
+msgstr ""
+
+#: includes/menu.php:59
+msgid "Export taxonomy terms to a CSV file, or import terms from a CSV with dry run preview support."
+msgstr ""
+
+#: includes/menu.php:72
+#: includes/menu.php:133
+#: includes/menu.php:624
+msgid "Export CSV"
+msgstr ""
+
+#: includes/menu.php:91
+msgid "Export Taxonomy"
+msgstr ""
+
+#: includes/menu.php:105
+#: includes/menu.php:172
+#: includes/menu.php:721
+msgid "Select Taxonomy"
+msgstr ""
+
+#: includes/menu.php:125
+msgid "Preview"
+msgstr ""
+
+#: includes/menu.php:153
+msgid "Import Taxonomy"
+msgstr ""
+
+#. translators: 1: imported count, 2: skipped count.
+#: includes/menu.php:227
+msgid "Import completed. %1$d term(s) imported and %2$d duplicate/invalid term(s) skipped."
+msgstr ""
+
+#. translators: %d: imported count.
+#: includes/menu.php:244
+msgid "Imported Terms (%d)"
+msgstr ""
+
+#: includes/menu.php:258
+#: includes/menu.php:327
+#: includes/menu.php:402
+msgid "Title"
+msgstr ""
+
+#: includes/menu.php:264
+#: includes/menu.php:333
+#: includes/menu.php:414
+#: includes/menu.php:494
+msgid "Description"
+msgstr ""
+
+#: includes/menu.php:267
+#: includes/menu.php:336
+msgid "Parent Slug"
+msgstr ""
+
+#. translators: %d: skipped count.
+#: includes/menu.php:299
+msgid "%d term(s) were skipped because they already exist or could not be imported."
+msgstr ""
+
+#. translators: %d: skipped count.
+#: includes/menu.php:313
+msgid "Skipped Terms (%d)"
+msgstr ""
+
+#: includes/menu.php:379
+msgid "Select a taxonomy then add a new term with a title and optional description."
+msgstr ""
+
+#: includes/menu.php:384
+msgid "Choose a Taxonomy"
+msgstr ""
+
+#: includes/menu.php:408
+msgid "Enter term title…"
+msgstr ""
+
+#: includes/menu.php:415
+#: includes/menu.php:477
+#: includes/menu.php:495
+#: includes/menu.php:609
+msgid "(optional)"
+msgstr ""
+
+#: includes/menu.php:420
+msgid "Enter description…"
+msgstr ""
+
+#: includes/menu.php:455
+msgid "Create a new custom taxonomy and attach it to one or more post types."
+msgstr ""
+
+#: includes/menu.php:460
+msgid "New Taxonomy"
+msgstr ""
+
+#: includes/menu.php:468
+msgid "Label (Plural)"
+msgstr ""
+
+#: includes/menu.php:471
+msgid "e.g. Genres"
+msgstr ""
+
+#: includes/menu.php:476
+msgid "Singular Label"
+msgstr ""
+
+#: includes/menu.php:479
+msgid "e.g. Genre"
+msgstr ""
+
+#: includes/menu.php:487
+msgid "e.g. genre"
+msgstr ""
+
+#: includes/menu.php:488
+msgid "Auto-generated. Lowercase, no spaces."
+msgstr ""
+
+#: includes/menu.php:497
+msgid "Describe what this taxonomy is used for…"
+msgstr ""
+
+#: includes/menu.php:502
+msgid "Taxonomy Type"
+msgstr ""
+
+#: includes/menu.php:508
+#: includes/menu.php:564
+msgid "Tags"
+msgstr ""
+
+#: includes/menu.php:509
+msgid "Non-hierarchical. Flat list of terms."
+msgstr ""
+
+#: includes/menu.php:513
+#: includes/menu.php:564
+msgid "Categories"
+msgstr ""
+
+#: includes/menu.php:514
+msgid "Hierarchical. Terms can have parent terms."
+msgstr ""
+
+#: includes/menu.php:521
+msgid "Attach to Post Types"
+msgstr ""
+
+#: includes/menu.php:546
+msgid "Registered Custom Taxonomies"
+msgstr ""
+
+#: includes/menu.php:552
+msgid "Label"
+msgstr ""
+
+#: includes/menu.php:554
+#: includes/menu.php:1071
+msgid "Type"
+msgstr ""
+
+#: includes/menu.php:555
+msgid "Post Types"
+msgstr ""
+
+#: includes/menu.php:556
+#: includes/menu.php:1073
+msgid "Actions"
+msgstr ""
+
+#: includes/menu.php:568
+msgid "Delete"
+msgstr ""
+
+#: includes/menu.php:593
+msgid "User Import / Export"
+msgstr ""
+
+#: includes/menu.php:594
+msgid "Export users to a CSV file filtered by role, or import users from a CSV."
+msgstr ""
+
+#: includes/menu.php:602
+msgid "Export Users"
+msgstr ""
+
+#: includes/menu.php:608
+msgid "Filter by Role"
+msgstr ""
+
+#: includes/menu.php:619
+msgid "Leave all unchecked to export every user."
+msgstr ""
+
+#: includes/menu.php:634
+#: includes/menu.php:658
+msgid "Import Users"
+msgstr ""
+
+#: includes/menu.php:640
+msgid "Users imported successfully!"
+msgstr ""
+
+#: includes/menu.php:649
+msgid "CSV File"
+msgstr ""
+
+#: includes/menu.php:653
+msgid "Columns: username, email, password_hash, roles, first_name, last_name, meta"
+msgstr ""
+
+#: includes/menu.php:698
+msgid "Quickly generate demo categories or tags with one click. Perfect for testing and development."
+msgstr ""
+
+#: includes/menu.php:712
+msgid "Quick Generate"
+msgstr ""
+
+#: includes/menu.php:725
+msgid "— Select —"
+msgstr ""
+
+#: includes/menu.php:730
+msgid "[Hierarchical]"
+msgstr ""
+
+#: includes/menu.php:732
+msgid "[Flat]"
+msgstr ""
+
+#: includes/menu.php:741
+msgid "Number of Terms"
+msgstr ""
+
+#: includes/menu.php:748
+msgid "(1-500)"
+msgstr ""
+
+#: includes/menu.php:757
+msgid "Term Structure"
+msgstr ""
+
+#: includes/menu.php:762
+msgid "Flat (all root terms)"
+msgstr ""
+
+#: includes/menu.php:766
+msgid "Hierarchical (with parent-child relationships)"
+msgstr ""
+
+#: includes/menu.php:770
+msgid "Hierarchical creates a tree structure with random parent-child relationships."
+msgstr ""
+
+#: includes/menu.php:778
+msgid "Name Format"
+msgstr ""
+
+#: includes/menu.php:783
+msgid "With Prefix"
+msgstr ""
+
+#: includes/menu.php:787
+msgid "Plain (Demo Term 1, Demo Term 2...)"
+msgstr ""
+
+#: includes/menu.php:791
+msgid "Random Words"
+msgstr ""
+
+#: includes/menu.php:800
+msgid "Options"
+msgstr ""
+
+#: includes/menu.php:804
+msgid "Add descriptions to terms"
+msgstr ""
+
+#: includes/menu.php:809
+msgid "Skip existing terms with same slug"
+msgstr ""
+
+#: includes/menu.php:814
+msgid "Show progress during generation"
+msgstr ""
+
+#: includes/menu.php:822
+msgid "Generate Demo Terms"
+msgstr ""
+
+#: includes/menu.php:833
+msgid "Current Taxonomy Stats"
+msgstr ""
+
+#: includes/menu.php:858
+msgid "Security check failed. Please try again."
+msgstr ""
+
+#. translators: %1$d is the number of terms created, %2$s is the taxonomy name
+#: includes/menu.php:901
+msgid "Generated <strong>%1$d</strong> terms in <strong>%2$s</strong>."
+msgstr ""
+
+#. translators: %1$d is the number of skipped terms
+#: includes/menu.php:909
+msgid "Skipped <strong>%1$d</strong> existing terms."
+msgstr ""
+
+#. translators: %1$d is the number of errors
+#: includes/menu.php:917
+msgid "<strong>%1$d</strong> errors occurred."
+msgstr ""
+
+#: includes/menu.php:1072
+msgid "Total Terms"
+msgstr ""
+
+#: includes/menu.php:1082
+msgid "Hierarchical"
+msgstr ""
+
+#: includes/menu.php:1082
+msgid "Flat"
+msgstr ""
+
+#: includes/taxonomy-creator.php:63
+msgid "Label is required."
+msgstr ""
+
+#: includes/taxonomy-creator.php:66
+msgid "Slug is required."
+msgstr ""
+
+#: includes/taxonomy-creator.php:69
+msgid "Please select at least one post type."
+msgstr ""
+
+#: includes/taxonomy-creator.php:75
+msgid "A custom taxonomy with this slug already exists."
+msgstr ""
+
+#: includes/taxonomy-creator.php:78
+msgid "This slug is already used by WordPress or another plugin."
+msgstr ""
+
+#: includes/taxonomy-creator.php:108
+msgid "Invalid slug."
+msgstr ""
+
+#: includes/taxonomy-creator.php:113
+msgid "Taxonomy not found."
+msgstr ""
