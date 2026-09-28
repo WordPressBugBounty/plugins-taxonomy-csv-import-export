@@ -1,172 +1,83 @@
-=== Taxonomy CSV Import Export ===
-Contributors: rlorakib
+=== WP Taxonomy Manager ===
+Contributors: rlorakib, freemius
 Author URI: https://rlorakib.com/
 Plugin URI: https://wordpress.org/plugins/taxonomy-csv-import-export/
 Tags: csv import, csv export, taxonomy, custom taxonomy, bulk import
-Requires at least: 5.2
-Tested up to: 7.0
-Requires PHP: 7.4
-Stable tag: 1.5
+Requires at least: 6.0
+Tested up to: 7.2
+Requires PHP: 8.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Import and export WordPress taxonomy terms and users via CSV. Register custom taxonomies, create terms, and preview exports — all from the admin.
+Manage WordPress taxonomies and terms with CSV import/export, visual column mapping, bulk editing, custom links, and user transfers.
 
 == Description ==
 
-**Taxonomy CSV Import Export** is the complete admin toolkit for managing WordPress taxonomies and users through CSV files. Import hundreds of terms in seconds, export any taxonomy with a single click, build custom taxonomies without writing a line of code, and manage your entire user base — all from a clean, modern admin interface.
+**WP Taxonomy Manager** brings taxonomy setup, term maintenance, and CSV transfers into one WordPress admin workspace. Work with categories, tags, WooCommerce product taxonomies, and custom taxonomies that your account can manage.
 
-Whether you are migrating a site, seeding a staging environment, bulk-editing taxonomy terms, or onboarding users, this plugin removes the manual work entirely.
+= Free features =
 
-Works with every taxonomy WordPress supports: built-in categories and tags, WooCommerce product categories, and any custom taxonomy registered by a theme or plugin.
+* **CSV term export** - Download term names, slugs, descriptions, parent slugs, and custom links from a selected taxonomy.
+* **Export preview** - Review the selected terms in the admin before downloading a file.
+* **Export filters** - Narrow exports by empty state, name, parent, or term count.
+* **CSV term import** - Create new terms from CSV and skip existing names or slugs; resolve parent slugs against terms already present in the taxonomy.
+* **Visual column mapping** - Match source CSV columns to import fields and ignore columns you do not need.
+* **Custom taxonomy builder** - Register hierarchical or non-hierarchical taxonomies and attach them to selected post types without code.
+* **Term creation** - Add terms from the plugin workspace, including an AJAX form for quick creation.
+* **All Terms workspace** - Browse, edit, and delete terms from one admin area, with bulk deletion for selected terms.
+* **Inline mass editor** - Search and page through terms, then update names and slugs in place.
+* **Custom term links** - Point a term to an internal or external HTTP(S) URL through the term form or a CSV column.
+* **Demo term generator** - Create sample terms for development or content planning.
+* **User CSV transfer** - Export users by role, then import new accounts or update existing users' profile details. Exports include password hashes and should be stored securely.
+* **Dashboard and settings** - View activity counts and adjust the plugin's available options.
 
----
+= CSV fields =
 
-= 🗂️ Feature 1 — CSV Export =
+The Free term CSV uses a required 'name' field and supports 'slug', 'description', 'parent_slug', and 'custom_link'. A parent slug must match an existing term when that row is imported. Import accepts .csv or .txt files with CSV content.
 
-Export any registered taxonomy to a structured CSV file in one click.
+= Pro features =
 
-**What it does:**
-Select a taxonomy from the dropdown, optionally preview the full term list in a table, then download the CSV. The exported file includes every term's name, slug, description, and parent slug so the data is ready to import into any other WordPress site.
+Pro features require an eligible license or trial.
 
-**Use cases:**
-* Back up all taxonomy terms before a major site update
-* Migrate categories or tags from a staging site to production
-* Hand off a taxonomy list to a content team for bulk editing in Excel or Google Sheets
-* Archive taxonomy data as part of a site documentation process
+* **Advanced CSV Import** - Preview row-level errors and warnings, check hierarchy, and choose create-only, update-only, or combined imports before applying changes.
+* **XLSX and JSON transfers** - Import and export taxonomy terms in Excel and JSON formats.
+* **Term images** - Add or replace Media Library images on term screens, import images from public URLs, include image URLs in CSV exports, and display images with a shortcode.
+* **Term ordering** - Drag terms into a custom order and optionally apply that order to frontend term queries.
+* **Duplicate term management** - Find likely duplicates, inspect merge impact, merge with confirmation, and restore from the audit history.
+* **Scheduled remote CSV sync** - Import a bounded remote CSV on a schedule with optional Basic or Bearer authentication and a recent-run log; requires Action Scheduler.
+* **Custom term fields** - Define text, color, image, select, and URL fields and display saved values with a shortcode.
+* **Rules-based auto tagging** - Assign terms to posts when configured keywords match.
+* **WooCommerce term visuals** - Show brand logos and global attribute color or image swatches when WooCommerce is active.
 
-**Exported columns:** `name`, `slug`, `description`, `parent_slug`
+= Who can use it? =
 
----
-
-= 🔍 Feature 2 — Export Preview =
-
-See exactly what will be exported before the file downloads.
-
-**What it does:**
-Click **Preview** to load a live table of all terms for the selected taxonomy — name, slug, description, and parent slug — directly on the page. No download needed to verify the data.
-
-**Use cases:**
-* Confirm the correct taxonomy is selected before downloading
-* Spot missing descriptions or broken parent relationships before handing off data
-* Show a client or team member what data exists without needing to open a spreadsheet
-
----
-
-= 📥 Feature 3 — CSV Import =
-
-Bulk-import taxonomy terms from any CSV file with automatic hierarchy resolution.
-
-**What it does:**
-Upload a CSV file with a `name` column (plus optional `slug`, `description`, and `parent_slug`). The importer processes every row, creates the term, links it to its parent by slug, and shows a per-term results table — created, updated, skipped, or failed — when complete.
-
-**Use cases:**
-* Populate a brand-new site with hundreds of categories from a spreadsheet
-* Migrate taxonomy terms from another CMS or platform exported as CSV
-* Re-import an edited export file after a content team has updated descriptions in Excel
-* Seed a development or staging environment to match the production taxonomy structure
-* Sync taxonomy terms across multiple WordPress installations
-
-**Supported CSV columns:** `name` (required), `slug`, `description`, `parent_slug`
-
----
-
-= 🏷️ Feature 4 — Register Custom Taxonomy =
-
-Create and persist custom taxonomies from the WordPress admin — zero code required.
-
-**What it does:**
-Fill in a label, singular label, slug, and optional description. Choose the taxonomy type — **Tags** (non-hierarchical, like post tags) or **Categories** (hierarchical, like post categories). Select the post types to attach it to. Click Register. The taxonomy is saved to the database and re-registered automatically on every page load.
-
-**Use cases:**
-* Build a "Genres" taxonomy for a movie review site without editing `functions.php`
-* Add a "Topics" taxonomy to a knowledge base that attaches to both posts and pages
-* Let a non-developer client set up their own taxonomy structure during onboarding
-* Quickly prototype a custom post type taxonomy during theme development
-* Replace hardcoded taxonomy registrations with a UI-managed alternative that survives theme switches
-
-**Options:** Label, Singular Label, Slug, Description, Type (Tags / Categories), Post Types
-
----
-
-= ✏️ Feature 5 — Create Term =
-
-Add new terms to any taxonomy directly from the admin — no page reload.
-
-**What it does:**
-The Create Term page shows an accordion list of every registered taxonomy. Expand a taxonomy row, type a term title and optional description, and click **Create Term**. The term is saved instantly via AJAX and a confirmation message appears in place — the page never reloads.
-
-**Use cases:**
-* Quickly add a handful of new tags or categories without navigating to the taxonomy list screen
-* Let an editor add terms to a custom taxonomy they do not have full edit access to
-* Add terms to multiple taxonomies in a single session without switching between admin screens
-* Test that a newly registered custom taxonomy is working before importing data into it
-
----
-
-= 👥 Feature 6 — User Import & Export =
-
-Export and import WordPress users by role with a clean two-panel interface.
-
-**What it does:**
-The Users page is split into two side-by-side panels. The Export panel lets you select one or more user roles using checkboxes (or export all users if none are selected) and download a CSV. The Import panel accepts a CSV file and creates or updates user accounts automatically.
-
-**Use cases:**
-* Export all Editor-role users before transferring a site to a new host
-* Back up your entire user database as a CSV for offline storage
-* Migrate users from one WordPress site to another without a full database export
-* Onboard a large number of new users by preparing a CSV and importing in one step
-* Re-import updated user data after a team has edited roles or details in a spreadsheet
-
----
-
-= ✅ Why Choose This Plugin? =
-
-* **Zero configuration** — activate and start working immediately, no settings page needed
-* **Preview before download** — verify export data in a table before committing to a file
-* **Full hierarchy support** — parent–child term relationships preserved on import and export
-* **No-code taxonomy builder** — register custom taxonomies entirely through the admin UI
-* **Role-aware user export** — filter users by one or more roles or export everyone at once
-* **AJAX-powered** — term creation and export preview happen without page reloads
-* **PHP 8.4 compatible** — no deprecated-function warnings on the latest PHP release
-* **Translation ready** — all user-facing strings use WordPress i18n functions
-
-= Who Is This For? =
-
-* **Site administrators** who need to migrate or back up taxonomy data without developer help
-* **WordPress developers** seeding staging environments or prototyping taxonomy structures quickly
-* **Content managers** responsible for maintaining large category or tag libraries
-* **Agency teams** delivering client sites that require custom taxonomy structures built in the admin
-* **WooCommerce store owners** managing large product category trees
-
-= How It Works =
-
-1. Go to **Taxonomy CSV** in the WordPress admin sidebar
-2. **Export** — select a taxonomy, click Preview to review, then Export CSV to download
-3. **Import** — switch to the Import tab, upload your CSV, and click Import CSV
-4. **Register Taxonomy** — fill in the form to create a new custom taxonomy
-5. **Create Term** — expand a taxonomy row, enter a title, and click Create Term
-6. **Users** — use the Export or Import panel to manage your user base by role
+WP Taxonomy Manager is useful for site administrators moving term data between sites, content teams maintaining large term libraries, developers creating taxonomies, and WooCommerce stores organizing product terms.
 
 == Installation ==
 
 1. Upload the plugin folder to `/wp-content/plugins/` or install via **Plugins → Add New**
 2. Activate through the **Plugins** screen
-3. Navigate to **Taxonomy CSV** in the left admin menu
+3. Open **WP Taxonomy** in the left admin menu
+
 
 == Frequently Asked Questions ==
 
 = Which taxonomies are supported? =
-All taxonomies registered in WordPress — built-in (category, post_tag) and custom ones from any theme or plugin, including WooCommerce product categories.
+Built-in categories and tags, plus custom taxonomies registered by a theme or plugin, including WooCommerce product taxonomies when WooCommerce is active. Your account must have permission to manage the selected taxonomy.
 
-= Can I import terms with parent–child relationships? =
-Yes. Include a `parent_slug` column in your CSV. The importer resolves the parent by slug automatically.
+= Can I import terms with parent-child relationships? =
+Yes. Include a parent_slug column. In the Free importer, the parent term must already exist when its child row is processed. Pro Advanced Import also checks hierarchy during preview.
 
 = Does this work with large CSV files? =
-Yes. The importer processes rows one at a time so memory usage stays flat regardless of file size.
+CSV imports are subject to the upload, memory, and execution limits configured on your WordPress server. Pro dry-run analysis also enforces its configured file-size and row limits. Background batching and retry/resume are not currently included.
 
-= Is it compatible with PHP 8.4? =
-Yes. The deprecated `escape` parameter for `fputcsv()` and `str_getcsv()` has been removed to eliminate warnings on PHP 8.4.
+= Can I import and export taxonomy term images? =
+Yes, with Pro. Add an `image_source` column containing a public HTTP or HTTPS image URL. Import downloads the image into the WordPress Media Library and generates attachment metadata. Export can include the resulting Media Library source URL. WooCommerce product category thumbnails are supported.
+
+= Can a taxonomy term link to a custom page or external website? =
+Yes. Enter a Custom Link while adding or editing any taxonomy term, or supply a `custom_link` CSV column. WordPress-generated term links then use that HTTP(S) URL. The feature can be disabled without deleting saved links from WP Taxonomy Manager Settings.
+
 
 = Can I create a custom taxonomy without writing code? =
 Yes. Use the **Register Taxonomy** page to create, name, and attach a taxonomy to any post type directly from the admin UI.
@@ -178,10 +89,25 @@ Yes. Use the **Register Taxonomy** page to create, name, and attach a taxonomy t
 3. Create Term page — accordion taxonomy list with one row expanded and term creation form
 4. Register Taxonomy page — custom taxonomy builder with type selector and post type checkboxes
 
-== Upgrade Notice ==  
-N/A
+== Upgrade Notice ==
 
-== Changelog ==  
+= 2.0.0 =
+Adds term management and Pro workflows, refreshes translations, and strengthens CSV and permission handling.
+
+== Changelog ==
+
+= 2.0.0 - 26/09/2026 =
+* Fixed: Plugin Check translation, output escaping, and release package errors.
+* Added: Visual CSV column mapping, inline mass term editing, and export filters for name, parent, term count, and empty terms.
+* Added: A searchable All Terms workspace with inline editing and bulk deletion.
+* Added (Pro): Drag-and-drop term ordering with optional frontend ordering, duplicate merge and restore, and scheduled remote CSV sync with authentication, retries, and a recent-run log.
+* Added (Pro): Custom term fields, rules-based auto tagging, WooCommerce brand and attribute visuals, and Media Library term image controls.
+* Added (Pro): Add-ons controls for Duplicate Terms, Remote CSV Sync, and WooCommerce integration.
+* Improved: Advanced Import now offers create-only, update-only, and combined modes; XLSX and JSON transfers are available with Pro.
+* Improved: WordPress.org descriptions now explain shipped Free and Pro features separately.
+* Fixed: CSV exports protect spreadsheet formula-like values while retaining import round trips.
+* Fixed: Taxonomy and user CSV actions now enforce the relevant WordPress capabilities.
+
 = 0.1 =  
 * Initial version
 
@@ -223,3 +149,11 @@ N/A
 
 = 1.5 - 08/08/2026 =
 * Added: A Demo Generator feature to quickly generate sample taxonomy terms for testing and development.
+* Added: Premium dry import preview with CSV validation, create/update/skip/error summaries, hierarchy checks, and row-level diagnostics without changing taxonomy data.
+* Added: Pro taxonomy image import/export through the `image_source` CSV column, including secure Media Library sideloading, attachment generation, export preview, and WooCommerce product category thumbnail compatibility.
+* Added: Custom taxonomy term links with Add/Edit Term fields, Settings control, `term_link` integration, and `custom_link` CSV import/export support.
+* Fixed: Plugin activation no longer triggers a fatal error when a source checkout is missing Composer's vendor directory; a fallback internal autoloader and administrator notice are used instead.
+* Improved: Third-party admin notices are suppressed consistently across every WP Taxonomy Manager page, including Premium and Settings screens.
+* Added: Feature settings for dry-run CSV size, preview row limits, and third-party notice visibility.
+* Improved: Demo Generator redesigned with a compact responsive form, clearer option groups, and aligned quick actions.
+* Fixed: Demo taxonomy statistics now render Type, Terms, and Actions in their correct table columns.

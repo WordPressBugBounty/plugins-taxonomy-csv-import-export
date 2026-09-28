@@ -1,16 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-  <!-- Document border: outer rounded rect minus inner cutout (evenodd = hollow) -->
-  <path fill="white" fill-rule="evenodd" d="M2.5,1 L11.5,1 A1.5,1.5 0 0 1 13,2.5 L13,17.5 A1.5,1.5 0 0 1 11.5,19 L2.5,19 A1.5,1.5 0 0 1 1,17.5 L1,2.5 A1.5,1.5 0 0 1 2.5,1 Z M2.2,2.2 L11.8,2.2 L11.8,17.8 L2.2,17.8 Z"/>
-  <!-- Horizontal grid lines -->
-  <rect fill="white" x="1" y="6.3" width="12" height="1.2"/>
-  <rect fill="white" x="1" y="10.2" width="12" height="1"/>
-  <rect fill="white" x="1" y="13.8" width="12" height="1"/>
-  <!-- Vertical column divider -->
-  <rect fill="white" x="6.8" y="6.3" width="1.2" height="12.5"/>
-  <!-- Export: arrow pointing up -->
-  <polygon fill="white" points="14.7,5.8 17,1.8 19.3,5.8"/>
-  <rect fill="white" x="16.3" y="5.8" width="1.4" height="4.2" rx="0.7"/>
-  <!-- Import: arrow pointing down -->
-  <rect fill="white" x="16.3" y="10.5" width="1.4" height="4.2" rx="0.7"/>
-  <polygon fill="white" points="14.7,14.7 17,18.7 19.3,14.7"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+  <path fill="#a7aaad" d="M4.5 2h3v6.5h2.75L6 13 1.75 8.5H4.5V2Z"/>
+  <path fill="#a7aaad" d="m14 2 4.25 4.5H15.5V13h-3V6.5H9.75L14 2Z"/>
+  <path fill="#a7aaad" d="M1.5 14h3v2H15.5v-2h3v3.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V14Z"/>
 </svg>

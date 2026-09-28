@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'rlo/wp-taxonomy-manager',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => false,
+    ),
+    'versions' => array(
+        'freemius/wordpress-sdk' => array(
+            'pretty_version' => '2.13.4',
+            'version' => '2.13.4.0',
+            'reference' => 'fa43eb92ae9dffa0d9f5ae11b5a1739bd7222308',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../freemius/wordpress-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'rlo/wp-taxonomy-manager' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'woocommerce/action-scheduler' => array(
+            'pretty_version' => '4.2.0',
+            'version' => '4.2.0.0',
+            'reference' => '9e2c6b02e89652bade4445ea2ca5fb12e0fa7242',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../woocommerce/action-scheduler',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);

@@ -37,7 +37,7 @@
 <rect x="160" y="32" width="740" height="468" fill="#f0f0f1"/>
 
 <!-- Page title -->
-<text x="180" y="62" font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#1d2327">Taxonomy CSV Import Export</text>
+<text x="180" y="62" font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#1d2327">WP Taxonomy Manager</text>
 
 <!-- Card shadow -->
 <rect x="182" y="73" width="700" height="414" rx="3" fill="#dcdcde"/>

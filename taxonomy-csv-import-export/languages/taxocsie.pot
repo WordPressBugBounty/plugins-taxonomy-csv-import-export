@@ -1,257 +1,1077 @@
-# Copyright (C) 2026 Md.Rakib Hossen
-# This file is distributed under the GPL2+.
+# Copyright (C) 2026 Md. Rakib Hossen
+# This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Taxonomy CSV Import Export 1.5\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/taxonomy-csv-import-export\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: WP Taxonomy Manager 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/taxonomy-csv-import-export/\n"
+"POT-Creation-Date: 2026-09-28T01:28:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-08T16:32:50+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP Taxonomy Manager POT generator\n"
 "X-Domain: taxonomy-csv-import-export\n"
 
-#. Plugin Name of the plugin
-#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
-msgid "Taxonomy CSV Import Export"
+#. translators: 1: current page, 2: total pages.
+#. translators: 1: visible rules, 2: total rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:150
+msgid " Unsaved edits in the rule editor will be lost."
 msgstr ""
 
-#. Plugin URI of the plugin
-#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
-msgid "https://wordpress.org/plugins/taxonomy-csv-import-export"
-msgstr ""
-
-#. Description of the plugin
-#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
-msgid "Export and import all registered taxonomies with terms to/from CSV. Includes parent relationships."
-msgstr ""
-
-#. Author of the plugin
-#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
-msgid "Md.Rakib Hossen"
-msgstr ""
-
-#. Author URI of the plugin
-#: C:\Users\Asus\Herd\wordpress\wp-content\plugins\taxonomy-csv-import-export\taxonomy-csv-import-export.php
-msgid "https://rlorakib.com/"
-msgstr ""
-
-#. translators: 1: Missing headers
-#: includes/admin.php:176
-msgid "Missing required headers: %s"
-msgstr ""
-
-#: includes/admin.php:437
-#: includes/admin.php:503
-#: includes/admin.php:684
-#: includes/admin.php:777
-#: includes/admin.php:811
-#: includes/admin.php:845
-#: includes/import-preview.php:17
-#: includes/taxonomy-creator.php:50
-#: includes/taxonomy-creator.php:103
-msgid "Unauthorized."
-msgstr ""
-
-#: includes/admin.php:442
-#: includes/assets.php:65
-msgid "Please upload a CSV file."
-msgstr ""
-
-#: includes/admin.php:447
-#: includes/admin.php:785
-#: includes/admin.php:817
-#: includes/admin.php:851
-msgid "Invalid taxonomy."
-msgstr ""
-
-#: includes/admin.php:457
-#: includes/assets.php:71
-msgid "No data found in CSV file."
-msgstr ""
-
-#: includes/admin.php:517
-msgid "No preview data found. Please analyze the CSV first."
-msgstr ""
-
-#. translators: 1: Imported count, 2: Updated count, 3: Skipped count
-#: includes/admin.php:529
-msgid "Import completed! %1$d imported, %2$d updated, %3$d skipped."
-msgstr ""
-
-#. translators: 1: Row number, 2: Error messages
-#: includes/admin.php:555
-msgid "Stopped at row %1$d: %2$s"
-msgstr ""
-
-#: includes/admin.php:789
-msgid "Term name is required."
-msgstr ""
-
-#: includes/admin.php:862
-msgid "Failed to fetch terms."
-msgstr ""
-
-#: includes/admin.php:903
-msgid "Security check failed. Please refresh the page and try again."
-msgstr ""
-
-#: includes/admin.php:907
-#: includes/menu.php:865
-msgid "You do not have permission to perform this action."
-msgstr ""
-
-#: includes/admin.php:918
-#: includes/menu.php:880
-msgid "Invalid taxonomy selected."
-msgstr ""
-
-#: includes/admin.php:922
-#: includes/menu.php:887
-msgid "Please enter a number between 1 and 500."
-msgstr ""
-
-#: includes/admin.php:931
-msgid "No terms were created. All terms might already exist."
-msgstr ""
-
-#. translators: 1: Number of terms created, 2: Taxonomy name
-#: includes/admin.php:938
-msgid "Generated %1$d terms in \"%2$s\"."
-msgstr ""
-
-#. translators: 1: Number of skipped terms
-#: includes/admin.php:946
-msgid "Skipped %1$d existing terms."
+#. translators: 1: configured fields, 2: maximum fields.
+#: premium/views/term-fields-page.php:123
+msgid "%1$d / %2$d fields"
 msgstr ""
 
 #. translators: 1: Number of errors
-#: includes/admin.php:954
+#: includes/admin.php:1229
 msgid "%1$d errors occurred."
 msgstr ""
 
-#: includes/admin/preview-table.php:22
-msgid "No data to preview."
+#. translators: %d: number of selected auto-tagging rules.
+#. translators: 1: current page, 2: total pages.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:147
+msgid "%1$d of %2$d"
 msgstr ""
 
-#: includes/admin/preview-table.php:34
-msgid "Row"
+#. translators: 1: deleted terms, 2: selected terms.
+#: includes/menu.php:1311
+msgid "%1$d of %2$d deleted."
 msgstr ""
 
-#: includes/admin/preview-table.php:35
-msgid "Name"
+#. translators: 1: current page, 2: total pages.
+#. translators: 1: visible rules, 2: total rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:149
+msgid "%1$d of %2$d rules"
 msgstr ""
 
-#: includes/admin/preview-table.php:36
-#: includes/menu.php:261
-#: includes/menu.php:330
-#: includes/menu.php:484
-#: includes/menu.php:553
-msgid "Slug"
+#. translators: 1: created terms, 2: affected taxonomies.
+#. translators: 1: completed taxonomies, 2: failed taxonomies.
+#: includes/assets.php:60
+msgid "%1$d taxonomies completed; %2$d could not be completed."
 msgstr ""
 
-#: includes/admin/preview-table.php:37
-msgid "Parent"
+#. translators: %d: number of active auto-tagging rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:195
+msgid "%d active rule. Changes apply when a published post is saved; existing posts are not updated automatically."
+msgid_plural "%d active rules. Changes apply when a published post is saved; existing posts are not updated automatically."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of deleted auto-tagging rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:204
+msgid "%d auto-tagging rule was deleted."
+msgid_plural "%d auto-tagging rules were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: maximum number of scanned terms.
+#. translators: %d: number of duplicate candidate groups.
+#: premium/class-duplicate-terms.php:86
+msgid "%d candidate group"
+msgid_plural "%d candidate groups"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "%d conflicting metadata keys will keep destination values."
 msgstr ""
 
-#: includes/admin/preview-table.php:38
-msgid "Status"
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "%d direct child terms will be reparented."
 msgstr ""
 
-#: includes/admin/preview-table.php:39
-msgid "Message"
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "%d object relationships will be migrated."
 msgstr ""
 
-#: includes/admin/preview-table.php:63
-msgid "Suggestion:"
+#. translators: %d: number of saved rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:221
+msgid "%d rule"
+msgid_plural "%d rules"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of selected taxonomy registrations.
+#. translators: %d: number of removed taxonomies.
+#: includes/assets.php:46
+msgid "%d taxonomies were removed."
 msgstr ""
 
-#: includes/admin/preview-table.php:82
-msgid "Ready"
+#. translators: %d: Number of manageable taxonomies.
+#: premium/views/advanced-import.php:86
+msgid "%d taxonomy"
+msgid_plural "%d taxonomies"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of updated terms.
+#: includes/admin.php:1139
+msgid "%d term updated."
+msgid_plural "%d terms updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: skipped count.
+#: includes/menu.php:737
+msgid "%d term(s) were skipped because they already exist or could not be imported."
 msgstr ""
 
-#: includes/admin/preview-table.php:95
-#: includes/assets.php:68
-msgid "Download Error Report"
+#. translators: %s: Number of available public taxonomies.
+#: includes/menu.php:1057
+msgid "%s public taxonomies available"
 msgstr ""
 
-#: includes/admin/preview-table.php:103
-#: includes/assets.php:63
-msgid "Start Import"
+#. translators: 1: deleted terms, 2: selected terms.
+#. translators: %s: formatted number of terms.
+#: includes/menu.php:1315
+msgid "%s term found"
+msgid_plural "%s terms found"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: Total number of taxonomy terms.
+#: includes/menu.php:1046
+msgid "%s total terms available"
+msgstr ""
+
+#: includes/term-custom-links.php:85
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: includes/menu.php:1788
+#: includes/menu.php:1806
+#: includes/menu.php:1924
+msgid "(optional)"
+msgstr ""
+
+#: includes/menu.php:2081
+msgid "1–500"
+msgstr ""
+
+#. translators: %1$d is the number of errors
+#: includes/menu.php:2252
+msgid "<strong>%1$d</strong> errors occurred."
+msgstr ""
+
+#: includes/menu.php:1015
+msgid "A clear overview of taxonomy activity and shortcuts to every management tool."
+msgstr ""
+
+#: includes/taxonomy-creator.php:81
+msgid "A custom taxonomy with this slug already exists."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:186
+msgid "A matching keyword assigns the selected term without removing existing terms."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:581
+msgid "A new term would be created."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:17
+msgid "A run cannot be queued while sync is unavailable or disabled."
+msgstr ""
+
+#: premium/views/term-fields-page.php:18
+msgid "A saved field’s taxonomy and type cannot be changed. Create another field instead."
+msgstr ""
+
+#: includes/review-prompt.php:24
+msgid "A short, honest WordPress.org review helps other site owners discover the plugin."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:10
+msgid "A sync run has been queued. The result will appear in Recent runs."
+msgstr ""
+
+#: premium/class-data-formats.php:288
+msgid "A temporary Excel file could not be created."
+msgstr ""
+
+#: premium/class-term-image-manager.php:135
+msgid "A temporary file could not be created for the term image."
+msgstr ""
+
+#: premium/class-data-formats.php:313
+msgid "A temporary worksheet could not be created."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:558
+msgid "A term cannot be its own parent."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:458
+msgid "A valid slug could not be generated."
+msgstr ""
+
+#: includes/admin.php:1118
+msgid "A valid term and non-empty name are required."
+msgstr ""
+
+#: includes/freemius.php:296
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:596
+#: premium/admin/class-advanced-import-page.php:181
+msgid "Access denied"
+msgstr ""
+
+#: includes/review-prompt.php:35
+msgid "Access denied."
+msgstr ""
+
+#: includes/freemius.php:198
+msgid "Account"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:235
+#: premium/class-duplicate-terms.php:344
+msgid "Action"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:63
+msgid "Action Scheduler is unavailable. Install or activate a plugin that provides it before enabling scheduled sync."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:14
+msgid "Action Scheduler must be available before scheduled sync can be enabled."
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:1333
+#: includes/menu.php:1706
+#: includes/menu.php:2411
+#: premium/views/term-fields-page.php:130
+msgid "Actions"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:56
+msgid "Activate Pro and enable the Remote CSV Sync add-on to configure scheduled imports."
+msgstr ""
+
+#: includes/menu.php:894
+msgid "Activate Pro to save drag-and-drop term order and optionally apply it on the frontend."
+msgstr ""
+
+#: includes/menu.php:135
+msgid "Activate WooCommerce before turning on this add-on."
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:1494
+msgid "Activate WooCommerce to turn on this add-on"
+msgstr ""
+
+#: includes/menu.php:1504
+msgid "Activate WooCommerce to use this add-on"
+msgstr ""
+
+#: includes/menu.php:1100
+#: premium/views/remote-sync-page.php:68
+msgid "Active"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:188
+msgid "Add New Rule"
+msgstr ""
+
+#: premium/views/term-fields-page.php:64
+msgid "Add a field"
+msgstr ""
+
+#: includes/menu.php:968
+msgid "Add a new term to any available taxonomy."
+msgstr ""
+
+#: includes/menu.php:1620
+msgid "Add an image to this term with Pro."
+msgstr ""
+
+#: includes/menu.php:575
+msgid "Add an image_source column with a public HTTP or HTTPS image URL. Images are downloaded into the Media Library and generated during import."
+msgstr ""
+
+#: includes/menu.php:569
+msgid "Add an optional custom_link column with an internal or external HTTP(S) URL. Imported links replace the normal term archive URL."
+msgstr ""
+
+#: premium/views/term-fields-page.php:17
+msgid "Add between 1 and 50 unique options for a Select field."
+msgstr ""
+
+#: includes/menu.php:417
+msgid "Add each term’s Media Library image URL to the CSV."
+msgstr ""
+
+#: premium/views/term-fields-page.php:112
+msgid "Add field"
+msgstr ""
+
+#. translators: 1: configured fields, 2: maximum fields.
+#: premium/views/term-fields-page.php:126
+msgid "Add your first field using the form on this page."
+msgstr ""
+
+#: includes/menu.php:1436
+msgid "Add-on catalog"
+msgstr ""
+
+#: includes/menu.php:1430
+msgid "Add-on setting saved."
+msgstr ""
+
+#: includes/menu.php:86
+#: includes/menu.php:87
+#: includes/menu.php:1424
+msgid "Add-ons"
+msgstr ""
+
+#: includes/menu.php:1448
+msgid "Add-ons are coming soon"
+msgstr ""
+
+#: includes/menu.php:1585
+msgid "Adding to"
+msgstr ""
+
+#: includes/menu.php:992
+msgid "Adjust import limits and admin preferences."
+msgstr ""
+
+#: includes/settings.php:122
+msgid "Admin interface"
+msgstr ""
+
+#: includes/settings.php:129
+msgid "Admin notices"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:74
+#: premium/views/advanced-import.php:56
+msgid "Advanced CSV Import"
+msgstr ""
+
+#: includes/menu.php:935
+msgid "Advanced CSV import with dry-run diagnostics and import modes"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:75
+msgid "Advanced Import"
+msgstr ""
+
+#: includes/menu.php:1361
+msgid "Advanced edit"
+msgstr ""
+
+#: premium/views/advanced-import.php:64
+msgid "Advanced import progress"
+msgstr ""
+
+#: includes/helper.php:254
+#: includes/menu.php:1305
+#: includes/menu.php:1307
+#: includes/menu.php:1539
+msgid "All Terms"
+msgstr ""
+
+#: includes/menu.php:1322
+msgid "All taxonomies"
+msgstr ""
+
+#: includes/menu.php:973
+msgid "All terms"
+msgstr ""
+
+#: includes/settings.php:243
+msgid "Allowed range: 100–50,000 CSV data rows."
+msgstr ""
+
+#: includes/settings.php:234
+msgid "Allowed range: 1–100 MB. The web server upload limit may be lower."
+msgstr ""
+
+#: includes/review-prompt.php:28
+msgid "Already reviewed / do not ask again"
+msgstr ""
+
+#: premium/views/term-fields-page.php:44
+msgid "An active Pro license is required to configure fields and show them on taxonomy term forms."
+msgstr ""
+
+#: premium/views/term-fields-page.php:15
+msgid "An active Pro license is required to manage term fields."
+msgstr ""
+
+#: includes/menu.php:127
+msgid "An active Pro license is required."
+msgstr ""
+
+#: includes/assets.php:73
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: includes/assets.php:66
+msgid "Analyzing CSV..."
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:128
+msgid "Analyzing CSV…"
+msgstr ""
+
+#: includes/menu.php:377
+msgid "Any parent"
+msgstr ""
+
+#: includes/menu.php:1323
+msgid "Apply"
+msgstr ""
+
+#: includes/assets.php:72
+msgid "Are you sure you want to start the import? This action cannot be undone."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:69
+msgid "Assign taxonomy terms when post content contains configured keywords."
+msgstr ""
+
+#: includes/menu.php:1849
+msgid "Attach to Post Types"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:13
+msgid "Authenticated CSV sources must use HTTPS."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:104
+msgid "Authentication"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:115
+msgid "Authentication requires HTTPS. Credentials are stored in WordPress options and never shown in run history."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:107
+msgid "Auto Tagging"
+msgstr ""
+
+#: includes/menu.php:1799
+msgid "Auto-generated. Lowercase, no spaces."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:194
+msgid "Auto-tagging rules cleared"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:194
+msgid "Auto-tagging rules saved"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:173
+msgid "Automatically categorize published content using local keyword rules. No external AI service is used."
+msgstr ""
+
+#: includes/menu.php:1554
+msgid "Available taxonomies"
+msgstr ""
+
+#: includes/menu.php:555
+#: includes/menu.php:602
+#: premium/views/advanced-import.php:221
+msgid "Back"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:105
+msgid "Basic authentication"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:105
+msgid "Bearer token"
+msgstr ""
+
+#: includes/menu.php:986
+msgid "Build a custom taxonomy without writing code."
+msgstr ""
+
+#: includes/menu.php:501
+msgid "CSV (.csv or .txt)"
+msgstr ""
+
+#: includes/menu.php:329
+msgid "CSV (.csv)"
+msgstr ""
+
+#: includes/menu.php:1976
+msgid "CSV File"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:84
+msgid "CSV URL"
+msgstr ""
+
+#: includes/menu.php:546
+#: premium/views/advanced-import.php:204
+msgid "CSV column"
+msgstr ""
+
+#: includes/menu.php:929
+#: premium/views/remote-sync-page.php:30
+msgid "CSV could not be opened"
+msgstr ""
+
+#: includes/menu.php:595
+msgid "CSV file"
+msgstr ""
+
+#: includes/menu.php:439
+msgid "CSV import progress"
+msgstr ""
+
+#: includes/menu.php:931
+#: premium/views/remote-sync-page.php:32
+msgid "CSV row limit or columns invalid"
 msgstr ""
 
 #: includes/admin/preview-table.php:106
+#: includes/menu.php:1361
+#: includes/menu.php:1877
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:285
+#: premium/views/term-fields-page.php:111
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/preview-table.php:123
-msgid "Import Summary"
+#. translators: %s: term or taxonomy name.
+#: includes/menu.php:1728
+#: includes/menu.php:1836
+msgid "Categories"
 msgstr ""
 
-#: includes/admin/preview-table.php:126
-msgid "Total Rows:"
+#: premium/views/advanced-import.php:239
+msgid "Change CSV"
 msgstr ""
 
-#: includes/admin/preview-table.php:130
-msgid "New:"
+#: includes/menu.php:870
+msgid "Changes on other pages stay queued until you save."
 msgstr ""
 
-#: includes/admin/preview-table.php:134
-msgid "Update:"
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:274
+msgid "Changes to rules take effect after you save."
 msgstr ""
 
-#: includes/admin/preview-table.php:138
-msgid "Skip:"
+#: premium/views/remote-sync-page.php:12
+msgid "Check the CSV URL and all required settings, then try again."
 msgstr ""
 
-#: includes/admin/preview-table.php:142
-msgid "Warnings:"
+#: premium/views/remote-sync-page.php:15
+msgid "Check the authentication details and try again."
 msgstr ""
 
-#: includes/admin/preview-table.php:146
-msgid "Errors:"
+#: premium/views/term-fields-page.php:16
+msgid "Check the field details and try again."
 msgstr ""
 
-#: includes/admin/preview-table.php:150
-msgid "Ready to Import:"
+#: premium/class-data-formats.php:223
+msgid "Choose Excel (.xlsx) or JSON format."
 msgstr ""
 
-#: includes/admin/validator.php:67
-msgid "Name is required"
+#: includes/menu.php:1984
+msgid "Choose a .csv file from your computer."
 msgstr ""
 
-#: includes/admin/validator.php:68
-msgid "Please provide a name for the taxonomy term."
+#: includes/menu.php:527
+msgid "Choose a CSV file"
 msgstr ""
 
-#: includes/admin/validator.php:81
-msgid "Invalid slug format"
+#: premium/admin/class-dry-run-preview.php:168
+msgid "Choose a CSV file to preview."
 msgstr ""
 
-#: includes/admin/validator.php:82
-msgid "Slug should only contain lowercase letters, numbers, hyphens, and underscores."
+#: includes/menu.php:464
+msgid "Choose a destination taxonomy"
 msgstr ""
 
-#. translators: 1: Original slug, 2: Suggested slug
-#: includes/admin/validator.php:92
-msgid "Slug \"%1$s\" was sanitized to \"%2$s\""
+#: premium/class-data-formats.php:379
+msgid "Choose a file to import."
+msgstr ""
+
+#: premium/views/advanced-import.php:78
+msgid "Choose a target taxonomy"
+msgstr ""
+
+#: includes/menu.php:1549
+#: includes/menu.php:2061
+msgid "Choose a taxonomy"
+msgstr ""
+
+#: premium/views/term-fields-page.php:65
+msgid "Choose a taxonomy and field type, then save the definition."
+msgstr ""
+
+#: includes/menu.php:294
+msgid "Choose a taxonomy and file format, then download its terms."
+msgstr ""
+
+#: includes/assets.php:96
+msgid "Choose a taxonomy first."
+msgstr ""
+
+#: includes/menu.php:844
+msgid "Choose a taxonomy to begin editing."
+msgstr ""
+
+#: includes/menu.php:887
+msgid "Choose a taxonomy to start ordering."
+msgstr ""
+
+#: premium/class-term-image-ui.php:89
+msgid "Choose a term image"
+msgstr ""
+
+#: includes/admin.php:909
+#: includes/admin.php:916
+#: premium/class-term-image-manager.php:83
+msgid "Choose a valid image from the Media Library."
+msgstr ""
+
+#: includes/menu.php:254
+msgid "Choose an action"
+msgstr ""
+
+#: premium/class-term-image-ui.php:132
+msgid "Choose an image from the WordPress Media Library."
+msgstr ""
+
+#: includes/menu.php:442
+msgid "Choose destination"
+msgstr ""
+
+#: includes/settings.php:210
+msgid "Choose how WP Taxonomy Manager pages behave inside WordPress admin."
+msgstr ""
+
+#: includes/menu.php:1819
+msgid "Choose how terms are organized."
+msgstr ""
+
+#: premium/views/term-fields-page.php:102
+msgid "Choose how values will be entered and displayed."
+msgstr ""
+
+#: includes/menu.php:1616
+#: premium/class-term-meta-fields.php:230
+msgid "Choose image"
+msgstr ""
+
+#: includes/menu.php:1618
+msgid "Choose or upload an image from the WordPress Media Library."
+msgstr ""
+
+#: premium/views/advanced-import.php:57
+msgid "Choose the destination taxonomy. Upload and processing controls will become available in the next workflow stage."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:77
+msgid "Choose the source, destination, and schedule for this import."
+msgstr ""
+
+#: premium/views/advanced-import.php:177
+msgid "Choose your taxonomy CSV"
+msgstr ""
+
+#: includes/menu.php:1324
+msgid "Clear"
+msgstr ""
+
+#: includes/assets.php:75
+msgid "Clear preview data? This will discard all analysis results."
+msgstr ""
+
+#: includes/menu.php:1989
+msgid "Columns: username, email, password_hash, roles, first_name, last_name, meta"
+msgstr ""
+
+#: includes/menu.php:925
+#: premium/views/remote-sync-page.php:26
+msgid "Completed"
+msgstr ""
+
+#: includes/menu.php:926
+#: premium/views/remote-sync-page.php:27
+msgid "Completed with skipped rows"
+msgstr ""
+
+#: includes/freemius.php:225
+msgid "Configure WP Taxonomy Manager features and import limits."
+msgstr ""
+
+#: includes/menu.php:1408
+msgid "Configure brand logos and product attribute colors or images in Term Fields."
+msgstr ""
+
+#: premium/views/term-fields-page.php:120
+msgid "Configured fields"
+msgstr ""
+
+#: includes/menu.php:585
+msgid "Confirm the destination and selected file before starting the import."
+msgstr ""
+
+#: includes/menu.php:540
+#: premium/views/advanced-import.php:196
+msgid "Confirm what each source column contains. Unneeded columns can be ignored."
+msgstr ""
+
+#: includes/menu.php:368
+msgid "Contains"
+msgstr ""
+
+#: premium/views/advanced-import.php:142
+msgid "Continue to CSV upload"
+msgstr ""
+
+#: includes/menu.php:486
+msgid "Continue to upload"
+msgstr ""
+
+#: includes/settings.php:215
+msgid "Control how much recent sync activity is kept for the Pro Remote CSV Sync add-on."
+msgstr ""
+
+#: includes/settings.php:187
+msgid "Control import safety limits and the WP Taxonomy Manager admin experience."
+msgstr ""
+
+#: includes/menu.php:1298
+msgid "Could not delete this term. It may be protected by WordPress."
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:108
+msgid "Could not save this setting. Please try again."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:72
+msgid "Could not scan this taxonomy."
+msgstr ""
+
+#: includes/menu.php:1297
+msgid "Could not update the term. Check its name and slug, then try again."
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:862
+#: includes/menu.php:1333
+#: premium/class-duplicate-terms.php:93
+msgid "Count"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:137
+msgid "Create"
+msgstr ""
+
+#: includes/helper.php:248
+#: includes/menu.php:1308
+#: includes/menu.php:1535
+#: includes/menu.php:1541
+msgid "Create Term"
+msgstr ""
+
+#: includes/menu.php:1651
+msgid "Create a new custom taxonomy and attach it to one or more post types."
+msgstr ""
+
+#: premium/views/term-fields-page.php:92
+msgid "Create a new field to use another taxonomy."
+msgstr ""
+
+#: includes/menu.php:967
+msgid "Create a term"
+msgstr ""
+
+#: premium/views/advanced-import.php:163
+msgid "Create and update"
+msgstr ""
+
+#: premium/views/advanced-import.php:163
+msgid "Create missing terms and update matching terms."
+msgstr ""
+
+#: premium/views/advanced-import.php:167
+msgid "Create new only"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:95
+msgid "Create new terms only"
+msgstr ""
+
+#: includes/menu.php:1954
+msgid "Create or update WordPress users from a CSV file."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:95
+msgid "Create or update by slug"
+msgstr ""
+
+#: includes/menu.php:980
+msgid "Create realistic sample terms for testing."
+msgstr ""
+
+#: premium/views/term-fields-page.php:27
+msgid "Create reusable text, color, image, select, and URL fields for your taxonomies."
+msgstr ""
+
+#: includes/menu.php:1629
+msgid "Create term"
 msgstr ""
 
 #. translators: 1: Parent term name
-#: includes/admin/validator.php:116
-msgid "Parent term \"%1$s\" not found"
-msgstr ""
-
 #: includes/admin/validator.php:117
 msgid "Create the parent term first or check the spelling."
 msgstr ""
 
-#. translators: 1: Slug, 2: Row number
-#: includes/admin/validator.php:150
-msgid "Duplicate slug \"%1$s\" found in row %2$d"
+#: includes/menu.php:1717
+msgid "Create your first taxonomy to organize content with custom tags or categories."
+msgstr ""
+
+#: includes/menu.php:1584
+msgid "Create your term"
+msgstr ""
+
+#: premium/views/advanced-import.php:36
+msgid "Create, update, and combined import modes"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:143
+#: premium/views/remote-sync-page.php:133
+msgid "Created"
+msgstr ""
+
+#. translators: %d: number of selected taxonomies.
+#. translators: 1: created terms, 2: affected taxonomies.
+#: includes/assets.php:58
+msgid "Created %1$d demo terms across %2$d taxonomies."
+msgstr ""
+
+#: includes/menu.php:1042
+msgid "Created / generated"
+msgstr ""
+
+#: includes/menu.php:2169
+msgid "Current Taxonomy Stats"
+msgstr ""
+
+#: includes/menu.php:702
+#: includes/menu.php:777
+#: includes/term-custom-links.php:59
+#: includes/term-custom-links.php:64
+#: includes/term-custom-links.php:94
+#: includes/term-custom-links.php:115
+msgid "Custom Link"
+msgstr ""
+
+#: includes/assets.php:94
+#: includes/menu.php:1602
+#: premium/admin/class-advanced-import-page.php:152
+#: premium/admin/class-advanced-import-page.php:165
+msgid "Custom link"
+msgstr ""
+
+#: includes/admin.php:904
+#: premium/admin/class-dry-run-preview.php:475
+msgid "Custom link must be a valid HTTP or HTTPS URL."
+msgstr ""
+
+#: includes/menu.php:1658
+msgid "Custom taxonomies currently managed by this plugin."
+msgstr ""
+
+#: includes/menu.php:941
+msgid "Custom term fields for text, color, image, select, and URL values"
+msgstr ""
+
+#: includes/menu.php:568
+#: includes/settings.php:137
+msgid "Custom term links"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:23
+#: premium/views/remote-sync-page.php:69
+msgid "Daily"
+msgstr ""
+
+#: includes/helper.php:242
+#: includes/menu.php:1014
+msgid "Dashboard"
+msgstr ""
+
+#: includes/helper.php:273
+#: includes/menu.php:230
+msgid "Data Manager"
+msgstr ""
+
+#: includes/menu.php:1120
+msgid "Data Manager tools"
+msgstr ""
+
+#: includes/menu.php:238
+msgid "Data Manager workspace navigation"
+msgstr ""
+
+#: includes/menu.php:241
+msgid "Data type"
+msgstr ""
+
+#: includes/menu.php:1770
+msgid "Define its labels, structure, and where it should appear."
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/menu.php:1356
+#: includes/menu.php:1753
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:252
+msgid "Delete"
+msgstr ""
+
+#. translators: %d: number of selected auto-tagging rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:145
+msgid "Delete %d selected auto-tagging rules? This cannot be undone."
+msgstr ""
+
+#. translators: %d: number of selected taxonomy registrations.
+#: includes/assets.php:44
+msgid "Delete %d selected taxonomy registrations? Existing terms will remain in the database."
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:1329
+msgid "Delete %d selected terms? Their associations with content will be removed. This cannot be undone."
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:252
+msgid "Delete rule %d"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:1329
+#: includes/menu.php:1663
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:226
+msgid "Delete selected"
+msgstr ""
+
+#: includes/menu.php:1356
+msgid "Delete this term? This removes its associations with content. This cannot be undone."
+msgstr ""
+
+#: includes/helper.php:267
+#: includes/menu.php:2033
+msgid "Demo Generator"
+msgstr ""
+
+#: includes/menu.php:1808
+msgid "Describe what this taxonomy is used for…"
+msgstr ""
+
+#: includes/assets.php:92
+#: includes/menu.php:696
+#: includes/menu.php:771
+#: includes/menu.php:1360
+#: includes/menu.php:1597
+#: includes/menu.php:1805
+#: premium/admin/class-advanced-import-page.php:163
+msgid "Description"
+msgstr ""
+
+#: includes/menu.php:2140
+msgid "Descriptions"
+msgstr ""
+
+#: includes/menu.php:472
+#: includes/menu.php:591
+msgid "Destination taxonomy"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:154
+msgid "Details"
+msgstr ""
+
+#: includes/assets.php:99
+msgid "Discard the unsaved term changes?"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:143
+msgid "Discard unsaved rule changes?"
+msgstr ""
+
+#: includes/menu.php:1437
+msgid "Discover optional features built for specialized taxonomy workflows."
+msgstr ""
+
+#: premium/views/term-fields-page.php:51
+msgid "Display a field in a term archive or product template with"
+msgstr ""
+
+#: includes/admin/preview-table.php:95
+#: includes/assets.php:74
+msgid "Download Error Report"
+msgstr ""
+
+#: includes/menu.php:1914
+msgid "Download all users or filter the export by role."
+msgstr ""
+
+#: includes/menu.php:559
+msgid "Download template"
+msgstr ""
+
+#: includes/menu.php:516
+msgid "Drag and drop your CSV file here"
+msgstr ""
+
+#: includes/menu.php:495
+msgid "Drag in a compatible file or choose one from your computer."
+msgstr ""
+
+#: includes/menu.php:880
+msgid "Drag terms into the order you want, without changing their parent relationships."
+msgstr ""
+
+#: includes/menu.php:938
+msgid "Drag-and-drop term ordering"
+msgstr ""
+
+#: includes/settings.php:99
+#: premium/views/advanced-import.php:233
+msgid "Dry import preview"
+msgstr ""
+
+#: premium/views/advanced-import.php:67
+msgid "Dry run"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:644
+msgid "Dry run only: no taxonomy terms were created or changed."
+msgstr ""
+
+#: includes/menu.php:1391
+#: premium/class-duplicate-terms.php:28
+#: premium/class-duplicate-terms.php:29
+#: premium/class-duplicate-terms.php:54
+msgid "Duplicate Terms"
+msgstr ""
+
+#: premium/class-duplicate-terms.php:58
+msgid "Duplicate discovery requires an active Pro license."
 msgstr ""
 
 #. translators: 1: Name, 2: Row number
@@ -259,9 +1079,1790 @@ msgstr ""
 msgid "Duplicate name \"%1$s\" found in row %2$d"
 msgstr ""
 
-#. translators: 1: Existing term slug, 2: Current slug
-#: includes/admin/validator.php:207
-msgid "Term exists with slug \"%1$s\". Current slug \"%2$s\" will be ignored."
+#. translators: %d: Earlier CSV line number.
+#: premium/admin/class-dry-run-preview.php:503
+msgid "Duplicate name; it first appears on line %d."
+msgstr ""
+
+#. translators: 1: Slug, 2: Row number
+#: includes/admin/validator.php:150
+msgid "Duplicate slug \"%1$s\" found in row %2$d"
+msgstr ""
+
+#. translators: %d: Earlier CSV line number.
+#: premium/admin/class-dry-run-preview.php:492
+msgid "Duplicate slug; it first appears on line %d."
+msgstr ""
+
+#: includes/menu.php:939
+msgid "Duplicate term finder, merge, and restore"
+msgstr ""
+
+#: includes/admin.php:363
+#: includes/assets.php:87
+#: premium/admin/class-advanced-import-page.php:158
+msgid "Each import field can only be mapped once."
+msgstr ""
+
+#: premium/class-data-formats.php:713
+msgid "Each term field must contain a text value."
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/menu.php:263
+#: includes/menu.php:1355
+#: includes/menu.php:1749
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:252
+#: premium/views/term-fields-page.php:138
+msgid "Edit"
+msgstr ""
+
+#: premium/views/term-fields-page.php:64
+msgid "Edit field"
+msgstr ""
+
+#: includes/menu.php:820
+msgid "Edit multiple term names and slugs, then save all changed rows together."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:142
+msgid "Edit rule"
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:252
+msgid "Edit rule %d"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:117
+msgid "Enable scheduled sync"
+msgstr ""
+
+#: includes/review-prompt.php:23
+msgid "Enjoying WP Taxonomy Manager?"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:16
+msgid "Enter the required token or username and password to enable sync."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:114
+msgid "Enter token or password"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:141
+msgid "Error"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:140
+msgid "Errors"
+msgstr ""
+
+#: includes/admin/preview-table.php:146
+msgid "Errors:"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:22
+msgid "Every 6 hours"
+msgstr ""
+
+#: premium/views/term-fields-page.php:75
+msgid "Example: Brand color"
+msgstr ""
+
+#: includes/menu.php:330
+#: includes/menu.php:502
+msgid "Excel (.xlsx)"
+msgstr ""
+
+#: includes/menu.php:330
+#: includes/menu.php:502
+msgid "Excel (.xlsx) — Pro"
+msgstr ""
+
+#: includes/menu.php:395
+#: includes/menu.php:508
+msgid "Excel and JSON formats are available with Pro."
+msgstr ""
+
+#: includes/menu.php:936
+msgid "Excel and JSON import and export"
+msgstr ""
+
+#: premium/class-data-formats.php:182
+#: premium/class-data-formats.php:192
+msgid "Excel and JSON support requires an authorized Pro license."
+msgstr ""
+
+#: includes/menu.php:1598
+msgid "Explain what this term is used for..."
+msgstr ""
+
+#: includes/menu.php:257
+#: includes/menu.php:271
+msgid "Export"
+msgstr ""
+
+#: includes/menu.php:349
+#: includes/menu.php:1939
+msgid "Export CSV"
+msgstr ""
+
+#: includes/menu.php:292
+msgid "Export Taxonomy"
+msgstr ""
+
+#: includes/menu.php:1913
+msgid "Export Users"
+msgstr ""
+
+#: includes/menu.php:949
+msgid "Export taxonomy"
+msgstr ""
+
+#: includes/menu.php:1028
+msgid "Exported items"
+msgstr ""
+
+#: includes/menu.php:1425
+msgid "Extend WP Taxonomy Manager with focused tools included with Pro."
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:146
+msgid "Failed"
+msgstr ""
+
+#: includes/admin.php:1003
+msgid "Failed to fetch terms."
+msgstr ""
+
+#: includes/settings.php:186
+msgid "Feature settings"
+msgstr ""
+
+#: includes/menu.php:927
+#: premium/views/remote-sync-page.php:28
+msgid "Fetch failed"
+msgstr ""
+
+#: premium/views/term-fields-page.php:130
+msgid "Field"
+msgstr ""
+
+#: premium/views/term-fields-page.php:14
+msgid "Field definition removed. Existing term values were kept."
+msgstr ""
+
+#: premium/views/term-fields-page.php:79
+msgid "Field key"
+msgstr ""
+
+#: premium/views/term-fields-page.php:74
+msgid "Field label"
+msgstr ""
+
+#: premium/views/term-fields-page.php:13
+msgid "Field saved successfully."
+msgstr ""
+
+#: premium/views/term-fields-page.php:95
+msgid "Field type"
+msgstr ""
+
+#: includes/menu.php:327
+#: includes/menu.php:499
+msgid "File format"
+msgstr ""
+
+#: includes/menu.php:928
+#: premium/views/remote-sync-page.php:29
+msgid "File too large"
+msgstr ""
+
+#: includes/menu.php:1923
+msgid "Filter by Role"
+msgstr ""
+
+#: includes/menu.php:836
+msgid "Filter by name or slug"
+msgstr ""
+
+#: includes/menu.php:1321
+msgid "Filter by taxonomy"
+msgstr ""
+
+#: includes/menu.php:356
+msgid "Filter exported terms"
+msgstr ""
+
+#: includes/menu.php:1305
+msgid "Find and manage terms across your public taxonomies."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:60
+msgid "Find duplicates"
+msgstr ""
+
+#: includes/menu.php:1392
+msgid "Find likely duplicates, preview the impact, and merge with an audit trail and restore action."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:55
+msgid "Find likely duplicates, review the impact, and confirm a reversible merge."
+msgstr ""
+
+#: includes/menu.php:2069
+#: includes/menu.php:2421
+#: premium/views/advanced-import.php:117
+msgid "Flat"
+msgstr ""
+
+#: includes/menu.php:1828
+msgid "Flat list of independent terms."
+msgstr ""
+
+#: includes/menu.php:2098
+msgid "Flat terms"
+msgstr ""
+
+#: includes/freemius.php:267
+msgid "Freemius is not configured, so account information is unavailable."
+msgstr ""
+
+#: includes/freemius.php:281
+msgid "Freemius pricing is currently unavailable."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:69
+#: premium/views/remote-sync-page.php:100
+msgid "Frequency"
+msgstr ""
+
+#: includes/assets.php:53
+msgid "Generate +10 for selected"
+msgstr ""
+
+#. translators: %d: number of selected taxonomies.
+#: includes/assets.php:56
+msgid "Generate 10 demo terms in each of %d selected taxonomies?"
+msgstr ""
+
+#: includes/menu.php:2158
+msgid "Generate Demo Terms"
+msgstr ""
+
+#: includes/menu.php:979
+msgid "Generate demo terms"
+msgstr ""
+
+#. translators: 1: Number of terms created, 2: Taxonomy name
+#: includes/admin.php:1213
+msgid "Generated %1$d terms in \"%2$s\"."
+msgstr ""
+
+#. translators: %1$d is the number of terms created, %2$s is the taxonomy name
+#: includes/menu.php:2236
+msgid "Generated <strong>%1$d</strong> terms in <strong>%2$s</strong>."
+msgstr ""
+
+#: includes/menu.php:362
+msgid "Hide empty terms"
+msgstr ""
+
+#: includes/settings.php:253
+msgid "Hide third-party notices on WP Taxonomy Manager pages"
+msgstr ""
+
+#: includes/menu.php:2068
+#: includes/menu.php:2421
+#: premium/views/advanced-import.php:117
+msgid "Hierarchical"
+msgstr ""
+
+#: includes/menu.php:2106
+msgid "Hierarchical creates a tree structure with random parent-child relationships."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:21
+msgid "Hourly"
+msgstr ""
+
+#: includes/assets.php:89
+#: premium/admin/class-advanced-import-page.php:160
+msgid "Ignore this column"
+msgstr ""
+
+#: premium/class-term-image-ui.php:165
+msgid "Image"
+msgstr ""
+
+#: includes/menu.php:705
+#: includes/menu.php:780
+msgid "Image Source"
+msgstr ""
+
+#: includes/menu.php:577
+msgid "Image URLs in CSV files require Pro. Terms will still import without images."
+msgstr ""
+
+#: premium/views/term-fields-page.php:51
+msgid "Image fields render images and color fields render swatches."
+msgstr ""
+
+#: includes/assets.php:95
+#: premium/admin/class-advanced-import-page.php:151
+#: premium/admin/class-advanced-import-page.php:166
+msgid "Image source"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:471
+msgid "Image source must be a safe public HTTP or HTTPS URL."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:93
+msgid "Impact"
+msgstr ""
+
+#: includes/menu.php:260
+#: includes/menu.php:274
+#: premium/views/advanced-import.php:68
+msgid "Import"
+msgstr ""
+
+#. translators: %d: number of rows ready to import.
+#: premium/admin/class-advanced-import-page.php:131
+msgid "Import %d ready rows"
+msgstr ""
+
+#: includes/assets.php:68
+#: includes/menu.php:606
+msgid "Import CSV"
+msgstr ""
+
+#: includes/admin/preview-table.php:123
+msgid "Import Summary"
+msgstr ""
+
+#: includes/menu.php:1953
+#: includes/menu.php:1996
+msgid "Import Users"
+msgstr ""
+
+#: premium/views/advanced-import.php:257
+msgid "Import another CSV"
+msgstr ""
+
+#: includes/menu.php:546
+#: premium/views/advanced-import.php:205
+msgid "Import as"
+msgstr ""
+
+#: premium/views/advanced-import.php:251
+msgid "Import complete"
+msgstr ""
+
+#. translators: 1: created terms, 2: updated terms, 3: skipped rows, 4: failed rows.
+#: premium/admin/class-dry-run-preview.php:150
+msgid "Import complete: %1$d created, %2$d updated, %3$d skipped, %4$d failed."
+msgstr ""
+
+#. translators: 1: imported count, 2: skipped count, 3: error count.
+#: premium/class-data-formats.php:161
+msgid "Import complete: %1$d imported, %2$d skipped, %3$d failed."
+msgstr ""
+
+#: includes/assets.php:81
+msgid "Import completed!"
+msgstr ""
+
+#. translators: 1: Imported count, 2: Updated count, 3: Skipped count
+#: includes/admin.php:616
+msgid "Import completed! %1$d imported, %2$d updated, %3$d skipped."
+msgstr ""
+
+#. translators: 1: imported count, 2: skipped count.
+#: includes/menu.php:637
+msgid "Import completed. %1$d term(s) imported and %2$d duplicate/invalid term(s) skipped."
+msgstr ""
+
+#: premium/views/advanced-import.php:159
+#: premium/views/remote-sync-page.php:94
+msgid "Import mode"
+msgstr ""
+
+#: includes/menu.php:962
+msgid "Import or export WordPress users by role."
+msgstr ""
+
+#: includes/menu.php:955
+msgid "Import taxonomy"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:40
+msgid "Import taxonomy terms from a remote CSV on a schedule. Existing terms are never deleted."
+msgstr ""
+
+#: includes/menu.php:450
+msgid "Import terms"
+msgstr ""
+
+#. translators: %d: number of rows ready to import.
+#: premium/admin/class-advanced-import-page.php:132
+msgid "Import the validated rows using the selected import mode?"
+msgstr ""
+
+#: premium/views/advanced-import.php:242
+msgid "Import validated rows"
+msgstr ""
+
+#. Description of the plugin.
+#: taxonomy-csv-import-export.php
+msgid "Import, export, and manage WordPress taxonomies and terms with CSV. Supports hierarchical terms and custom taxonomies."
+msgstr ""
+
+#. translators: %d: imported count.
+#: includes/menu.php:676
+msgid "Imported Terms (%d)"
+msgstr ""
+
+#: includes/menu.php:1035
+msgid "Imported items"
+msgstr ""
+
+#: includes/menu.php:473
+msgid "Imported terms will be added to this taxonomy."
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:129
+msgid "Importing terms..."
+msgstr ""
+
+#: includes/assets.php:67
+msgid "Importing..."
+msgstr ""
+
+#: includes/menu.php:412
+msgid "Include term images"
+msgstr ""
+
+#: includes/menu.php:1509
+msgid "Included with Pro"
+msgstr ""
+
+#: includes/menu.php:819
+msgid "Inline Term Editor"
+msgstr ""
+
+#: includes/menu.php:930
+#: premium/views/remote-sync-page.php:31
+msgid "Invalid CSV header"
+msgstr ""
+
+#: includes/menu.php:131
+msgid "Invalid add-on setting."
+msgstr ""
+
+#: includes/assets.php:84
+msgid "Invalid response from server. Please check your file."
+msgstr ""
+
+#: includes/admin.php:810
+#: includes/admin.php:817
+msgid "Invalid role filter."
+msgstr ""
+
+#: includes/admin/validator.php:81
+msgid "Invalid slug format"
+msgstr ""
+
+#: includes/taxonomy-creator.php:122
+msgid "Invalid slug."
+msgstr ""
+
+#: includes/admin.php:1193
+#: includes/menu.php:2215
+msgid "Invalid taxonomy selected."
+msgstr ""
+
+#: includes/taxonomy-creator.php:152
+#: includes/taxonomy-creator.php:156
+msgid "Invalid taxonomy selection."
+msgstr ""
+
+#: includes/admin.php:545
+#: includes/admin.php:896
+#: includes/admin.php:958
+#: includes/admin.php:992
+msgid "Invalid taxonomy."
+msgstr ""
+
+#: includes/menu.php:331
+#: includes/menu.php:503
+msgid "JSON (.json)"
+msgstr ""
+
+#: includes/menu.php:331
+#: includes/menu.php:503
+msgid "JSON (.json) — Pro"
+msgstr ""
+
+#: includes/menu.php:1118
+msgid "Jump directly to the task you want to complete."
+msgstr ""
+
+#: includes/settings.php:224
+msgid "Keep the latest 10–100 run results (default: 30). A new limit takes effect on the next sync run."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:185
+msgid "Keyword mapping rules"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:232
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:318
+msgid "Keywords"
+msgstr ""
+
+#: includes/menu.php:1702
+msgid "Label"
+msgstr ""
+
+#: includes/menu.php:1779
+msgid "Label (Plural)"
+msgstr ""
+
+#: includes/taxonomy-creator.php:65
+msgid "Label is required."
+msgstr ""
+
+#: includes/assets.php:76
+msgid "Large file detected. Dry run mode is recommended."
+msgstr ""
+
+#: includes/menu.php:1107
+msgid "Last result"
+msgstr ""
+
+#: includes/menu.php:1103
+#: premium/views/remote-sync-page.php:70
+msgid "Last run"
+msgstr ""
+
+#: includes/review-prompt.php:26
+msgid "Leave a review"
+msgstr ""
+
+#: includes/menu.php:1934
+msgid "Leave all unchecked to export every user."
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:147
+msgid "Line"
+msgstr ""
+
+#: includes/menu.php:839
+#: includes/menu.php:885
+msgid "Load terms"
+msgstr ""
+
+#: includes/assets.php:97
+msgid "Loading terms..."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:137
+msgid "Loading terms…"
+msgstr ""
+
+#: premium/views/term-fields-page.php:81
+msgid "Lowercase letters, numbers, and underscores; up to 40 characters."
+msgstr ""
+
+#: includes/settings.php:233
+msgid "MB"
+msgstr ""
+
+#: includes/menu.php:240
+msgid "Manage"
+msgstr ""
+
+#: includes/menu.php:1148
+msgid "Manage complex taxonomy workflows with these Pro tools:"
+msgstr ""
+
+#: premium/views/term-fields-page.php:121
+msgid "Manage definitions without removing stored term values."
+msgstr ""
+
+#: includes/menu.php:1095
+msgid "Manage sync"
+msgstr ""
+
+#: includes/menu.php:231
+msgid "Manage taxonomy terms and WordPress users from one workspace."
+msgstr ""
+
+#: includes/menu.php:961
+msgid "Manage users"
+msgstr ""
+
+#: includes/menu.php:539
+#: premium/views/advanced-import.php:195
+msgid "Map CSV columns"
+msgstr ""
+
+#: includes/assets.php:86
+#: premium/admin/class-advanced-import-page.php:157
+msgid "Map one CSV column to Name."
+msgstr ""
+
+#: premium/views/advanced-import.php:31
+msgid "Map, validate, and preview taxonomy CSV files before applying changes."
+msgstr ""
+
+#: includes/assets.php:85
+#: premium/admin/class-advanced-import-page.php:156
+msgid "Mapping ready"
+msgstr ""
+
+#: includes/menu.php:386
+msgid "Maximum"
+msgstr ""
+
+#. translators: 1: Maximum CSV size in MB, 2: Maximum number of rows.
+#: premium/views/advanced-import.php:183
+msgid "Maximum %1$d MB and %2$s data rows."
+msgstr ""
+
+#: includes/settings.php:106
+msgid "Maximum CSV size"
+msgstr ""
+
+#: includes/settings.php:114
+msgid "Maximum preview rows"
+msgstr ""
+
+#: includes/menu.php:386
+msgid "Maximum term count"
+msgstr ""
+
+#: includes/review-prompt.php:27
+msgid "Maybe later"
+msgstr ""
+
+#. Author of the plugin.
+#: taxonomy-csv-import-export.php
+msgid "Md. Rakib Hossen"
+msgstr ""
+
+#: premium/class-duplicate-terms.php:344
+msgid "Merge history"
+msgstr ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "Merge impact"
+msgstr ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:123
+msgid "Merge terms"
+msgstr ""
+
+#: includes/admin/preview-table.php:39
+msgid "Message"
+msgstr ""
+
+#: includes/menu.php:384
+msgid "Minimum"
+msgstr ""
+
+#: includes/menu.php:384
+msgid "Minimum term count"
+msgstr ""
+
+#. translators: 1: Missing headers
+#: includes/admin.php:155
+msgid "Missing required headers: %s"
+msgstr ""
+
+#: includes/menu.php:244
+msgid "Move terms between sites and formats"
+msgstr ""
+
+#: includes/admin/preview-table.php:35
+#: includes/menu.php:1360
+#: premium/admin/class-advanced-import-page.php:148
+msgid "Name"
+msgstr ""
+
+#: includes/assets.php:90
+#: premium/admin/class-advanced-import-page.php:161
+msgid "Name (required)"
+msgstr ""
+
+#: includes/menu.php:2114
+msgid "Name Format"
+msgstr ""
+
+#: includes/menu.php:365
+msgid "Name filter"
+msgstr ""
+
+#: includes/admin/validator.php:67
+msgid "Name is required"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:452
+msgid "Name is required."
+msgstr ""
+
+#: includes/menu.php:367
+msgid "Name matching method"
+msgstr ""
+
+#: includes/menu.php:1837
+msgid "Nested terms with parent relationships."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:141
+msgid "New rule"
+msgstr ""
+
+#: includes/menu.php:1668
+#: includes/menu.php:1769
+msgid "New taxonomy"
+msgstr ""
+
+#: includes/admin/preview-table.php:130
+msgid "New:"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:852
+#: includes/menu.php:1330
+#: includes/menu.php:1691
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:266
+msgid "Next page"
+msgstr ""
+
+#: premium/views/advanced-import.php:241
+msgid "No changes have been made yet."
+msgstr ""
+
+#: includes/menu.php:1716
+msgid "No custom taxonomies yet"
+msgstr ""
+
+#: includes/admin.php:555
+#: includes/assets.php:77
+msgid "No data found in CSV file."
+msgstr ""
+
+#: includes/admin/preview-table.php:22
+msgid "No data to preview."
+msgstr ""
+
+#. translators: 1: configured fields, 2: maximum fields.
+#: premium/views/term-fields-page.php:126
+msgid "No fields yet"
+msgstr ""
+
+#: includes/menu.php:531
+msgid "No file selected"
+msgstr ""
+
+#: premium/class-term-image-ui.php:174
+msgid "No image"
+msgstr ""
+
+#. translators: %d: maximum number of scanned terms.
+#. translators: %d: number of duplicate candidate groups.
+#: premium/class-duplicate-terms.php:88
+msgid "No likely duplicates were found in the scanned terms."
+msgstr ""
+
+#: premium/views/advanced-import.php:99
+msgid "No manageable taxonomies found"
+msgstr ""
+
+#: includes/assets.php:98
+msgid "No matching terms were found."
+msgstr ""
+
+#: includes/admin.php:598
+msgid "No preview data found. Please analyze the CSV first."
+msgstr ""
+
+#: includes/menu.php:1575
+msgid "No public taxonomies are available."
+msgstr ""
+
+#: includes/menu.php:1108
+msgid "No result yet"
+msgstr ""
+
+#: includes/assets.php:80
+msgid "No rows are ready to import. Please fix the errors."
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:256
+msgid "No rules match your search."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:239
+msgid "No rules saved yet. Add a rule below to get started."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:131
+msgid "No sync runs yet"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:212
+msgid "No taxonomies available"
+msgstr ""
+
+#: includes/menu.php:1585
+msgid "No taxonomy selected"
+msgstr ""
+
+#: includes/assets.php:100
+msgid "No term changes to save."
+msgstr ""
+
+#: includes/menu.php:1335
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:139
+msgid "No terms found"
+msgstr ""
+
+#: includes/admin.php:1206
+msgid "No terms were created. All terms might already exist."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:105
+msgid "None"
+msgstr ""
+
+#: premium/views/advanced-import.php:124
+msgid "None registered"
+msgstr ""
+
+#: includes/menu.php:1104
+#: premium/views/remote-sync-page.php:70
+msgid "Not yet run"
+msgstr ""
+
+#: includes/settings.php:255
+msgid "Notices remain visible everywhere else in WordPress admin."
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:104
+#: includes/menu.php:1494
+msgid "Off"
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:103
+#: includes/menu.php:1494
+msgid "On"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:131
+msgid "Once a run finishes, its status and term counts will appear here."
+msgstr ""
+
+#: premium/views/term-fields-page.php:106
+msgid "One option per line"
+msgstr ""
+
+#: premium/views/term-fields-page.php:107
+msgid "One option per line. Required only for Select fields (maximum 50)."
+msgstr ""
+
+#: includes/taxonomy-creator.php:165
+msgid "One or more selected taxonomies were not found. Refresh the page and try again."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:189
+msgid "Only .csv files can be previewed."
+msgstr ""
+
+#: includes/menu.php:362
+msgid "Only include terms assigned to content."
+msgstr ""
+
+#: premium/views/advanced-import.php:79
+msgid "Only taxonomies you are allowed to manage appear here."
+msgstr ""
+
+#. translators: %d: maximum number of scanned terms.
+#: premium/class-duplicate-terms.php:84
+msgid "Only the first %d terms were scanned. Narrow the taxonomy or wait for batched scanning before relying on this result."
+msgstr ""
+
+#: includes/menu.php:573
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:175
+msgid "Open Account and license options"
+msgstr ""
+
+#. translators: %s: taxonomy name.
+#: includes/menu.php:1734
+msgid "Open actions for %s"
+msgstr ""
+
+#: includes/menu.php:1505
+#: includes/menu.php:1507
+msgid "Open add-on"
+msgstr ""
+
+#: includes/menu.php:357
+#: includes/menu.php:1597
+#: includes/menu.php:1602
+#: includes/menu.php:1611
+msgid "Optional"
+msgstr ""
+
+#: includes/term-custom-links.php:96
+#: includes/term-custom-links.php:118
+msgid "Optional. WordPress will use this HTTP or HTTPS URL instead of the normal taxonomy archive link."
+msgstr ""
+
+#: includes/menu.php:2136
+msgid "Options"
+msgstr ""
+
+#: includes/menu.php:266
+msgid "Order"
+msgstr ""
+
+#: premium/class-data-formats.php:443
+msgid "PHP Zip, XMLReader, and DOM extensions are required to import Excel files."
+msgstr ""
+
+#: includes/menu.php:1611
+#: premium/class-duplicate-terms.php:54
+msgid "PRO"
+msgstr ""
+
+#. translators: 1: current page, 2: total pages.
+#: includes/assets.php:103
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/admin/preview-table.php:37
+#: includes/menu.php:375
+#: includes/menu.php:861
+#: includes/menu.php:1333
+#: premium/admin/class-advanced-import-page.php:150
+#: premium/class-duplicate-terms.php:93
+msgid "Parent"
+msgstr ""
+
+#: includes/menu.php:2102
+msgid "Parent / child"
+msgstr ""
+
+#: includes/menu.php:699
+#: includes/menu.php:774
+msgid "Parent Slug"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:479
+msgid "Parent is ignored for a non-hierarchical taxonomy."
+msgstr ""
+
+#: premium/views/advanced-import.php:37
+msgid "Parent resolution and hierarchy cycle detection"
+msgstr ""
+
+#: includes/assets.php:93
+#: premium/admin/class-advanced-import-page.php:164
+msgid "Parent slug"
+msgstr ""
+
+#. translators: %s: Sanitized parent slug.
+#: premium/admin/class-dry-run-preview.php:484
+msgid "Parent slug will be sanitized to “%s”."
+msgstr ""
+
+#. translators: 1: Parent term name
+#: includes/admin/validator.php:116
+msgid "Parent term \"%1$s\" not found"
+msgstr ""
+
+#. translators: %s: Parent term slug.
+#: premium/class-data-formats.php:782
+msgid "Parent term \"%s\" was not found."
+msgstr ""
+
+#. translators: %s: Missing parent slug.
+#: premium/admin/class-dry-run-preview.php:562
+msgid "Parent “%s” does not exist in WordPress or this CSV."
+msgstr ""
+
+#: includes/menu.php:1100
+#: premium/views/remote-sync-page.php:68
+msgid "Paused"
+msgstr ""
+
+#: includes/menu.php:2123
+msgid "Plain"
+msgstr ""
+
+#: includes/admin.php:1197
+#: includes/menu.php:2222
+msgid "Please enter a number between 1 and 500."
+msgstr ""
+
+#: includes/admin/validator.php:68
+msgid "Please provide a name for the taxonomy term."
+msgstr ""
+
+#: includes/assets.php:70
+msgid "Please select a CSV file."
+msgstr ""
+
+#: includes/taxonomy-creator.php:71
+msgid "Please select at least one post type."
+msgstr ""
+
+#: includes/admin.php:540
+#: includes/assets.php:71
+msgid "Please upload a CSV file."
+msgstr ""
+
+#: includes/menu.php:1705
+msgid "Post Types"
+msgstr ""
+
+#: premium/views/advanced-import.php:121
+msgid "Post types"
+msgstr ""
+
+#: includes/menu.php:2119
+msgid "Prefix"
+msgstr ""
+
+#: premium/views/advanced-import.php:55
+msgid "Premium workflow"
+msgstr ""
+
+#: includes/menu.php:341
+msgid "Preview"
+msgstr ""
+
+#: includes/menu.php:950
+msgid "Preview and download taxonomy terms as CSV."
+msgstr ""
+
+#: includes/assets.php:82
+msgid "Preview data cleared."
+msgstr ""
+
+#: premium/views/advanced-import.php:215
+msgid "Preview is read-only"
+msgstr ""
+
+#: premium/class-duplicate-terms.php:96
+msgid "Preview merge impact"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:852
+#: includes/menu.php:1330
+#: includes/menu.php:1688
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:266
+msgid "Previous page"
+msgstr ""
+
+#: includes/menu.php:414
+#: includes/menu.php:573
+#: includes/menu.php:1479
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:175
+#: premium/views/remote-sync-page.php:42
+#: premium/views/term-fields-page.php:29
+msgid "Pro"
+msgstr ""
+
+#: includes/menu.php:1439
+msgid "Pro features"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:86
+msgid "Public HTTP(S) URLs only. Private and local addresses are blocked."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:127
+msgid "Queue run now"
+msgstr ""
+
+#: includes/menu.php:2048
+msgid "Quick Generate"
+msgstr ""
+
+#: includes/menu.php:1117
+msgid "Quick actions"
+msgstr ""
+
+#: includes/menu.php:2034
+msgid "Quickly generate demo categories or tags with one click. Perfect for testing and development."
+msgstr ""
+
+#: includes/menu.php:2127
+msgid "Random Words"
+msgstr ""
+
+#: includes/admin/preview-table.php:82
+msgid "Ready"
+msgstr ""
+
+#: includes/admin/preview-table.php:150
+msgid "Ready to Import:"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:125
+msgid "Recent runs"
+msgstr ""
+
+#: includes/helper.php:260
+#: includes/menu.php:1650
+#: includes/menu.php:1881
+msgid "Register Taxonomy"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:213
+msgid "Register a taxonomy or ask an administrator for permission to manage terms before adding a rule."
+msgstr ""
+
+#: includes/menu.php:985
+msgid "Register taxonomy"
+msgstr ""
+
+#: includes/menu.php:1053
+#: includes/menu.php:1657
+msgid "Registered taxonomies"
+msgstr ""
+
+#. translators: 1: deleted terms, 2: selected terms.
+#. translators: %s: formatted number of terms.
+#: includes/menu.php:1315
+msgid "Registered terms"
+msgstr ""
+
+#: includes/menu.php:1092
+#: includes/menu.php:1399
+#: includes/settings.php:145
+#: premium/class-remote-sync.php:59
+#: premium/views/remote-sync-page.php:39
+msgid "Remote CSV Sync"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:11
+msgid "Remote CSV Sync requires an active Pro license and an enabled add-on."
+msgstr ""
+
+#: premium/views/term-fields-page.php:138
+msgid "Remove"
+msgstr ""
+
+#: includes/menu.php:1616
+#: premium/class-term-image-ui.php:131
+#: premium/class-term-meta-fields.php:230
+msgid "Remove image"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:343
+msgid "Remove rule"
+msgstr ""
+
+#: premium/class-term-meta-fields.php:296
+msgid "Remove this field definition? Existing term values will be kept."
+msgstr ""
+
+#: includes/assets.php:83
+msgid "Request timed out. The file may be too large."
+msgstr ""
+
+#: premium/views/advanced-import.php:153
+msgid "Required column: name. Optional columns: slug, description, parent_slug, custom_link, image_source."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:358
+msgid "Restore source"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:125
+msgid "Results from scheduled and manually queued imports."
+msgstr ""
+
+#: includes/menu.php:584
+msgid "Review and import terms"
+msgstr ""
+
+#: includes/menu.php:562
+msgid "Review import"
+msgstr ""
+
+#: premium/views/advanced-import.php:234
+msgid "Review what a future import would create, update, skip, or reject."
+msgstr ""
+
+#: includes/admin/preview-table.php:34
+msgid "Row"
+msgstr ""
+
+#. translators: %d: One-based data row number.
+#: premium/class-data-formats.php:706
+msgid "Row %d is missing the required name field."
+msgstr ""
+
+#: premium/views/advanced-import.php:35
+msgid "Row-level dry-run validation and diagnostics"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:849
+#: includes/menu.php:1330
+#: includes/menu.php:1679
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:263
+msgid "Rows per page"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:142
+msgid "Rows with warnings"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:273
+msgid "Rule editor"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:381
+msgid "Rules changed since this page loaded. Refresh and select them again."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:203
+msgid "Rules deleted"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:68
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:106
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:172
+msgid "Rules-Based Auto Tagging"
+msgstr ""
+
+#: includes/menu.php:942
+msgid "Rules-based auto tagging"
+msgstr ""
+
+#: premium/views/advanced-import.php:224
+msgid "Run dry import preview"
+msgstr ""
+
+#: includes/settings.php:152
+msgid "Run history"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:117
+msgid "Runs at the selected frequency after settings are saved."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:286
+msgid "Save Rules"
+msgstr ""
+
+#: includes/menu.php:872
+#: includes/menu.php:1361
+#: premium/views/term-fields-page.php:112
+msgid "Save changes"
+msgstr ""
+
+#: includes/settings.php:195
+msgid "Save feature settings"
+msgstr ""
+
+#: includes/menu.php:891
+msgid "Save order"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:119
+msgid "Save sync settings"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:220
+msgid "Saved rules"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:114
+msgid "Saved — leave blank to keep it"
+msgstr ""
+
+#: includes/assets.php:101
+msgid "Saving term changes..."
+msgstr ""
+
+#: includes/menu.php:1099
+#: premium/views/remote-sync-page.php:68
+msgid "Schedule"
+msgstr ""
+
+#: includes/menu.php:1093
+msgid "Schedule and latest import result at a glance."
+msgstr ""
+
+#: includes/menu.php:1400
+msgid "Schedule authenticated CSV imports and review recent runs."
+msgstr ""
+
+#: includes/menu.php:940
+msgid "Scheduled remote CSV sync with authentication and run history"
+msgstr ""
+
+#: includes/menu.php:1100
+msgid "Scheduler unavailable"
+msgstr ""
+
+#. translators: %d: number of saved rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:225
+msgid "Search keywords, taxonomy, or term..."
+msgstr ""
+
+#. translators: %d: number of saved rules.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:224
+msgid "Search saved rules"
+msgstr ""
+
+#. translators: %s: formatted number of terms.
+#: includes/menu.php:835
+#: includes/menu.php:1319
+msgid "Search terms"
+msgstr ""
+
+#: includes/menu.php:1320
+msgid "Search terms…"
+msgstr ""
+
+#: includes/menu.php:974
+msgid "Search, edit, and organize terms across taxonomies."
+msgstr ""
+
+#: includes/admin.php:1178
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: includes/menu.php:2193
+msgid "Security check failed. Please try again."
+msgstr ""
+
+#. translators: %s: term or taxonomy name.
+#: includes/menu.php:1348
+#: includes/menu.php:1725
+#: includes/menu.php:2424
+msgid "Select %s"
+msgstr ""
+
+#: includes/menu.php:311
+#: includes/menu.php:477
+#: includes/menu.php:2057
+msgid "Select Taxonomy"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:326
+#: premium/views/advanced-import.php:105
+msgid "Select a taxonomy"
+msgstr ""
+
+#: includes/menu.php:1536
+msgid "Select a taxonomy, add the term details, and publish it instantly."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:138
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:336
+msgid "Select a term"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:424
+#: premium/admin/class-dry-run-preview.php:80
+#: premium/admin/class-dry-run-preview.php:118
+#: premium/class-data-formats.php:207
+msgid "Select a valid taxonomy."
+msgstr ""
+
+#: includes/menu.php:1701
+msgid "Select all registered taxonomies"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:231
+msgid "Select all rules on this page"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:1333
+msgid "Select all terms on this page"
+msgstr ""
+
+#: premium/class-term-meta-fields.php:233
+msgid "Select an option"
+msgstr ""
+
+#: includes/taxonomy-creator.php:146
+msgid "Select at least one taxonomy."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:386
+msgid "Select at least one valid rule to delete."
+msgstr ""
+
+#: premium/class-term-image-ui.php:130
+msgid "Select image"
+msgstr ""
+
+#: premium/views/term-fields-page.php:105
+msgid "Select options"
+msgstr ""
+
+#. translators: %d: rule number.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:248
+msgid "Select rule %d"
+msgstr ""
+
+#: includes/menu.php:2407
+msgid "Select taxonomies on this page"
+msgstr ""
+
+#: includes/menu.php:828
+#: includes/menu.php:884
+#: premium/class-duplicate-terms.php:60
+#: premium/views/remote-sync-page.php:91
+#: premium/views/term-fields-page.php:86
+msgid "Select taxonomy"
+msgstr ""
+
+#: includes/menu.php:465
+msgid "Select the taxonomy that should receive the imported terms."
+msgstr ""
+
+#: includes/assets.php:54
+msgid "Select up to 10 taxonomies at a time."
+msgstr ""
+
+#: includes/menu.php:1299
+msgid "Select up to 50 terms on this page before deleting."
+msgstr ""
+
+#: includes/menu.php:1852
+msgid "Select where this taxonomy will be available."
+msgstr ""
+
+#: includes/menu.php:1550
+msgid "Select where your new term belongs."
+msgstr ""
+
+#: includes/menu.php:1300
+msgid "Selected terms deleted successfully."
+msgstr ""
+
+#: includes/menu.php:1607
+msgid "Send visitors to a specific URL when they open this term."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:320
+msgid "Separate keywords with commas."
+msgstr ""
+
+#: includes/settings.php:205
+msgid "Set server-side limits for the Premium dry-run analyzer. Larger limits require more memory and processing time."
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:107
+msgid "Setting saved."
+msgstr ""
+
+#: includes/freemius.php:189
+#: includes/freemius.php:224
+#: includes/menu.php:991
+msgid "Settings"
+msgstr ""
+
+#: includes/menu.php:2150
+msgid "Show progress"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:155
+msgid "Showing the first 500 rows. The totals include the complete file."
+msgstr ""
+
+#: premium/views/term-fields-page.php:76
+msgid "Shown beside the field on term add/edit screens."
+msgstr ""
+
+#: includes/menu.php:1787
+msgid "Singular Label"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:139
+msgid "Skip"
+msgstr ""
+
+#: premium/views/advanced-import.php:167
+msgid "Skip every term that already exists."
+msgstr ""
+
+#: includes/menu.php:2145
+msgid "Skip existing"
+msgstr ""
+
+#: premium/views/advanced-import.php:171
+msgid "Skip rows that do not match an existing term."
+msgstr ""
+
+#: includes/admin/preview-table.php:138
+msgid "Skip:"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:145
+#: premium/views/remote-sync-page.php:133
+msgid "Skipped"
+msgstr ""
+
+#. translators: 1: Number of skipped terms
+#: includes/admin.php:1221
+msgid "Skipped %1$d existing terms."
+msgstr ""
+
+#. translators: %1$d is the number of skipped terms
+#: includes/menu.php:2244
+msgid "Skipped <strong>%1$d</strong> existing terms."
+msgstr ""
+
+#. translators: %d: skipped count.
+#: includes/menu.php:751
+msgid "Skipped Terms (%d)"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:608
+msgid "Skipped because this mode only creates new terms."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:605
+msgid "Skipped because this mode only updates existing terms."
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/admin/preview-table.php:36
+#: includes/assets.php:91
+#: includes/menu.php:693
+#: includes/menu.php:768
+#: includes/menu.php:860
+#: includes/menu.php:1333
+#: includes/menu.php:1360
+#: includes/menu.php:1703
+#: includes/menu.php:1795
+#: premium/admin/class-advanced-import-page.php:149
+#: premium/admin/class-advanced-import-page.php:162
+#: premium/class-duplicate-terms.php:93
+msgid "Slug"
+msgstr ""
+
+#. translators: 1: Original slug, 2: Suggested slug
+#: includes/admin/validator.php:92
+msgid "Slug \"%1$s\" was sanitized to \"%2$s\""
+msgstr ""
+
+#: includes/taxonomy-creator.php:68
+msgid "Slug is required."
+msgstr ""
+
+#: includes/admin/validator.php:82
+msgid "Slug should only contain lowercase letters, numbers, hyphens, and underscores."
+msgstr ""
+
+#. translators: %s: Sanitized term slug.
+#: premium/admin/class-dry-run-preview.php:463
+msgid "Slug will be sanitized to “%s”."
+msgstr ""
+
+#: includes/menu.php:1301
+msgid "Some selected terms could not be deleted. WordPress may protect them."
+msgstr ""
+
+#: includes/menu.php:661
+msgid "Some terms were imported, but their custom links were rejected:"
+msgstr ""
+
+#: includes/menu.php:650
+msgid "Some terms were imported, but their images could not be generated:"
+msgstr ""
+
+#: premium/class-duplicate-terms.php:344
+msgid "Source → destination"
+msgstr ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "Source: %1$s (#%2$d) → destination: %3$s (#%4$d)"
+msgstr ""
+
+#: includes/admin/preview-table.php:103
+#: includes/assets.php:69
+msgid "Start Import"
+msgstr ""
+
+#: includes/menu.php:369
+msgid "Starts with"
+msgstr ""
+
+#: includes/admin/preview-table.php:38
+#: includes/menu.php:863
+#: premium/admin/class-advanced-import-page.php:153
+#: premium/class-duplicate-terms.php:344
+#: premium/views/remote-sync-page.php:133
+msgid "Status"
+msgstr ""
+
+#: premium/views/advanced-import.php:77
+msgid "Step 1 of 4"
+msgstr ""
+
+#: premium/views/advanced-import.php:151
+msgid "Step 2 of 4"
+msgstr ""
+
+#: premium/views/advanced-import.php:232
+msgid "Step 3 of 4"
+msgstr ""
+
+#: premium/views/advanced-import.php:250
+msgid "Step 4 of 4"
+msgstr ""
+
+#. translators: 1: Row number, 2: Error messages
+#: includes/admin.php:642
+msgid "Stopped at row %1$d: %2$s"
+msgstr ""
+
+#: premium/class-term-ordering.php:51
+msgid "Submit between 1 and 500 valid terms."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:96
+msgid "Suggested destination"
+msgstr ""
+
+#: includes/admin/preview-table.php:63
+msgid "Suggestion:"
+msgstr ""
+
+#: includes/menu.php:517
+msgid "Supported formats: .csv and .txt"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:67
+msgid "Sync overview"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:76
+msgid "Sync settings"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:9
+msgid "Sync settings saved."
+msgstr ""
+
+#. translators: %s: term or taxonomy name.
+#: includes/menu.php:1728
+#: includes/menu.php:1827
+msgid "Tags"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:303
+#: includes/menu.php:826
+#: includes/menu.php:1333
+#: includes/menu.php:2408
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:233
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:324
+#: premium/class-duplicate-terms.php:60
+#: premium/views/advanced-import.php:65
+#: premium/views/remote-sync-page.php:90
+#: premium/views/term-fields-page.php:84
+#: premium/views/term-fields-page.php:130
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/menu.php:880
+msgid "Taxonomy Order"
+msgstr ""
+
+#: includes/menu.php:244
+msgid "Taxonomy Terms"
+msgstr ""
+
+#: includes/menu.php:1816
+msgid "Taxonomy Type"
+msgstr ""
+
+#. translators: %s: Taxonomy term name.
+#: premium/class-term-image-manager.php:198
+msgid "Taxonomy image for %s"
+msgstr ""
+
+#: includes/taxonomy-creator.php:127
+msgid "Taxonomy not found."
+msgstr ""
+
+#: includes/menu.php:894
+msgid "Taxonomy ordering is a Pro feature"
+msgstr ""
+
+#: premium/class-term-ordering.php:90
+msgid "Taxonomy ordering requires an active Pro license."
+msgstr ""
+
+#: premium/views/advanced-import.php:140
+msgid "Taxonomy permissions are checked again when the preview runs."
+msgstr ""
+
+#: includes/menu.php:1672
+msgid "Taxonomy table controls"
+msgstr ""
+
+#: includes/menu.php:255
+msgid "Taxonomy term actions"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:1333
+#: premium/class-duplicate-terms.php:93
+msgid "Term"
+msgstr ""
+
+#: premium/class-term-meta-fields.php:123
+#: premium/views/term-fields-page.php:26
+msgid "Term Fields"
+msgstr ""
+
+#: includes/menu.php:2093
+msgid "Term Structure"
+msgstr ""
+
+#: includes/menu.php:382
+msgid "Term count"
+msgstr ""
+
+#: includes/menu.php:1296
+msgid "Term deleted successfully."
 msgstr ""
 
 #. translators: 1: Slug, 2: Name
@@ -269,460 +2870,859 @@ msgstr ""
 msgid "Term exists with slug \"%1$s\" but different name \"%2$s\"."
 msgstr ""
 
-#: includes/assets.php:60
-msgid "Analyzing CSV..."
+#. translators: 1: Existing term slug, 2: Current slug
+#: includes/admin/validator.php:207
+msgid "Term exists with slug \"%1$s\". Current slug \"%2$s\" will be ignored."
 msgstr ""
 
-#: includes/assets.php:61
-msgid "Importing..."
+#: includes/menu.php:1611
+#: premium/class-term-image-ui.php:109
+#: premium/class-term-image-ui.php:120
+msgid "Term image"
 msgstr ""
 
-#: includes/assets.php:62
-#: includes/menu.php:80
-#: includes/menu.php:201
-msgid "Import CSV"
+#: includes/menu.php:573
+msgid "Term images"
 msgstr ""
 
-#: includes/assets.php:64
-msgid "Please select a CSV file."
+#: includes/admin.php:912
+msgid "Term images require an active Pro license."
 msgstr ""
 
-#: includes/assets.php:66
-msgid "Are you sure you want to start the import? This action cannot be undone."
+#: includes/menu.php:937
+msgid "Term images with Media Library controls"
 msgstr ""
 
-#: includes/assets.php:67
-msgid "An error occurred. Please try again."
+#: includes/menu.php:1306
+#: includes/menu.php:1538
+msgid "Term management"
 msgstr ""
 
-#: includes/assets.php:69
-msgid "Clear preview data? This will discard all analysis results."
+#: includes/menu.php:371
+#: includes/menu.php:859
+#: includes/menu.php:1591
+msgid "Term name"
 msgstr ""
 
-#: includes/assets.php:70
-msgid "Large file detected. Dry run mode is recommended."
+#: includes/admin.php:900
+msgid "Term name is required."
 msgstr ""
 
-#: includes/assets.php:72
-msgid "rows ready to import."
+#: includes/menu.php:1203
+msgid "Term not found."
 msgstr ""
 
-#: includes/assets.php:73
-msgid "rows have errors."
+#: premium/class-term-ordering.php:68
+msgid "Term order saved."
 msgstr ""
 
-#: includes/assets.php:74
-msgid "No rows are ready to import. Please fix the errors."
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:234
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:334
+msgid "Term to assign"
 msgstr ""
 
-#: includes/assets.php:75
-msgid "Import completed!"
+#. translators: %d: rule number.
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:251
+msgid "Term unavailable"
 msgstr ""
 
-#: includes/assets.php:76
-msgid "Preview data cleared."
+#: includes/menu.php:1295
+msgid "Term updated successfully."
 msgstr ""
 
-#: includes/assets.php:77
-msgid "Request timed out. The file may be too large."
+#: includes/menu.php:2079
+msgid "Terms"
 msgstr ""
 
-#: includes/assets.php:78
-msgid "Invalid response from server. Please check your file."
+#: includes/menu.php:1030
+msgid "Terms and users downloaded"
 msgstr ""
 
-#: includes/helper.php:185
-#: includes/menu.php:1070
-msgid "Taxonomy"
+#: includes/menu.php:1037
+msgid "Terms and users processed"
 msgstr ""
 
-#: includes/helper.php:191
-msgid "Users"
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:140
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:438
+msgid "Terms could not be loaded."
 msgstr ""
 
-#: includes/helper.php:197
-#: includes/menu.php:378
-#: includes/menu.php:428
-msgid "Create Term"
+#: includes/menu.php:1327
+msgid "Terms table controls"
 msgstr ""
 
-#: includes/helper.php:203
-#: includes/menu.php:454
-#: includes/menu.php:536
-msgid "Register Taxonomy"
+#: premium/admin/class-dry-run-preview.php:287
+msgid "The CSV contains no data rows."
 msgstr ""
 
-#: includes/helper.php:210
-#: includes/menu.php:697
-msgid "Demo Generator"
+#: premium/admin/class-dry-run-preview.php:224
+msgid "The CSV could not be opened."
 msgstr ""
 
-#: includes/import-preview.php:21
-#: includes/import-processor.php:16
-msgid "No file uploaded."
+#: includes/admin.php:308
+msgid "The CSV file could not be opened."
 msgstr ""
 
-#: includes/menu.php:20
-msgid "Import Export"
+#: includes/admin.php:314
+msgid "The CSV file is empty."
 msgstr ""
 
-#: includes/menu.php:58
-msgid "Taxonomy Import / Export"
+#: includes/assets.php:88
+#: premium/admin/class-advanced-import-page.php:159
+msgid "The CSV header could not be read."
 msgstr ""
 
-#: includes/menu.php:59
-msgid "Export taxonomy terms to a CSV file, or import terms from a CSV with dry run preview support."
+#. translators: %d: number of rows ready to import.
+#: premium/admin/class-advanced-import-page.php:133
+msgid "The CSV import could not be completed."
 msgstr ""
 
-#: includes/menu.php:72
-#: includes/menu.php:133
-#: includes/menu.php:624
-msgid "Export CSV"
+#: premium/admin/class-dry-run-preview.php:230
+msgid "The CSV is missing a header row."
 msgstr ""
 
-#: includes/menu.php:91
-msgid "Export Taxonomy"
+#. translators: %s: Duplicate CSV column.
+#: premium/admin/class-dry-run-preview.php:349
+msgid "The CSV maps more than one column to “%s”."
 msgstr ""
 
-#: includes/menu.php:105
-#: includes/menu.php:172
-#: includes/menu.php:721
-msgid "Select Taxonomy"
+#. translators: %s: Maximum upload size.
+#: premium/admin/class-dry-run-preview.php:205
+msgid "The CSV must be non-empty and no larger than %s."
 msgstr ""
 
-#: includes/menu.php:125
-msgid "Preview"
+#: includes/admin.php:371
+#: premium/admin/class-dry-run-preview.php:358
+msgid "The CSV must include a name column."
 msgstr ""
 
-#: includes/menu.php:153
-msgid "Import Taxonomy"
+#: premium/admin/class-dry-run-preview.php:174
+msgid "The CSV upload did not complete successfully."
 msgstr ""
 
-#. translators: 1: imported count, 2: skipped count.
-#: includes/menu.php:227
-msgid "Import completed. %1$d term(s) imported and %2$d duplicate/invalid term(s) skipped."
+#: premium/class-data-formats.php:497
+msgid "The Excel archive contains an unsafe entry."
 msgstr ""
 
-#. translators: %d: imported count.
-#: includes/menu.php:244
-msgid "Imported Terms (%d)"
+#: premium/class-data-formats.php:490
+msgid "The Excel archive contains an unsafe number of files."
 msgstr ""
 
-#: includes/menu.php:258
-#: includes/menu.php:327
-#: includes/menu.php:402
-msgid "Title"
+#: premium/class-data-formats.php:341
+msgid "The Excel archive could not be created."
 msgstr ""
 
-#: includes/menu.php:264
-#: includes/menu.php:333
-#: includes/menu.php:414
-#: includes/menu.php:494
-msgid "Description"
+#: premium/class-data-formats.php:448
+msgid "The Excel archive is corrupted or unreadable."
 msgstr ""
 
-#: includes/menu.php:267
-#: includes/menu.php:336
-msgid "Parent Slug"
+#: premium/class-data-formats.php:577
+msgid "The Excel file contains malformed XML."
 msgstr ""
 
-#. translators: %d: skipped count.
-#: includes/menu.php:299
-msgid "%d term(s) were skipped because they already exist or could not be imported."
+#: premium/class-data-formats.php:618
+msgid "The Excel file contains too many rows."
 msgstr ""
 
-#. translators: %d: skipped count.
-#: includes/menu.php:313
-msgid "Skipped Terms (%d)"
+#: premium/class-data-formats.php:570
+#: premium/class-data-formats.php:611
+msgid "The Excel file contains unsafe XML."
 msgstr ""
 
-#: includes/menu.php:379
-msgid "Select a taxonomy then add a new term with a title and optional description."
+#: premium/class-data-formats.php:352
+msgid "The Excel file could not be finalized."
 msgstr ""
 
-#: includes/menu.php:384
-msgid "Choose a Taxonomy"
+#: premium/class-data-formats.php:414
+msgid "The Excel file is not a valid OpenXML ZIP archive."
 msgstr ""
 
-#: includes/menu.php:408
-msgid "Enter term title…"
+#: premium/class-data-formats.php:676
+msgid "The Excel file must include a name column."
 msgstr ""
 
-#: includes/menu.php:415
-#: includes/menu.php:477
-#: includes/menu.php:495
-#: includes/menu.php:609
-msgid "(optional)"
+#: premium/class-data-formats.php:524
+msgid "The Excel workbook does not contain a worksheet."
 msgstr ""
 
-#: includes/menu.php:420
-msgid "Enter description…"
+#: premium/class-data-formats.php:519
+msgid "The Excel workbook metadata is corrupted."
 msgstr ""
 
-#: includes/menu.php:455
-msgid "Create a new custom taxonomy and attach it to one or more post types."
+#: premium/class-data-formats.php:513
+msgid "The Excel workbook structure is incomplete."
 msgstr ""
 
-#: includes/menu.php:460
-msgid "New Taxonomy"
+#: premium/class-data-formats.php:603
+msgid "The Excel worksheet XML is invalid."
 msgstr ""
 
-#: includes/menu.php:468
-msgid "Label (Plural)"
+#: premium/class-data-formats.php:319
+msgid "The Excel worksheet could not be created."
 msgstr ""
 
-#: includes/menu.php:471
-msgid "e.g. Genres"
+#: premium/class-data-formats.php:472
+msgid "The Excel worksheet could not be read."
 msgstr ""
 
-#: includes/menu.php:476
-msgid "Singular Label"
+#: premium/class-data-formats.php:668
+msgid "The Excel worksheet is empty."
 msgstr ""
 
-#: includes/menu.php:479
-msgid "e.g. Genre"
+#: premium/class-data-formats.php:271
+msgid "The JSON export could not be encoded."
 msgstr ""
 
-#: includes/menu.php:487
-msgid "e.g. genre"
+#: premium/class-data-formats.php:424
+msgid "The JSON file could not be read."
 msgstr ""
 
-#: includes/menu.php:488
-msgid "Auto-generated. Lowercase, no spaces."
+#: premium/class-data-formats.php:430
+msgid "The JSON file is malformed or corrupted."
 msgstr ""
 
-#: includes/menu.php:497
-msgid "Describe what this taxonomy is used for…"
+#: premium/class-data-formats.php:434
+msgid "The JSON file must contain a terms array."
 msgstr ""
 
-#: includes/menu.php:502
-msgid "Taxonomy Type"
+#: premium/class-data-formats.php:283
+msgid "The PHP Zip extension is required to create Excel files."
 msgstr ""
 
-#: includes/menu.php:508
-#: includes/menu.php:564
-msgid "Tags"
+#: includes/menu.php:138
+msgid "The Pro module is unavailable. Reinstall the Premium package."
 msgstr ""
 
-#: includes/menu.php:509
-msgid "Non-hierarchical. Flat list of terms."
+#: includes/menu.php:1449
+msgid "The catalog is ready and will be populated as add-ons become available."
 msgstr ""
 
-#: includes/menu.php:513
-#: includes/menu.php:564
-msgid "Categories"
+#: includes/admin.php:488
+msgid "The custom link is not a valid HTTP or HTTPS URL."
 msgstr ""
 
-#: includes/menu.php:514
-msgid "Hierarchical. Terms can have parent terms."
+#: premium/class-data-formats.php:362
+msgid "The download could not start because output was already sent."
 msgstr ""
 
-#: includes/menu.php:521
-msgid "Attach to Post Types"
+#: premium/class-term-image-manager.php:183
+msgid "The downloaded file is not a supported image."
 msgstr ""
 
-#: includes/menu.php:546
-msgid "Registered Custom Taxonomies"
+#: premium/views/advanced-import.php:216
+msgid "The dry run compares this file with existing terms but does not create, update, or delete anything."
 msgstr ""
 
-#: includes/menu.php:552
-msgid "Label"
+#. translators: %d: number of rows ready to import.
+#: premium/admin/class-advanced-import-page.php:134
+msgid "The dry run could not be completed."
 msgstr ""
 
-#: includes/menu.php:554
-#: includes/menu.php:1071
-msgid "Type"
+#: premium/admin/class-dry-run-preview.php:599
+msgid "The existing term already matches this row."
 msgstr ""
 
-#: includes/menu.php:555
-msgid "Post Types"
+#: premium/admin/class-dry-run-preview.php:596
+msgid "The existing term would be updated."
 msgstr ""
 
-#: includes/menu.php:556
-#: includes/menu.php:1073
-msgid "Actions"
+#: premium/class-data-formats.php:107
+msgid "The export request is invalid."
 msgstr ""
 
-#: includes/menu.php:568
-msgid "Delete"
+#: premium/views/term-fields-page.php:92
+msgid "The field will appear on this taxonomy’s term forms."
 msgstr ""
 
-#: includes/menu.php:593
-msgid "User Import / Export"
+#. translators: %s: Maximum file size.
+#: premium/class-data-formats.php:402
+msgid "The file must be non-empty and no larger than %s."
 msgstr ""
 
-#: includes/menu.php:594
-msgid "Export users to a CSV file filtered by role, or import users from a CSV."
+#: premium/class-data-formats.php:542
+msgid "The first Excel worksheet is missing."
 msgstr ""
 
-#: includes/menu.php:602
-msgid "Export Users"
+#. translators: %d: Remote HTTP status code.
+#: premium/class-term-image-manager.php:160
+msgid "The image server returned HTTP status %d."
 msgstr ""
 
-#: includes/menu.php:608
-msgid "Filter by Role"
+#: premium/class-term-image-manager.php:126
+msgid "The image source is not a safe HTTP or HTTPS URL."
 msgstr ""
 
-#: includes/menu.php:619
-msgid "Leave all unchecked to export every user."
+#: premium/class-data-formats.php:696
+msgid "The import file contains too many rows."
 msgstr ""
 
-#: includes/menu.php:634
-#: includes/menu.php:658
-msgid "Import Users"
+#: premium/class-data-formats.php:729
+msgid "The import file does not contain any valid terms."
 msgstr ""
 
-#: includes/menu.php:640
-msgid "Users imported successfully!"
+#: premium/admin/class-dry-run-preview.php:759
+msgid "The imported term could not be reloaded."
 msgstr ""
 
-#: includes/menu.php:649
-msgid "CSV File"
+#: premium/views/term-fields-page.php:81
+msgid "The key cannot change after creation."
 msgstr ""
 
-#: includes/menu.php:653
-msgid "Columns: username, email, password_hash, roles, first_name, last_name, meta"
+#: includes/admin.php:46
+msgid "The legacy dry-run importer is unavailable. Use Advanced Import instead."
 msgstr ""
 
-#: includes/menu.php:698
-msgid "Quickly generate demo categories or tags with one click. Perfect for testing and development."
+#: premium/admin/class-dry-run-preview.php:468
+msgid "The number of values does not match the header columns."
 msgstr ""
 
-#: includes/menu.php:712
-msgid "Quick Generate"
+#: premium/class-term-ordering.php:56
+msgid "The order contains a term outside the selected taxonomy."
 msgstr ""
 
-#: includes/menu.php:725
-msgid "— Select —"
+#: premium/admin/class-dry-run-preview.php:783
+msgid "The parent term could not be imported."
 msgstr ""
 
-#: includes/menu.php:730
-msgid "[Hierarchical]"
+#: premium/admin/class-advanced-import-page.php:135
+msgid "The request failed. Check your connection and try again."
 msgstr ""
 
-#: includes/menu.php:732
-msgid "[Flat]"
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:415
+#: premium/class-data-formats.php:176
+msgid "The security token is invalid or expired."
 msgstr ""
 
-#: includes/menu.php:741
-msgid "Number of Terms"
+#: premium/class-data-formats.php:392
+msgid "The selected format does not match the uploaded file."
 msgstr ""
 
-#: includes/menu.php:748
-msgid "(1-500)"
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:392
+msgid "The selected rules are invalid. Refresh and try again."
 msgstr ""
 
-#: includes/menu.php:757
-msgid "Term Structure"
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:122
+msgid "The source term will be deleted after migration. An audit snapshot permits restoration with a new term ID."
 msgstr ""
 
-#: includes/menu.php:762
-msgid "Flat (all root terms)"
+#: includes/admin.php:358
+#: premium/admin/class-dry-run-preview.php:341
+msgid "The submitted column mapping is invalid."
 msgstr ""
 
-#: includes/menu.php:766
-msgid "Hierarchical (with parent-child relationships)"
+#: premium/class-term-image-manager.php:71
+msgid "The taxonomy term could not be found."
 msgstr ""
 
-#: includes/menu.php:770
-msgid "Hierarchical creates a tree structure with random parent-child relationships."
-msgstr ""
-
-#: includes/menu.php:778
-msgid "Name Format"
-msgstr ""
-
-#: includes/menu.php:783
-msgid "With Prefix"
-msgstr ""
-
-#: includes/menu.php:787
-msgid "Plain (Demo Term 1, Demo Term 2...)"
-msgstr ""
-
-#: includes/menu.php:791
-msgid "Random Words"
-msgstr ""
-
-#: includes/menu.php:800
-msgid "Options"
-msgstr ""
-
-#: includes/menu.php:804
-msgid "Add descriptions to terms"
-msgstr ""
-
-#: includes/menu.php:809
-msgid "Skip existing terms with same slug"
-msgstr ""
-
-#: includes/menu.php:814
-msgid "Show progress during generation"
-msgstr ""
-
-#: includes/menu.php:822
-msgid "Generate Demo Terms"
-msgstr ""
-
-#: includes/menu.php:833
-msgid "Current Taxonomy Stats"
-msgstr ""
-
-#: includes/menu.php:858
-msgid "Security check failed. Please try again."
-msgstr ""
-
-#. translators: %1$d is the number of terms created, %2$s is the taxonomy name
-#: includes/menu.php:901
-msgid "Generated <strong>%1$d</strong> terms in <strong>%2$s</strong>."
-msgstr ""
-
-#. translators: %1$d is the number of skipped terms
-#: includes/menu.php:909
-msgid "Skipped <strong>%1$d</strong> existing terms."
-msgstr ""
-
-#. translators: %1$d is the number of errors
-#: includes/menu.php:917
-msgid "<strong>%1$d</strong> errors occurred."
-msgstr ""
-
-#: includes/menu.php:1072
-msgid "Total Terms"
-msgstr ""
-
-#: includes/menu.php:1082
-msgid "Hierarchical"
-msgstr ""
-
-#: includes/menu.php:1082
-msgid "Flat"
-msgstr ""
-
-#: includes/taxonomy-creator.php:63
-msgid "Label is required."
-msgstr ""
-
-#: includes/taxonomy-creator.php:66
-msgid "Slug is required."
-msgstr ""
-
-#: includes/taxonomy-creator.php:69
-msgid "Please select at least one post type."
-msgstr ""
-
-#: includes/taxonomy-creator.php:75
-msgid "A custom taxonomy with this slug already exists."
+#: premium/class-data-formats.php:241
+msgid "The taxonomy terms could not be loaded."
 msgstr ""
 
 #: includes/taxonomy-creator.php:78
+msgid "The taxonomy you are editing could not be found."
+msgstr ""
+
+#: premium/class-term-image-manager.php:169
+msgid "The term image exceeds the 8 MB limit."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:455
+msgid "The term name will be sanitized."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:803
+msgid "The term was saved, but its custom link could not be updated."
+msgstr ""
+
+#. translators: %s: Image import error.
+#: premium/admin/class-dry-run-preview.php:820
+msgid "The term was saved, but its image failed: %s"
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:814
+msgid "The term was saved, but term-image importing is unavailable."
+msgstr ""
+
+#: premium/views/term-fields-page.php:102
+msgid "The type cannot change after creation."
+msgstr ""
+
+#: premium/class-data-formats.php:501
+msgid "The uncompressed Excel workbook is too large."
+msgstr ""
+
+#: includes/admin.php:1103
+msgid "The update request is invalid or too large."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:181
+msgid "The uploaded CSV could not be read."
+msgstr ""
+
+#: premium/class-data-formats.php:387
+msgid "The uploaded file could not be read."
+msgstr ""
+
+#: premium/class-data-formats.php:145
+msgid "The uploaded file is corrupted or could not be parsed."
+msgstr ""
+
+#: premium/views/advanced-import.php:252
+msgid "The validated CSV rows have been processed."
+msgstr ""
+
+#: includes/menu.php:123
+msgid "This form has expired. Refresh the page and try again."
+msgstr ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:123
+msgid "This merge exceeds the safe single-request limit and cannot be run here."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:566
+msgid "This parent relationship creates a cycle."
+msgstr ""
+
+#. translators: %d: Maximum CSV data rows.
+#: premium/admin/class-dry-run-preview.php:265
+msgid "This preview supports up to %d data rows at a time."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:584
+msgid "This row would not be imported."
+msgstr ""
+
+#: includes/taxonomy-creator.php:84
 msgid "This slug is already used by WordPress or another plugin."
 msgstr ""
 
-#: includes/taxonomy-creator.php:108
-msgid "Invalid slug."
+#: premium/class-duplicate-terms.php:344
+#: premium/views/remote-sync-page.php:133
+msgid "Time"
 msgstr ""
 
-#: includes/taxonomy-creator.php:113
-msgid "Taxonomy not found."
+#: includes/menu.php:690
+#: includes/menu.php:765
+msgid "Title"
+msgstr ""
+
+#: includes/menu.php:1361
+msgid "To change the parent or advanced fields, use WordPress edit."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:113
+msgid "Token or password"
+msgstr ""
+
+#: includes/menu.php:378
+msgid "Top-level terms only"
+msgstr ""
+
+#: includes/admin/preview-table.php:126
+msgid "Total Rows:"
+msgstr ""
+
+#: includes/menu.php:2410
+msgid "Total Terms"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:136
+msgid "Total rows"
+msgstr ""
+
+#: includes/menu.php:248
+msgid "Transfer WordPress user records"
+msgstr ""
+
+#: includes/menu.php:1335
+msgid "Try a different search or taxonomy, or create a new term."
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:106
+#: includes/menu.php:1494
+msgid "Turn off %s"
+msgstr ""
+
+#. translators: %s: add-on name.
+#: includes/menu.php:105
+#: includes/menu.php:1494
+msgid "Turn on %s"
+msgstr ""
+
+#: includes/menu.php:1503
+msgid "Turn on to open this add-on"
+msgstr ""
+
+#: includes/settings.php:267
+msgid "Turning this off preserves saved URLs but restores normal taxonomy archive links."
+msgstr ""
+
+#: includes/menu.php:1704
+#: includes/menu.php:2409
+#: premium/views/term-fields-page.php:130
+msgid "Type"
+msgstr ""
+
+#. translators: 1: source term name, 2: source term ID, 3: destination term name, 4: destination term ID.
+#. translators: %d: number of object relationships.
+#. translators: %d: number of child terms.
+#. translators: %d: number of conflicting metadata keys.
+#: premium/class-duplicate-terms.php:123
+msgid "Type MERGE to confirm:"
+msgstr ""
+
+#: includes/admin.php:263
+msgid "Unable to export taxonomy terms."
+msgstr ""
+
+#: includes/admin.php:535
+#: includes/admin.php:588
+#: includes/admin.php:767
+#: includes/admin.php:884
+#: includes/admin.php:952
+#: includes/admin.php:986
+#: includes/taxonomy-creator.php:51
+#: includes/taxonomy-creator.php:117
+#: includes/taxonomy-creator.php:141
+#: premium/class-duplicate-terms.php:134
+#: premium/class-remote-sync.php:89
+#: premium/class-remote-sync.php:138
+#: premium/class-remote-sync.php:274
+#: premium/class-term-meta-fields.php:128
+#: premium/class-term-meta-fields.php:166
+#: premium/class-term-meta-fields.php:313
+msgid "Unauthorized."
+msgstr ""
+
+#: includes/menu.php:119
+msgid "Unknown add-on."
+msgstr ""
+
+#: premium/views/advanced-import.php:29
+msgid "Unlock Advanced CSV Import"
+msgstr ""
+
+#: includes/menu.php:1620
+msgid "Unlock Pro"
+msgstr ""
+
+#: premium/views/remote-sync-page.php:55
+msgid "Unlock Remote CSV Sync"
+msgstr ""
+
+#: premium/views/term-fields-page.php:43
+msgid "Unlock dynamic term fields"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:138
+msgid "Update"
+msgstr ""
+
+#: premium/views/advanced-import.php:171
+msgid "Update existing only"
+msgstr ""
+
+#: premium/views/term-fields-page.php:65
+msgid "Update this field’s label or select options."
+msgstr ""
+
+#: includes/admin/preview-table.php:134
+msgid "Update:"
+msgstr ""
+
+#: premium/admin/class-advanced-import-page.php:144
+#: premium/views/remote-sync-page.php:133
+msgid "Updated"
+msgstr ""
+
+#: includes/menu.php:577
+msgid "Upgrade"
+msgstr ""
+
+#: premium/views/advanced-import.php:42
+msgid "Upgrade to Premium"
+msgstr ""
+
+#: includes/menu.php:395
+#: includes/menu.php:508
+#: includes/menu.php:1006
+#: includes/menu.php:1145
+#: includes/menu.php:1159
+#: includes/menu.php:1452
+#: includes/menu.php:1501
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/menu.php:1003
+msgid "Upgrade to Pro for advanced imports, term media, automation, and WooCommerce tools."
+msgstr ""
+
+#: includes/menu.php:1000
+msgid "Upgrade to WP Taxonomy Manager Pro"
+msgstr ""
+
+#: includes/menu.php:421
+msgid "Upgrade to enable term images"
+msgstr ""
+
+#: premium/views/advanced-import.php:66
+msgid "Upload"
+msgstr ""
+
+#: premium/views/advanced-import.php:152
+msgid "Upload a CSV for analysis"
+msgstr ""
+
+#: includes/menu.php:1983
+msgid "Upload a user CSV"
+msgstr ""
+
+#: includes/menu.php:446
+msgid "Upload file"
+msgstr ""
+
+#: includes/menu.php:956
+msgid "Upload taxonomy terms from a CSV file."
+msgstr ""
+
+#: includes/menu.php:494
+msgid "Upload your CSV file"
+msgstr ""
+
+#: includes/menu.php:1593
+msgid "Use a clear, concise name. WordPress will generate the slug."
+msgstr ""
+
+#: includes/settings.php:265
+msgid "Use each term's custom URL when WordPress generates its term link"
+msgstr ""
+
+#: includes/menu.php:890
+msgid "Use this custom order for frontend term queries"
+msgstr ""
+
+#: premium/class-term-image-ui.php:90
+msgid "Use this image"
+msgstr ""
+
+#: includes/menu.php:269
+msgid "User actions"
+msgstr ""
+
+#: includes/menu.php:1967
+msgid "User import failed. Please check the CSV file and try again."
+msgstr ""
+
+#: premium/views/remote-sync-page.php:109
+msgid "Username"
+msgstr ""
+
+#: includes/menu.php:248
+msgid "Users"
+msgstr ""
+
+#: includes/menu.php:1961
+msgid "Users imported successfully!"
+msgstr ""
+
+#: includes/menu.php:894
+#: premium/class-duplicate-terms.php:58
+#: premium/views/remote-sync-page.php:57
+#: premium/views/term-fields-page.php:46
+msgid "View Pro options"
+msgstr ""
+
+#: includes/menu.php:49
+msgid "WP Taxonomy"
+msgstr ""
+
+#. Plugin Name of the plugin.
+#: includes/menu.php:48
+#: taxonomy-csv-import-export.php
+msgid "WP Taxonomy Manager"
+msgstr ""
+
+#: includes/freemius.php:197
+msgid "WP Taxonomy Manager Account"
+msgstr ""
+
+#: premium/views/advanced-import.php:28
+msgid "WP Taxonomy Manager Premium"
+msgstr ""
+
+#: includes/freemius.php:188
+msgid "WP Taxonomy Manager Settings"
+msgstr ""
+
+#: taxonomy-csv-import-export.php:230
+msgid "WP Taxonomy Manager is running without its Composer dependencies. Reinstall the official plugin package or run composer install in the plugin directory to enable licensing and Premium access."
+msgstr ""
+
+#: includes/admin/preview-table.php:142
+msgid "Warnings:"
+msgstr ""
+
+#: includes/menu.php:1407
+msgid "WooCommerce Brands & Swatches"
+msgstr ""
+
+#: includes/menu.php:943
+msgid "WooCommerce brand logos and attribute swatches (WooCommerce required)"
+msgstr ""
+
+#: premium/views/term-fields-page.php:56
+msgid "WooCommerce: use an image field on product_brand for logos, or image/color fields on global attributes for swatches. Product templates can use [taxocsie_product_brand] and [taxocsie_attribute_swatches taxonomy=\"pa_color\"]."
+msgstr ""
+
+#: premium/class-data-formats.php:189
+msgid "You are not allowed to export taxonomy terms."
+msgstr ""
+
+#: premium/class-data-formats.php:179
+msgid "You are not allowed to manage taxonomy terms."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:595
+msgid "You are not authorized to manage rules-based auto tagging."
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:418
+msgid "You are not authorized to use rules-based auto tagging."
+msgstr ""
+
+#: includes/menu.php:1002
+msgid "You are using WP Taxonomy Manager Free."
+msgstr ""
+
+#: premium/class-duplicate-terms.php:43
+msgid "You cannot access this page."
+msgstr ""
+
+#: includes/menu.php:1252
+msgid "You cannot delete one or more selected terms."
+msgstr ""
+
+#: includes/admin.php:1032
+#: includes/admin.php:1098
+#: premium/admin/class-dry-run-preview.php:127
+msgid "You cannot edit terms in this taxonomy."
+msgstr ""
+
+#: includes/admin.php:602
+msgid "You cannot manage terms in the selected taxonomy."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:85
+#: premium/admin/class-dry-run-preview.php:123
+#: premium/class-data-formats.php:212
+msgid "You cannot manage terms in this taxonomy."
+msgstr ""
+
+#: includes/menu.php:1198
+msgid "You cannot manage this term."
+msgstr ""
+
+#: premium/class-term-ordering.php:98
+msgid "You cannot order terms in this taxonomy."
+msgstr ""
+
+#: includes/menu.php:1192
+#: includes/menu.php:1230
+msgid "You cannot perform this action."
+msgstr ""
+
+#: premium/admin/class-dry-run-preview.php:71
+#: premium/admin/class-dry-run-preview.php:109
+msgid "You do not have access to Advanced CSV Import."
+msgstr ""
+
+#: includes/freemius.php:295
+#: includes/menu.php:1374
+#: premium/admin/class-advanced-import-page.php:180
+msgid "You do not have permission to access this page."
+msgstr ""
+
+#: includes/menu.php:115
+msgid "You do not have permission to change add-ons."
+msgstr ""
+
+#: includes/admin.php:804
+msgid "You do not have permission to export users."
+msgstr ""
+
+#: includes/admin.php:1182
+#: includes/menu.php:2200
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: premium/views/advanced-import.php:100
+msgid "Your account cannot manage terms in any public taxonomy on this site."
+msgstr ""
+
+#: premium/views/advanced-import.php:48
+msgid "Your existing free import and export tools remain available."
+msgstr ""
+
+#: includes/menu.php:1790
+msgid "e.g. Genre"
+msgstr ""
+
+#: includes/menu.php:1782
+msgid "e.g. Genres"
+msgstr ""
+
+#: includes/menu.php:1592
+msgid "e.g. Product updates"
+msgstr ""
+
+#: includes/menu.php:1798
+msgid "e.g. genre"
+msgstr ""
+
+#. Author URI of the plugin.
+#: taxonomy-csv-import-export.php
+msgid "https://rlorakib.com/"
+msgstr ""
+
+#. Plugin URI of the plugin.
+#: taxonomy-csv-import-export.php
+msgid "https://wordpress.org/plugins/taxonomy-csv-import-export"
+msgstr ""
+
+#: includes/modules/ai-auto-tagging/ai-auto-tagging.php:319
+msgid "iPhone, Samsung, Smartphone"
+msgstr ""
+
+#. translators: %d: number of selected terms.
+#: includes/menu.php:851
+#: includes/menu.php:1330
+#: includes/menu.php:1686
+msgid "of"
+msgstr ""
+
+#: includes/assets.php:79
+msgid "rows have errors."
+msgstr ""
+
+#: includes/assets.php:78
+msgid "rows ready to import."
+msgstr ""
+
+#: includes/settings.php:223
+msgid "runs"
+msgstr ""
+
+#: includes/menu.php:847
+#: includes/menu.php:1328
+#: includes/menu.php:1676
+msgid "total"
 msgstr ""

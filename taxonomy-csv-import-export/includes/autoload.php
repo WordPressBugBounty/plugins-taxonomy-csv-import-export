@@ -1,87 +1,53 @@
 <?php
-namespace TaxoCSIE;
+/**
+ * Minimal fallback autoloader used when Composer dependencies are unavailable.
+ *
+ * The official distribution includes vendor/autoload.php. This fallback keeps
+ * WordPress operational when a source checkout is installed without vendor;
+ * vendor-backed licensing remains disabled until dependencies are restored.
+ *
+ * @package TaxoCSIE
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-class Autoload {
+spl_autoload_register(
+	static function ( $class_name ) {
+		$class_map = array(
+			'TaxoCSIE\\Admin'                       => __DIR__ . '/admin.php',
+			'TaxoCSIE\\AddonSettings'               => __DIR__ . '/class-addon-settings.php',
+			'TaxoCSIE\\Assets'                      => __DIR__ . '/assets.php',
+			'TaxoCSIE\\Dashboard'                   => __DIR__ . '/dashboard.php',
+			'TaxoCSIE\\Freemius'                    => __DIR__ . '/freemius.php',
+			'TaxoCSIE\\Helper'                      => __DIR__ . '/helper.php',
+			'TaxoCSIE\\Menu'                        => __DIR__ . '/menu.php',
+			'TaxoCSIE\\ReviewPrompt'                => __DIR__ . '/review-prompt.php',
+			'TaxoCSIE\\Settings'                    => __DIR__ . '/settings.php',
+			'TaxoCSIE\\TermCustomLinks'             => __DIR__ . '/term-custom-links.php',
+			'TaxoCSIE\\TermQueryFilters'            => __DIR__ . '/term-query-filters.php',
+			'TaxoCSIE\\TaxonomyCreator'             => __DIR__ . '/taxonomy-creator.php',
+			'TaxoCSIE\\Admin\\PreviewTable'         => __DIR__ . '/admin/preview-table.php',
+			'TaxoCSIE\\Admin\\SessionHandler'       => __DIR__ . '/admin/session-handler.php',
+			'TaxoCSIE\\Admin\\Validator'            => __DIR__ . '/admin/validator.php',
+			'TaxoCSIE\\Premium\\Bootstrap'          => dirname( __DIR__ ) . '/premium/class-bootstrap.php',
+			'TaxoCSIE\\Premium\\PremiumAccess'      => dirname( __DIR__ ) . '/premium/class-premium-access.php',
+			'TaxoCSIE\\Premium\\DataFormats'        => dirname( __DIR__ ) . '/premium/class-data-formats.php',
+			'TaxoCSIE\\Premium\\TermImageManager'   => dirname( __DIR__ ) . '/premium/class-term-image-manager.php',
+			'TaxoCSIE\\Premium\\TermImageUI'        => dirname( __DIR__ ) . '/premium/class-term-image-ui.php',
+			'TaxoCSIE\\Premium\\TermOrdering'       => dirname( __DIR__ ) . '/premium/class-term-ordering.php',
+			'TaxoCSIE\\Premium\\DuplicateTerms'     => dirname( __DIR__ ) . '/premium/class-duplicate-terms.php',
+			'TaxoCSIE\\Premium\\RemoteSync'         => dirname( __DIR__ ) . '/premium/class-remote-sync.php',
+			'TaxoCSIE\\Premium\\TermMetaFields'     => dirname( __DIR__ ) . '/premium/class-term-meta-fields.php',
+			'TaxoCSIE\\Premium\\WooCommerceFields'  => dirname( __DIR__ ) . '/premium/class-woocommerce-fields.php',
+			'TaxoCSIE\\Premium\\Admin\\AdvancedImportPage' => dirname( __DIR__ ) . '/premium/admin/class-advanced-import-page.php',
+			'TaxoCSIE\\Premium\\Admin\\DryRunPreview'      => dirname( __DIR__ ) . '/premium/admin/class-dry-run-preview.php',
+			'TaxoCSIE\\Premium\\Admin\\ImportMode'         => dirname( __DIR__ ) . '/premium/admin/class-import-mode.php',
+		);
 
-	/**
-	 * Instance
-	 *
-	 * @access private
-	 * @var object Class Instance.
-	 * @since 1.1.0
-	 */
-	private static $instance;
-
-	/**
-	 * Autoload directories for different namespaces.
-	 *
-	 * @var array
-	 */
-	private $autoload_directories = array(
-		'TaxoCSIE' => TAXOCSIE_ROOT_DIR_PATH . 'includes/',
-	);
-
-	/**
-	 * Initiator
-	 *
-	 * @since 1.1.0
-	 * @return object initialized object of class.
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Register autoload directories for namespaces.
-	 *
-	 * @param string $namespace Namespace to autoload.
-	 * @param string $directory Directory path for the namespace.
-	 */
-	public function add_namespace_directory( $namespace, $directory ) {
-		$this->autoload_directories[ $namespace ] = $directory;
-	}
-
-	/**
-	 * Autoload classes.
-	 *
-	 * @param string $class Class name.
-	 */
-	public function autoload( $class ) {
-		foreach ( $this->autoload_directories as $namespace => $directory ) {
-			if ( 0 === strpos( $class, $namespace ) ) {
-				$class_to_load = $class;
-				$filename = strtolower(
-					preg_replace(
-						[ '/^' . $namespace . '\\\/', '/([a-z])([A-Z])/', '/_/', '/\\\/' ],
-						[ '', '$1-$2', '-', DIRECTORY_SEPARATOR ],
-						$class_to_load
-					)
-				);
-				$file = $directory . $filename . '.php';
-				// If the file is readable, include it.
-				if ( is_readable( $file ) ) {
-					require_once $file;
-				}
-			}
+		if ( isset( $class_map[ $class_name ] ) && is_readable( $class_map[ $class_name ] ) ) {
+			require_once $class_map[ $class_name ];
 		}
 	}
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.1.0
-	 */
-	public function __construct() {
-		spl_autoload_register( [ $this, 'autoload' ] );
-	}
-}
-
-
-Autoload::get_instance();
+);

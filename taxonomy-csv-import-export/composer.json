@@ -1,0 +1,30 @@
+{
+    "name": "rlo/wp-taxonomy-manager",
+    "description": "Import, export, and manage WordPress taxonomies",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "require": {
+        "freemius/wordpress-sdk": "2.13.4",
+        "woocommerce/action-scheduler": "^4.2.0"
+    },
+    "autoload": {
+        "classmap": [
+            "includes/"
+        ],
+        "exclude-from-classmap": [
+            "/includes/modules/ai-auto-tagging/"
+        ]
+    },
+    "scripts": {
+		"generate-pot": "@php tools/generate-pot.php languages/taxocsie.pot",
+        "test": [
+			"@php tests/free-without-premium-test.php",
+			"@php tests/import-mode-test.php",
+			"@php tests/user-import-test.php",
+			"@php tests/term-query-filters-test.php",
+			"@php tests/csv-safety-test.php",
+			"@php tests/taxonomy-permission-test.php"
+		]
+    }
+}

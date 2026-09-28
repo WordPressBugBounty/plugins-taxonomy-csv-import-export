@@ -28,7 +28,7 @@ class PreviewTable {
 			<?php $this->render_summary($preview_data['summary']); ?>
 			
 			<div class="tcie-table-wrapper">
-				<table class="wp-list-table widefat fixed striped">
+				<table class="wp-list-table widefat fixed striped taxocsie-enhanced-table">
 					<thead>
 						<tr>
 							<th class="column-row"><?php esc_html_e('Row', 'taxonomy-csv-import-export'); ?></th>
