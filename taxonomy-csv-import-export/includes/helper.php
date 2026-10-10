@@ -36,7 +36,7 @@ class Helper {
 			return $processed;
         }
 
-        $header = fgetcsv( $handle, 1000, ',', '"', '\\' );
+        $header = fgetcsv( $handle, 0, ',', '"', '' );
 
         if ( empty( $header ) ) {
             fclose( $handle );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
@@ -44,9 +44,9 @@ class Helper {
         }
 
         // Cache roles (performance).
-        $available_roles = array_keys( wp_roles()->roles );
+        $available_roles = array_keys( get_editable_roles() );
 
-        while ( ( $data = fgetcsv( $handle, 1000, ',', '"', '\\' ) ) !== false ) {
+        while ( ( $data = fgetcsv( $handle, 0, ',', '"', '' ) ) !== false ) {
 			$data = array_map( array( self::class, 'csv_original_cell' ), $data );
 
             // Safe mapping
@@ -115,10 +115,16 @@ class Helper {
             } else {
 
 				// Existing users keep their passwords and every current role.
-                wp_update_user( [
+				if ( ! current_user_can( 'edit_user', $user_id ) ) {
+					continue;
+				}
+				$updated_user = wp_update_user( [
                     'ID'         => $user_id,
                     'user_email' => $email,
                 ] );
+				if ( is_wp_error( $updated_user ) ) {
+					continue;
+				}
             }
 
             // USER META
@@ -196,7 +202,7 @@ class Helper {
             'first_name',
             'last_name',
             'meta'
-        ], ',', '"', '\\' );
+        ], ',', '"', '' );
 
         foreach ( $users as $user ) {
 
@@ -225,7 +231,7 @@ class Helper {
                 get_user_meta( $user->ID, 'first_name', true ),
                 get_user_meta( $user->ID, 'last_name', true ),
                 wp_json_encode( $clean_meta ),
-            ] ), ',', '"', '\\' );
+            ] ), ',', '"', '' );
         }
 
 		Dashboard::increment( Dashboard::EXPORTED_ITEMS, $exported_count );

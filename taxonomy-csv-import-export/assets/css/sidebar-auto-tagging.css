@@ -1,0 +1,51 @@
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group { margin: 0; padding: 0; }
+
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group > a.taxocsie-sidebar-menu-group__parent-link {
+    font-weight: 600;
+}
+
+#adminmenu .taxocsie-sidebar-menu-group:hover > .taxocsie-sidebar-menu-group__parent-link,
+#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__parent-link {
+    background: rgba(255, 255, 255, .08);
+}
+
+#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__parent-link {
+    color: #fff;
+}
+
+#adminmenu .taxocsie-sidebar-menu-group__parent-link:focus-visible { outline: 2px solid #a9a1f1; outline-offset: -2px; }
+#adminmenu .taxocsie-sidebar-menu-group__children {
+    position: relative;
+    margin: 0 0 4px 18px;
+    padding: 0;
+    list-style: none;
+}
+#adminmenu .taxocsie-sidebar-menu-group__children[hidden] { display: none; }
+#adminmenu .taxocsie-sidebar-menu-group__children::before {
+    position: absolute;
+    top: 0;
+    bottom: 14px;
+    left: 0;
+    border-left: 1px solid rgba(199, 207, 219, .5);
+    content: '';
+    pointer-events: none;
+}
+#adminmenu .taxocsie-sidebar-menu-group__children > li {
+    position: relative;
+    margin: 0;
+}
+#adminmenu .taxocsie-sidebar-menu-group__children > li::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    border-top: 1px solid rgba(199, 207, 219, .5);
+    content: '';
+    pointer-events: none;
+}
+#adminmenu .taxocsie-sidebar-menu-group__children > li.current::before {
+    border-color: #a9a1f1;
+}
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group > ul.taxocsie-sidebar-menu-group__children > li > a {
+    padding-left: 17px;
+}

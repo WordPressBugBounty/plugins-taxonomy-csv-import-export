@@ -7,6 +7,8 @@
 
 namespace TaxoCSIE;
 
+use TaxoCSIE\Premium\PremiumAccess;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -15,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Registers, sanitizes, and exposes operational plugin settings.
  */
 final class Settings {
+	private const ADVANCED_IMPORT_FEATURE = 'advanced_csv_import';
 
 	/** Stored option name. */
 	public const OPTION_NAME = 'taxocsie_settings';
@@ -76,6 +79,18 @@ final class Settings {
 		return 1 === self::get( 'hide_third_party_notices' );
 	}
 
+	/** Whether a licensed Premium setting can be shown and changed. */
+	private static function can_use_pro_setting( string $feature ): bool {
+		return class_exists( PremiumAccess::class )
+			&& ( new PremiumAccess() )->can_use_feature( $feature );
+	}
+
+	private static function can_use_remote_sync_setting(): bool {
+		return class_exists( AddonSettings::class )
+			&& AddonSettings::is_enabled( 'remote_sync' )
+			&& self::can_use_pro_setting( 'scheduled_remote_csv_sync' );
+	}
+
 	/** Whether custom taxonomy term links should replace generated archive links. */
 	public static function custom_term_links_enabled(): bool {
 		return 1 === self::get( 'enable_custom_term_links' );
@@ -94,28 +109,30 @@ final class Settings {
 			)
 		);
 
-		add_settings_section(
-			'taxocsie_import_safety',
-			__( 'Dry import preview', 'taxonomy-csv-import-export' ),
-			array( __CLASS__, 'render_import_section' ),
-			self::PAGE
-		);
+		if ( self::can_use_pro_setting( self::ADVANCED_IMPORT_FEATURE ) ) {
+			add_settings_section(
+				'taxocsie_import_safety',
+				__( 'Dry import preview', 'taxonomy-csv-import-export' ),
+				array( __CLASS__, 'render_import_section' ),
+				self::PAGE
+			);
 
-		add_settings_field(
-			'dry_run_max_file_size_mb',
-			__( 'Maximum CSV size', 'taxonomy-csv-import-export' ),
-			array( __CLASS__, 'render_file_size_field' ),
-			self::PAGE,
-			'taxocsie_import_safety'
-		);
+			add_settings_field(
+				'dry_run_max_file_size_mb',
+				__( 'Maximum CSV size', 'taxonomy-csv-import-export' ),
+				array( __CLASS__, 'render_file_size_field' ),
+				self::PAGE,
+				'taxocsie_import_safety'
+			);
 
-		add_settings_field(
-			'dry_run_max_rows',
-			__( 'Maximum preview rows', 'taxonomy-csv-import-export' ),
-			array( __CLASS__, 'render_max_rows_field' ),
-			self::PAGE,
-			'taxocsie_import_safety'
-		);
+			add_settings_field(
+				'dry_run_max_rows',
+				__( 'Maximum preview rows', 'taxonomy-csv-import-export' ),
+				array( __CLASS__, 'render_max_rows_field' ),
+				self::PAGE,
+				'taxocsie_import_safety'
+			);
+		}
 
 		add_settings_section(
 			'taxocsie_admin_interface',
@@ -140,20 +157,22 @@ final class Settings {
 			'taxocsie_admin_interface'
 		);
 
-		add_settings_section(
-			'taxocsie_remote_sync',
-			__( 'Remote CSV Sync', 'taxonomy-csv-import-export' ),
-			array( __CLASS__, 'render_remote_sync_section' ),
-			self::PAGE
-		);
+		if ( self::can_use_remote_sync_setting() ) {
+			add_settings_section(
+				'taxocsie_remote_sync',
+				__( 'Remote CSV Sync', 'taxonomy-csv-import-export' ),
+				array( __CLASS__, 'render_remote_sync_section' ),
+				self::PAGE
+			);
 
-		add_settings_field(
-			'remote_sync_history_limit',
-			__( 'Run history', 'taxonomy-csv-import-export' ),
-			array( __CLASS__, 'render_remote_sync_history_field' ),
-			self::PAGE,
-			'taxocsie_remote_sync'
-		);
+			add_settings_field(
+				'remote_sync_history_limit',
+				__( 'Run history', 'taxonomy-csv-import-export' ),
+				array( __CLASS__, 'render_remote_sync_history_field' ),
+				self::PAGE,
+				'taxocsie_remote_sync'
+			);
+		}
 	}
 
 	/**
@@ -165,9 +184,13 @@ final class Settings {
 	public static function sanitize( $input ): array {
 		$input = is_array( $input ) ? $input : array();
 
-		$file_size = isset( $input['dry_run_max_file_size_mb'] ) ? absint( $input['dry_run_max_file_size_mb'] ) : 5;
-		$max_rows  = isset( $input['dry_run_max_rows'] ) ? absint( $input['dry_run_max_rows'] ) : 5000;
-		$history_limit = isset( $input['remote_sync_history_limit'] ) ? absint( $input['remote_sync_history_limit'] ) : 30;
+		$existing = self::get_all();
+		$file_size = self::can_use_pro_setting( self::ADVANCED_IMPORT_FEATURE ) && isset( $input['dry_run_max_file_size_mb'] )
+			? absint( $input['dry_run_max_file_size_mb'] ) : (int) $existing['dry_run_max_file_size_mb'];
+		$max_rows = self::can_use_pro_setting( self::ADVANCED_IMPORT_FEATURE ) && isset( $input['dry_run_max_rows'] )
+			? absint( $input['dry_run_max_rows'] ) : (int) $existing['dry_run_max_rows'];
+		$history_limit = self::can_use_remote_sync_setting() && isset( $input['remote_sync_history_limit'] )
+			? absint( $input['remote_sync_history_limit'] ) : (int) $existing['remote_sync_history_limit'];
 
 		return array(
 			'dry_run_max_file_size_mb' => max( 1, min( 100, $file_size ) ),
@@ -184,7 +207,7 @@ final class Settings {
 		<section class="tw-mt-5 tw-overflow-hidden tw-rounded-2xl tw-border tw-border-slate-200 tw-bg-white tw-shadow-soft">
 			<div class="tw-border-b tw-border-slate-100 tw-bg-slate-50/80 tw-px-6 tw-py-5 sm:tw-px-8">
 				<h2 class="tw-m-0 tw-text-base tw-font-bold tw-text-slate-900"><?php esc_html_e( 'Feature settings', 'taxonomy-csv-import-export' ); ?></h2>
-				<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Control import safety limits and the WP Taxonomy Manager admin experience.', 'taxonomy-csv-import-export' ); ?></p>
+				<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Configure available WP Taxonomy Manager features and the admin experience.', 'taxonomy-csv-import-export' ); ?></p>
 			</div>
 			<div class="tw-px-6 tw-py-6 sm:tw-px-8">
 				<?php settings_errors(); ?>

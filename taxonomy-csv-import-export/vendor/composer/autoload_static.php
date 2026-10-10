@@ -4,35 +4,32 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564
+class ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b
 {
-    public static $files = array (
-        '8d50dc88e56bace65e1e72f6017983ed' => __DIR__ . '/..' . '/freemius/wordpress-sdk/start.php',
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'TaxoCSIE\\AddonSettings' => __DIR__ . '/../..' . '/includes/class-addon-settings.php',
         'TaxoCSIE\\Admin' => __DIR__ . '/../..' . '/includes/admin.php',
-        'TaxoCSIE\\Admin\\PreviewTable' => __DIR__ . '/../..' . '/includes/admin/preview-table.php',
-        'TaxoCSIE\\Admin\\SessionHandler' => __DIR__ . '/../..' . '/includes/admin/session-handler.php',
-        'TaxoCSIE\\Admin\\Validator' => __DIR__ . '/../..' . '/includes/admin/validator.php',
         'TaxoCSIE\\Assets' => __DIR__ . '/../..' . '/includes/assets.php',
         'TaxoCSIE\\Dashboard' => __DIR__ . '/../..' . '/includes/dashboard.php',
         'TaxoCSIE\\Freemius' => __DIR__ . '/../..' . '/includes/freemius.php',
+        'TaxoCSIE\\FreemiusOptin' => __DIR__ . '/../..' . '/includes/freemius-optin.php',
         'TaxoCSIE\\Helper' => __DIR__ . '/../..' . '/includes/helper.php',
         'TaxoCSIE\\Menu' => __DIR__ . '/../..' . '/includes/menu.php',
+        'TaxoCSIE\\Modules\\RulesAutoTagging' => __DIR__ . '/../..' . '/includes/modules/ai-auto-tagging/ai-auto-tagging.php',
         'TaxoCSIE\\ReviewPrompt' => __DIR__ . '/../..' . '/includes/review-prompt.php',
         'TaxoCSIE\\Settings' => __DIR__ . '/../..' . '/includes/settings.php',
         'TaxoCSIE\\TaxonomyCreator' => __DIR__ . '/../..' . '/includes/taxonomy-creator.php',
         'TaxoCSIE\\TermCustomLinks' => __DIR__ . '/../..' . '/includes/term-custom-links.php',
         'TaxoCSIE\\TermQueryFilters' => __DIR__ . '/../..' . '/includes/term-query-filters.php',
+        'TaxoCSIE\\TermRedirects' => __DIR__ . '/../..' . '/includes/class-term-redirects.php',
+        'TaxoCSIE\\UnusedTerms' => __DIR__ . '/../..' . '/includes/class-unused-terms.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564::$classMap;
+            $loader->classMap = ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -265,7 +265,6 @@
 		 *
 		 * @return bool
 		 */
-		// @fs_premium_only
 		function can_use_premium_code__premium_only() {
 			return $this->is_premium() && $this->can_use_premium_code();
 		}

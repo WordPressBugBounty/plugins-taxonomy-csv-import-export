@@ -23,11 +23,11 @@ jQuery(function ($) {
         var titles = { success: 'Success', error: 'Something went wrong', warning: 'Please check', info: 'Notice' };
         var icons = { success: 'yes-alt', error: 'dismiss', warning: 'warning', info: 'info-outline' };
         var text = getNotificationText(message);
-        var duration = normalizedType === 'error' ? 3000 :
-            (normalizedType === 'warning' ? 2200 :
-            (normalizedType === 'info' ? 1800 : 1600));
+		var duration = normalizedType === 'error' ? 10000 :
+			(normalizedType === 'warning' ? 8000 :
+			(normalizedType === 'info' ? 6000 : 5000));
         if (Number(durationOverride) > 0) {
-            duration = Math.max(1500, Math.min(10000, Number(durationOverride)));
+			duration = Math.max(3000, Math.min(15000, Number(durationOverride)));
         }
         var $region = $('#taxocsie-toast-region');
 
@@ -104,6 +104,99 @@ jQuery(function ($) {
         window.history.replaceState({}, '', url.toString());
     }
 
+    function clearManagerActionUrl() {
+        if (!window.history || !window.history.replaceState) {
+            return;
+        }
+
+        var url = new URL(window.location.href);
+        ['manager_view', 'manager_action', 'preview', 'imported', 'user-imported'].forEach(function (key) {
+            url.searchParams.delete(key);
+        });
+        window.history.replaceState({}, '', url.toString());
+    }
+
+    var $managerHint = $('.taxocsie-manager-wrap').length
+        ? $('<div class="taxocsie-manager-locked-hint" role="tooltip" aria-hidden="true"></div>').appendTo('body')
+        : $();
+
+    function hideManagerHint() {
+        $managerHint.hide().attr('aria-hidden', 'true');
+    }
+
+    function showManagerHint($source, x, y) {
+        if (!$managerHint.length) {
+            return;
+        }
+
+        $managerHint.text($source.attr('data-locked-message') || '').show().attr('aria-hidden', 'false');
+        var width = $managerHint.outerWidth();
+        var height = $managerHint.outerHeight();
+        $managerHint.css({
+            left: Math.max(12, Math.min(x + 14, window.innerWidth - width - 12)) + 'px',
+            top: Math.max(12, Math.min(y + 16, window.innerHeight - height - 12)) + 'px'
+        });
+    }
+
+    function pointInside($element, x, y) {
+        if (!$element.length || !$element.is(':visible')) {
+            return false;
+        }
+        var rect = $element[0].getBoundingClientRect();
+        return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    $(document).on('pointermove.taxocsieManagerHint', function (event) {
+        var x = event.clientX;
+        var y = event.clientY;
+        var $actions = $('.taxocsie-manager-nav__actions.is-locked');
+        var $step = $('.taxocsie-manager-current-step.is-locked');
+        var $panel = $('.taxocsie-manager-panel.is-locked:visible').first();
+
+        if (pointInside($actions, x, y)) {
+            showManagerHint($actions, x, y);
+        } else if (pointInside($step, x, y) || pointInside($panel, x, y)) {
+            showManagerHint($step, x, y);
+        } else {
+            hideManagerHint();
+        }
+    }).on('scroll.taxocsieManagerHint pointerleave.taxocsieManagerHint', hideManagerHint);
+
+    $('.taxocsie-manager-nav__actions, .taxocsie-manager-current-step').on('focusin', function () {
+        var $step = $(this);
+        if ($step.hasClass('is-locked')) {
+            var rect = this.getBoundingClientRect();
+            showManagerHint($step, rect.left, rect.bottom);
+        }
+    }).on('focusout', hideManagerHint);
+
+    function chooseManagerSection(section) {
+        $('.taxocsie-manager-section').removeClass('is-active').attr('aria-pressed', 'false');
+        $('.taxocsie-manager-section[data-manager-section="' + section + '"]')
+            .addClass('is-active').attr('aria-pressed', 'true');
+
+        $('.taxocsie-manager-nav__actions').removeClass('is-locked').removeAttr('tabindex');
+        $('.taxocsie-manager-current-step').addClass('is-locked').attr('tabindex', '0');
+        hideManagerHint();
+        $('.taxocsie-manager-actions').prop('hidden', true);
+        $('.taxocsie-manager-action').removeClass('is-active').attr({ 'aria-selected': 'false', 'tabindex': '-1' });
+
+        var $actions = $('.taxocsie-manager-actions[data-manager-actions="' + section + '"]');
+        $actions.prop('hidden', false);
+        $actions.find('.taxocsie-manager-action').prop('disabled', false).first().attr('tabindex', '0');
+        $('.taxocsie-manager-panel, .taxocsie-user-action-panel').hide().attr('hidden', true);
+        $('.taxocsie-manager-panel').addClass('is-locked').attr('inert', '');
+        if (section === 'users') {
+            $('#taxocsie-users-panel').removeAttr('hidden').show();
+            $('#taxocsie-user-export-panel').removeAttr('hidden').show();
+        } else {
+            $('#taxocsie-export-panel').removeAttr('hidden').show();
+        }
+        $('#export-preview-container').hide().empty();
+        clearManagerActionUrl();
+        return $actions;
+    }
+
     function activateManagerPanel($action, updateUrl) {
         var section = String($action.data('manager-section') || 'terms');
         var panelId = String($action.data('panel') || '');
@@ -120,14 +213,18 @@ jQuery(function ($) {
             .attr('aria-pressed', 'true');
 
         var $activeActionGroup = $('.taxocsie-manager-actions[data-manager-actions="' + section + '"]');
+        $('.taxocsie-manager-nav__actions, .taxocsie-manager-current-step').removeClass('is-locked').removeAttr('tabindex');
+        hideManagerHint();
         $('.taxocsie-manager-actions').prop('hidden', true);
         $activeActionGroup.prop('hidden', false);
-        $activeActionGroup.find('.taxocsie-manager-action')
+        $activeActionGroup.find('.taxocsie-manager-action').prop('disabled', false)
             .removeClass('is-active')
             .attr({ 'aria-selected': 'false', 'tabindex': '-1' });
         $action.addClass('is-active').attr({ 'aria-selected': 'true', 'tabindex': '0' });
 
 		$('.taxocsie-manager-panel').hide().attr('hidden', true);
+        $('#' + (section === 'users' ? 'taxocsie-users-panel' : panelId))
+            .removeClass('is-locked').removeAttr('inert');
         if (section === 'users') {
             $('#taxocsie-users-panel').removeAttr('hidden').show();
             $('.taxocsie-user-action-panel').hide().attr('hidden', true);
@@ -138,26 +235,17 @@ jQuery(function ($) {
 
         $('#export-preview-container').hide().empty();
 
-        if (panelId !== 'taxocsie-import-panel') {
-            $('#tcie-preview-container').html('');
-            $('#tcie-import-actions').hide();
-        }
-
         if (updateUrl) {
             updateManagerUrl(section, panelId);
         }
     }
 
-    $('.taxocsie-manager-section').on('click', function () {
+    $('.taxocsie-manager-section').on('click', function (event) {
         var section = String($(this).data('manager-section') || 'terms');
-        var $actions = $('.taxocsie-manager-actions[data-manager-actions="' + section + '"]');
-        var $action = $actions.find('.taxocsie-manager-action.is-active').first();
-
-        if (!$action.length) {
-            $action = $actions.find('.taxocsie-manager-action').first();
+        var $actions = chooseManagerSection(section);
+        if (event.detail === 0) {
+            $actions.find('.taxocsie-manager-action').first().trigger('focus');
         }
-
-        activateManagerPanel($action, true);
     });
 
     $('.taxocsie-manager-action').on('click', function () {
@@ -586,8 +674,8 @@ jQuery(function ($) {
 
     $('#taxocsie-export-format').on('change', function () {
         var format = $(this).val() || 'csv';
-        var labels = { csv: 'Export CSV', xlsx: 'Export Excel', json: 'Export JSON' };
-        $('.taxocsie-panel__btn-submit').text(labels[format] || labels.csv);
+        var labels = { csv: 'Download CSV', xlsx: 'Download Excel', json: 'Download JSON' };
+        $('#taxocsie-export-form .taxocsie-panel__btn-submit').text(labels[format] || labels.csv);
         var $imageOption = $('#taxocsie-include-images');
         $imageOption.prop('disabled', format !== 'csv' || Number($imageOption.data('available')) !== 1);
         $('#taxocsie-export-images-option').toggle(format === 'csv');
@@ -628,8 +716,8 @@ jQuery(function ($) {
         }).fail(function (response) {
             showTaxocsieNotification('error', premiumFormatError(response, 'The export request failed.'));
         }).always(function () {
-            var labels = { xlsx: 'Export Excel', json: 'Export JSON' };
-            $button.prop('disabled', false).text(labels[format] || 'Export CSV');
+            var labels = { xlsx: 'Download Excel', json: 'Download JSON' };
+            $button.prop('disabled', false).text(labels[format] || 'Download CSV');
         });
     });
     $('#export-preview-btn').on('click', function () {
@@ -715,225 +803,6 @@ jQuery(function ($) {
     });
 
     // ============================================================
-    // DRY RUN / PREVIEW IMPORT FUNCTIONALITY
-    // ============================================================
-    
-    var tcie = {
-        isAnalyzing: false,
-        isImporting: false,
-        hasPreview: false
-    };
-
-    // Helper function to show notices
-    function showTcieNotice(type, message) {
-        showTaxocsieNotification(type, message);
-    }
-
-    // Handle form submission
-    $('#taxocsie-import-form').on('submit', function(e) {
-        e.preventDefault();
-        
-        if (tcie.isAnalyzing) return;
-
-        var fileInput = $('#csv_file')[0];
-        if (!fileInput || !fileInput.files || !fileInput.files[0]) {
-            showTcieNotice('error', 'Please select a CSV file.');
-            return;
-        }
-
-        var fileName = fileInput.files[0].name;
-        var fileExt = fileName.split('.').pop().toLowerCase();
-        if (!['csv', 'txt'].includes(fileExt)) {
-            showTcieNotice('error', 'Please upload a CSV file.');
-            return;
-        }
-
-        var isDryRun = $('#tcie_dry_run').is(':checked');
-        var importMode = $('input[name="tcie_import_mode"]:checked').val() || 'valid_only';
-
-        tcie.isAnalyzing = true;
-        var $btn = $('#tcie-import-btn');
-        $btn.prop('disabled', true);
-        $btn.html('<span class="dashicons dashicons-search" style="vertical-align: middle; margin-right: 5px;"></span> Analyzing...');
-        $('#tcie-spinner').addClass('is-active');
-        $('#tcie-preview-container').html('');
-        $('#tcie-import-actions').hide();
-
-        var formData = new FormData();
-        formData.append('action', 'taxocsie_dry_run_preview');
-        formData.append('nonce', taxocsieData.dryRunNonce);
-        formData.append('csv_file', fileInput.files[0]);
-        formData.append('taxonomy', $('#taxocsie_type').val());
-        formData.append('dry_run', isDryRun ? '1' : '0');
-        formData.append('import_mode', importMode);
-
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            timeout: 300000,
-            success: function(response) {
-                tcie.isAnalyzing = false;
-                $btn.prop('disabled', false);
-                $btn.html('<span class="dashicons dashicons-search" style="vertical-align: middle; margin-right: 5px;"></span> Analyze CSV');
-                $('#tcie-spinner').removeClass('is-active');
-
-                if (response.success) {
-                    $('#tcie-preview-container').html(response.data.preview_html);
-                    tcie.hasPreview = true;
-                    
-                    var summary = response.data.summary;
-                    var readyCount = summary.ready || 0;
-                    var errorCount = summary.error || 0;
-
-                    if (readyCount > 0) {
-                        $('#tcie-import-actions').show();
-                        $('#tcie-start-import').data('import-mode', importMode);
-                    }
-
-                    if (errorCount > 0 && readyCount > 0) {
-                        showTcieNotice('warning', readyCount + ' rows ready to import. ' + errorCount + ' rows have errors.');
-                    } else if (errorCount > 0 && readyCount === 0) {
-                        showTcieNotice('error', 'No rows are ready to import. Please fix the errors.');
-                    } else if (readyCount > 0) {
-                        showTcieNotice('success', readyCount + ' rows ready to import.');
-                    } else {
-                        showTcieNotice('info', 'No data to import.');
-                    }
-                } else {
-                    showTcieNotice('error', response.data.message || 'An error occurred.');
-                }
-            },
-            error: function(xhr, status, error) {
-                tcie.isAnalyzing = false;
-                $btn.prop('disabled', false);
-                $btn.html('<span class="dashicons dashicons-search" style="vertical-align: middle; margin-right: 5px;"></span> Analyze CSV');
-                $('#tcie-spinner').removeClass('is-active');
-
-                var errorMsg = 'An error occurred.';
-                if (status === 'timeout') errorMsg = 'Request timed out. The file may be too large.';
-                else if (status === 'parsererror') errorMsg = 'Invalid response from server.';
-                showTcieNotice('error', errorMsg + ' Please try again.');
-            }
-        });
-    });
-
-    // Start import handler
-    $(document).on('click', '#tcie-start-import', function() {
-        if (tcie.isImporting) return;
-
-        if (!confirm('Are you sure you want to start the import? This action cannot be undone.')) return;
-
-        tcie.isImporting = true;
-        var $btn = $(this);
-        $btn.prop('disabled', true);
-        $btn.html('<span class="dashicons dashicons-upload" style="vertical-align: middle; margin-right: 5px;"></span> Importing...');
-
-        var importMode = $btn.data('import-mode') || 'valid_only';
-
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: {
-                action: 'taxocsie_start_import',
-                nonce: taxocsieData.startImportNonce,
-                import_mode: importMode
-            },
-            success: function(response) {
-                tcie.isImporting = false;
-                $btn.prop('disabled', false);
-                $btn.html('<span class="dashicons dashicons-upload" style="vertical-align: middle; margin-right: 5px;"></span> Start Import');
-
-                if (response.success) {
-                    $('#tcie-preview-container').html('');
-                    $('#tcie-import-actions').hide();
-                    tcie.hasPreview = false;
-                    showTcieNotice('success', response.data.message);
-                    setTimeout(function() {
-                        if (confirm('Import completed! Reload the page to see the updated terms?')) {
-                            location.reload();
-                        }
-                    }, 2000);
-                } else {
-                    showTcieNotice('error', response.data.message || 'Import failed.');
-                }
-            },
-            error: function() {
-                tcie.isImporting = false;
-                $btn.prop('disabled', false);
-                $btn.html('<span class="dashicons dashicons-upload" style="vertical-align: middle; margin-right: 5px;"></span> Start Import');
-                showTcieNotice('error', 'An error occurred during import.');
-            }
-        });
-    });
-
-    // Cancel preview handler
-    $(document).on('click', '#tcie-cancel-preview', function() {
-        if (!confirm('Clear preview data? This will discard all analysis results.')) return;
-
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: {
-                action: 'taxocsie_cancel_preview',
-                nonce: taxocsieData.cancelPreviewNonce
-            },
-            success: function(response) {
-                if (response.success) {
-                    $('#tcie-preview-container').html('');
-                    $('#tcie-import-actions').hide();
-                    tcie.hasPreview = false;
-                    showTcieNotice('info', 'Preview data cleared.');
-                } else {
-                    showTcieNotice('error', response.data && response.data.message ? response.data.message : 'Could not clear preview data.');
-                }
-            },
-            error: function() {
-                $('#tcie-preview-container').html('');
-                $('#tcie-import-actions').hide();
-                tcie.hasPreview = false;
-                showTcieNotice('error', 'Could not clear preview data. Please try again.');
-            }
-        });
-    });
-
-    // Download error report
-    $(document).on('click', '#tcie-download-errors', function() {
-        var $btn = $(this);
-        $btn.prop('disabled', true);
-        $btn.text('Generating...');
-
-        var form = $('<form>', { method: 'POST', action: ajaxurl });
-        $('<input>', { type: 'hidden', name: 'action', value: 'taxocsie_download_error_report' }).appendTo(form);
-        $('<input>', { type: 'hidden', name: 'nonce', value: taxocsieData.downloadErrorsNonce }).appendTo(form);
-        $('body').append(form);
-        form.submit();
-        form.remove();
-
-        setTimeout(function() {
-            $btn.prop('disabled', false);
-            $btn.text('Download Error Report');
-        }, 3000);
-    });
-
-    // Reset form
-    $(document).on('click', '#tcie-reset-form', function() {
-        $('#csv_file').val('');
-        $('#file-status').html(
-            '<span class="dashicons dashicons-media-spreadsheet"></span>' +
-            '<span class="taxocsie-file-empty">No file selected</span>'
-        );
-        $('#tcie-preview-container').html('');
-        $('#tcie-import-actions').hide();
-        tcie.hasPreview = false;
-        $('#tcie-spinner').removeClass('is-active');
-        $('.tcie-notice').remove();
-        showTcieNotice('info', 'Form has been reset.');
-    });
-
-    // ============================================================
     // FILE UPLOAD HANDLING
     // ============================================================
     
@@ -944,6 +813,8 @@ jQuery(function ($) {
 	var $columnMappingRows = $('#taxocsie-column-mapping-rows');
 	var $columnMappingStatus = $('#taxocsie-column-mapper-status');
 	var columnMappingValid = false;
+	var columnMappingPending = false;
+	var columnMappingRequest = 0;
     var currentImportStep = 1;
 	var columnMappingFields = [
 		[ 'ignore', taxocsieData.ignoreColumn ],
@@ -1043,26 +914,39 @@ jQuery(function ($) {
 	}
 
 	function resetColumnMapper() {
+		columnMappingRequest++;
 		columnMappingValid = false;
+		columnMappingPending = false;
 		$columnMapper.attr('hidden', true);
 		$columnMappingRows.empty();
+		$columnMappingStatus.removeClass('is-ready is-error').empty();
 	}
 
 	function readColumnMapper(file) {
 		resetColumnMapper();
 		if (!file || ($('#taxocsie-import-format').val() || 'csv') !== 'csv') return;
+		columnMappingPending = true;
+		$columnMapper.removeAttr('hidden');
+		$columnMappingStatus.text(taxocsieData.mappingReading);
+		var request = columnMappingRequest;
 
 		var reader = new FileReader();
 		reader.onload = function() {
+			if (request !== columnMappingRequest) return;
+			columnMappingPending = false;
 			var headers = parseImportCsvHeader(String(reader.result || ''));
 			if (!headers.length || (headers.length === 1 && !headers[0].trim())) {
-				showTcieNotice('error', taxocsieData.headerReadFailed);
+				$columnMappingStatus.addClass('is-error').text(taxocsieData.headerReadFailed);
+				showTaxocsieNotification('error', taxocsieData.headerReadFailed);
 				return;
 			}
 			renderColumnMapper(headers);
 		};
 		reader.onerror = function() {
-			showTcieNotice('error', taxocsieData.headerReadFailed);
+			if (request !== columnMappingRequest) return;
+			columnMappingPending = false;
+			$columnMappingStatus.addClass('is-error').text(taxocsieData.headerReadFailed);
+			showTaxocsieNotification('error', taxocsieData.headerReadFailed);
 		};
 		reader.readAsText(file.slice(0, 131072));
 	}
@@ -1108,8 +992,7 @@ jQuery(function ($) {
 		readColumnMapper(file);
         
         if (fileSize > 5) {
-            $('#tcie_dry_run').prop('checked', true).trigger('change');
-            showTcieNotice('info', 'Large file detected. Dry run mode is recommended.');
+            showTaxocsieNotification('info', taxocsieData.largeFileWarning);
         }
     }
 
@@ -1167,7 +1050,7 @@ jQuery(function ($) {
         var file = input && input.files ? input.files[0] : null;
 
         if (targetStep > 1 && !hasTaxonomy) {
-            showTcieNotice('error', 'Select a destination taxonomy to continue.');
+            showTaxocsieNotification('error', taxocsieData.chooseDestination);
             currentImportStep = 1;
             renderImportStep();
             $('#taxonomy').trigger('focus');
@@ -1175,22 +1058,25 @@ jQuery(function ($) {
         }
 
         if (targetStep > 2 && !file) {
-            showTcieNotice('error', 'Choose an import file to continue.');
+            showTaxocsieNotification('error', taxocsieData.chooseImportFile);
             currentImportStep = 2;
             renderImportStep();
+			$fileInput.trigger('focus');
             return;
         }
 
-		if (targetStep > 2 && ($('#taxocsie-import-format').val() || 'csv') === 'csv' && !columnMappingValid) {
-			showTcieNotice('error', taxocsieData.mappingNameRequired);
+		if (targetStep > 2 && ($('#taxocsie-import-format').val() || 'csv') === 'csv' && (columnMappingPending || !columnMappingValid)) {
+			showTaxocsieNotification('warning', columnMappingPending ? taxocsieData.mappingReading : ($columnMappingStatus.text() || taxocsieData.mappingNameRequired));
 			currentImportStep = 2;
 			renderImportStep();
+			$columnMappingStatus.attr('tabindex', '-1').trigger('focus');
 			return;
 		}
 
         currentImportStep = Math.max(1, Math.min(3, targetStep));
         renderImportStep();
         updateImportReview();
+		$('[data-import-stage="' + currentImportStep + '"] h2').first().attr('tabindex', '-1').trigger('focus');
     }
 
     // Drag and drop events
@@ -1250,9 +1136,9 @@ jQuery(function ($) {
         var $button = $form.find('.taxocsie-import-wizard__submit');
         var format = $('#taxocsie-import-format').val() || 'csv';
 
-		if (format === 'csv' && !columnMappingValid) {
+		if (format === 'csv' && (columnMappingPending || !columnMappingValid)) {
 			event.preventDefault();
-			showTcieNotice('error', taxocsieData.mappingNameRequired);
+			showTaxocsieNotification('warning', columnMappingPending ? taxocsieData.mappingReading : ($columnMappingStatus.text() || taxocsieData.mappingNameRequired));
 			goToImportStep(2);
 			return;
 		}
@@ -1273,7 +1159,7 @@ jQuery(function ($) {
         if (!input || !input.files || !input.files[0]) {
             $form.removeClass('is-submitting');
             $button.prop('disabled', false).text('Import');
-            showTcieNotice('error', 'Choose an import file first.');
+            showTaxocsieNotification('error', taxocsieData.chooseImportFile);
             return;
         }
 
@@ -1293,14 +1179,14 @@ jQuery(function ($) {
             timeout: 300000
         }).done(function (response) {
             if (!response.success) {
-                showTcieNotice('error', getNotificationText(response.data) || 'The import failed.');
+                showTaxocsieNotification('error', getNotificationText(response.data) || 'The import failed.');
                 return;
             }
-            showTcieNotice('success', response.data.message || 'Import completed.');
+            showTaxocsieNotification('success', response.data.message || 'Import completed.');
             $fileInput.val('');
             resetFileStatus();
         }).fail(function (response) {
-            showTcieNotice('error', premiumFormatError(response, 'The import request failed.'));
+            showTaxocsieNotification('error', premiumFormatError(response, 'The import request failed.'));
         }).always(function () {
             var names = { xlsx: 'Excel', json: 'JSON' };
             $form.removeClass('is-submitting');
@@ -1354,22 +1240,22 @@ jQuery(function ($) {
                 structure: 'flat',
                 name_format: 'prefix',
                 add_description: 'true',
-                skip_existing: 'true'
+                skip_existing: 'false'
             },
             success: function(response) {
                 $btn.prop('disabled', false);
                 $btn.text('+' + count);
                 if (response.success) {
-                    showTcieNotice('success', response.data.message);
+                    showTaxocsieNotification('success', response.data.message);
                     setTimeout(function() { location.reload(); }, 2000);
                 } else {
-                    showTcieNotice('error', response.data.message || 'Generation failed.');
+                    showTaxocsieNotification('error', response.data.message || 'Generation failed.');
                 }
             },
             error: function() {
                 $btn.prop('disabled', false);
                 $btn.text('+' + count);
-                showTcieNotice('error', 'An error occurred. Please try again.');
+                showTaxocsieNotification('error', 'An error occurred. Please try again.');
             }
         });
     });
@@ -1395,7 +1281,7 @@ jQuery(function ($) {
 	$(document).on('change', '.taxocsie-panel--demo-stats .taxocsie-demo-select-taxonomy', function () {
 		if ($('.taxocsie-panel--demo-stats .taxocsie-demo-select-taxonomy:checked').length > demoBulkMaxTaxonomies) {
 			this.checked = false;
-			showTcieNotice('warning', taxocsieData.demoBulkLimit);
+			showTaxocsieNotification('warning', taxocsieData.demoBulkLimit);
 		}
 		updateDemoSelection();
 	});
@@ -1406,7 +1292,7 @@ jQuery(function ($) {
 			var available = Math.max(0, demoBulkMaxTaxonomies - selectedElsewhere);
 			$visible.prop('checked', false).slice(0, available).prop('checked', true);
 			if ($visible.length > available) {
-				showTcieNotice('warning', taxocsieData.demoBulkLimit);
+				showTaxocsieNotification('warning', taxocsieData.demoBulkLimit);
 			}
 		} else {
 			$visible.prop('checked', false);
@@ -1429,7 +1315,7 @@ jQuery(function ($) {
 				var message = failed
 					? taxocsieData.demoBulkPartial.replace('%1$d', completed).replace('%2$d', failed)
 					: taxocsieData.demoBulkSuccess.replace('%1$d', created).replace('%2$d', completed);
-				showTcieNotice(failed ? 'warning' : 'success', message);
+				showTaxocsieNotification(failed ? 'warning' : 'success', message);
 				if (created) window.setTimeout(function () { location.reload(); }, 2500);
 				return;
 			}
@@ -1444,7 +1330,7 @@ jQuery(function ($) {
 					structure: 'flat',
 					name_format: 'prefix',
 					add_description: 'true',
-					skip_existing: 'true'
+					skip_existing: 'false'
 				}
 			}).done(function (response) {
 				if (response && response.success) {
@@ -1475,11 +1361,11 @@ jQuery(function ($) {
         var count = $('#demo_count').val();
 
         if (!taxonomy) {
-            showTcieNotice('error', 'Please select a taxonomy.');
+            showTaxocsieNotification('error', 'Please select a taxonomy.');
             return;
         }
         if (count < 1 || count > 500) {
-            showTcieNotice('error', 'Please enter a number between 1 and 500.');
+            showTaxocsieNotification('error', 'Please enter a number between 1 and 500.');
             return;
         }
 
@@ -1500,24 +1386,18 @@ jQuery(function ($) {
                 $btn.prop('disabled', false);
 				$btn.html('<span class="dashicons dashicons-controls-play taxocsie-demo-generate-icon" aria-hidden="true"></span> Generate Demo Terms');
                 if (response.success) {
-                    showTcieNotice('success', response.data.message);
+                    showTaxocsieNotification('success', response.data.message);
                     setTimeout(function() { location.reload(); }, 2000);
                 } else {
-                    showTcieNotice('error', response.data.message || 'Generation failed.');
+                    showTaxocsieNotification('error', response.data.message || 'Generation failed.');
                 }
             },
             error: function() {
                 $btn.prop('disabled', false);
 				$btn.html('<span class="dashicons dashicons-controls-play taxocsie-demo-generate-icon" aria-hidden="true"></span> Generate Demo Terms');
-                showTcieNotice('error', 'An error occurred. Please try again.');
+                showTaxocsieNotification('error', 'An error occurred. Please try again.');
             }
         });
-    });
-
-    // Radio card selection
-    $('.taxocsie-mode-card input[type="radio"]').on('change', function() {
-        $('.taxocsie-mode-card').removeClass('active');
-        $(this).closest('.taxocsie-mode-card').addClass('active');
     });
 
     // ============================================================
@@ -2202,14 +2082,4 @@ jQuery(function ($) {
     // INITIALIZATION
     // ============================================================
 
-    if ($('#tcie_dry_run').length) {
-        setTimeout(function() {
-            $('#tcie_dry_run').trigger('change');
-        }, 100);
-    }
-
-    if ($('#tcie-preview-container').find('.tcie-preview-container').length) {
-        $('#tcie-import-actions').show();
-        tcie.hasPreview = true;
-    }
 });

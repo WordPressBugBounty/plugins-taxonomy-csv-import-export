@@ -1,0 +1,91 @@
+.taxocsie-unused-page,
+.taxocsie-redirect-page {
+	max-width: 1180px;
+	padding: 20px 24px 36px 0;
+}
+
+.taxocsie-unused-page > h1,
+.taxocsie-redirect-page > h1 {
+	font-size: 24px;
+	font-weight: 650;
+	line-height: 1.3;
+	margin: 0 0 8px;
+}
+
+.taxocsie-unused-page > p,
+.taxocsie-redirect-page > p {
+	color: #52617a;
+	line-height: 1.6;
+}
+
+.taxocsie-unused-page > form,
+.taxocsie-unused-page > table,
+.taxocsie-redirect-page > table {
+	margin-top: 18px;
+}
+
+.taxocsie-unused-page > form:first-of-type,
+.taxocsie-unused-page > form:nth-of-type(2) {
+	background: #fff;
+	border: 1px solid #dbe3ef;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(24, 39, 75, .04);
+	padding: 18px;
+}
+
+.taxocsie-redirect-page > table,
+.taxocsie-unused-page > table {
+	box-shadow: 0 8px 24px rgba(24, 39, 75, .04);
+}
+
+.taxocsie-unused-page .widefat,
+.taxocsie-redirect-page .widefat {
+	border-color: #dbe3ef;
+	border-radius: 8px;
+	border-spacing: 0;
+	box-shadow: none;
+	margin: 0;
+}
+
+.taxocsie-unused-page .widefat th,
+.taxocsie-redirect-page .widefat th {
+	font-weight: 600;
+	padding: 12px;
+}
+
+.taxocsie-unused-page .widefat td,
+.taxocsie-redirect-page .widefat td {
+	padding: 12px;
+	vertical-align: middle;
+}
+
+.taxocsie-unused-page .widefat td:first-child {
+	width: 36px;
+}
+
+.taxocsie-redirect-page .widefat td:last-child {
+	width: 100px;
+}
+
+.taxocsie-unused-page .widefat td a,
+.taxocsie-redirect-page .widefat td a {
+	word-break: break-word;
+}
+
+.taxocsie-unused-page .notice,
+.taxocsie-redirect-page .notice {
+	margin: 18px 0;
+}
+
+@media (max-width: 782px) {
+	.taxocsie-unused-page,
+	.taxocsie-redirect-page {
+		padding-right: 12px;
+	}
+
+	.taxocsie-unused-page .widefat,
+	.taxocsie-redirect-page .widefat {
+		display: block;
+		overflow-x: auto;
+	}
+}

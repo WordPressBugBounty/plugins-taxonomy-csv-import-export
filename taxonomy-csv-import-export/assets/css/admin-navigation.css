@@ -1,0 +1,368 @@
+.taxocsie-admin-navigation {
+    position: relative;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+    box-sizing: border-box;
+    margin-left: -20px;
+    padding: 8px 132px 8px 64px;
+    border-bottom: 1px solid #e1e6ef;
+    background: #fff;
+}
+
+.taxocsie-admin-navigation__brand {
+    position: absolute;
+    top: 50%;
+    left: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: #171b2b;
+    color: #fff;
+    transform: translateY(-50%);
+}
+
+.taxocsie-admin-navigation__brand .dashicons {
+    width: 21px;
+    height: 21px;
+    font-size: 21px;
+}
+
+.taxocsie-admin-navigation__help {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    border: 1px solid #d9dee8;
+    border-radius: 8px;
+    background: #fff;
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transform: translateY(-50%);
+}
+
+.taxocsie-admin-navigation__help .dashicons {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+.taxocsie-admin-navigation__help:hover,
+.taxocsie-admin-navigation__help:focus-visible {
+    border-color: #aeb9cd;
+    background: #f8faff;
+    color: #172b4d;
+}
+
+.taxocsie-admin-navigation__help:focus-visible {
+    outline: 2px solid #7164e6;
+    outline-offset: 2px;
+}
+
+.taxocsie-admin-navigation__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.taxocsie-admin-navigation__group {
+    position: relative;
+    margin: 0;
+}
+
+.taxocsie-admin-navigation__tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: #344054;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    list-style: none;
+}
+
+.taxocsie-admin-navigation__tab::-webkit-details-marker {
+    display: none;
+}
+
+.taxocsie-admin-navigation__tab .dashicons {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+
+.taxocsie-admin-navigation__tab:hover,
+.taxocsie-admin-navigation__tab:focus-visible,
+.taxocsie-admin-navigation__group:hover > .taxocsie-admin-navigation__tab {
+    background: #f0f4fc;
+    color: #1d2939;
+}
+
+.taxocsie-admin-navigation__tab.is-active,
+.taxocsie-admin-navigation__group.is-active > .taxocsie-admin-navigation__tab {
+    border-color: #c8bfff;
+    background: #e9e5ff;
+    color: #4333aa;
+}
+
+.taxocsie-admin-navigation__tab:focus-visible,
+.taxocsie-admin-navigation__link:focus-visible {
+    outline: 2px solid #7164e6;
+    outline-offset: 2px;
+}
+
+.taxocsie-admin-navigation__dropdown {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 0;
+    z-index: 101;
+    display: none;
+    min-width: 210px;
+    max-width: 280px;
+    max-height: min(70vh, 520px);
+    box-sizing: border-box;
+    padding: 7px;
+    border: 1px solid #dce2ee;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(18, 28, 51, .16);
+    overflow-y: auto;
+}
+
+.taxocsie-admin-navigation__group:last-child > .taxocsie-admin-navigation__dropdown {
+    right: 0;
+    left: auto;
+}
+
+.taxocsie-admin-navigation__group:hover > .taxocsie-admin-navigation__dropdown,
+.taxocsie-admin-navigation__group[open] > .taxocsie-admin-navigation__dropdown {
+    display: block;
+}
+
+.taxocsie-admin-navigation__link {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.taxocsie-admin-navigation__link:hover,
+.taxocsie-admin-navigation__link:focus-visible {
+    background: #f0f4fc;
+    color: #1d2939;
+}
+
+.taxocsie-admin-navigation__link.is-active {
+    background: #e9e5ff;
+    color: #4333aa;
+    font-weight: 700;
+}
+
+.taxocsie-admin-navigation__subgroup {
+    position: relative;
+    margin: 4px 0;
+}
+
+.taxocsie-admin-navigation__subgroup::before {
+    position: absolute;
+    top: 37px;
+    bottom: 16px;
+    left: 21px;
+    border-left: 1px solid #cbd5e1;
+    content: '';
+    pointer-events: none;
+}
+
+.taxocsie-admin-navigation__subgroup-title {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.taxocsie-admin-navigation__subgroup-title:hover,
+.taxocsie-admin-navigation__subgroup-title:focus-visible {
+    background: #f0f4fc;
+    color: #1d2939;
+}
+
+.taxocsie-admin-navigation__subgroup-title:focus-visible {
+    outline: 2px solid #7164e6;
+    outline-offset: 2px;
+}
+
+.taxocsie-admin-navigation__subgroup > .taxocsie-admin-navigation__link {
+    position: relative;
+    padding: 8px 12px 8px 38px;
+    font-size: 12px;
+}
+
+.taxocsie-admin-navigation__subgroup > .taxocsie-admin-navigation__link::before {
+    position: absolute;
+    top: 50%;
+    left: 21px;
+    width: 10px;
+    border-top: 1px solid #cbd5e1;
+    content: '';
+    pointer-events: none;
+}
+
+.taxocsie-admin-navigation__subgroup > .taxocsie-admin-navigation__link.is-active::before {
+    border-color: #7164e6;
+}
+
+/* Freemius fixes this notice to the viewport, which covers our top navigation. */
+body.taxocsie-account-admin-page .fs-secure-notice {
+    position: static;
+    margin-left: -20px;
+    box-sizing: border-box;
+}
+
+#wpbody-content.taxocsie-content-routing > :not(.taxocsie-content-frame) {
+    display: none !important;
+}
+
+body.taxocsie-content-routing,
+body.taxocsie-content-routing #wpbody-content {
+    overflow: visible !important;
+}
+
+body.taxocsie-content-routing #wpfooter {
+    display: none !important;
+}
+
+.taxocsie-content-frame {
+    display: block;
+    width: 100%;
+    min-height: 480px;
+    border: 0;
+    background: #f0f0f1;
+}
+
+#wpbody-content.taxocsie-content-preparing,
+#wpbody-content.taxocsie-content-routing {
+    position: relative;
+}
+
+.taxocsie-content-frame.is-pending {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.taxocsie-content-frame.is-cached {
+    display: none !important;
+}
+
+html:has(body.taxocsie-embedded-admin) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+body.taxocsie-embedded-admin #wpadminbar,
+body.taxocsie-embedded-admin #adminmenumain,
+body.taxocsie-embedded-admin #wpfooter,
+body.taxocsie-embedded-admin #screen-meta-links {
+    display: none !important;
+}
+
+body.taxocsie-embedded-admin #wpcontent {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+body.taxocsie-embedded-admin #wpbody-content {
+    padding-bottom: 0 !important;
+}
+
+body.taxocsie-embedded-admin.taxocsie-create-admin-page .taxocsie-create-page {
+    height: calc(100dvh - 32px);
+}
+
+@media (min-width: 1001px) {
+    body.taxocsie-embedded-admin.taxocsie-demo-admin-page .taxocsie-demo-page {
+        height: calc(100dvh - 32px);
+    }
+}
+
+@media (max-width: 1100px) {
+    .taxocsie-admin-navigation__brand {
+        display: none;
+    }
+
+    .taxocsie-admin-navigation {
+        padding-left: 24px;
+    }
+}
+
+@media (max-width: 782px) {
+    body.taxocsie-account-admin-page .fs-secure-notice {
+        margin-left: -10px;
+    }
+
+    .taxocsie-admin-navigation {
+        margin-left: -10px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .taxocsie-admin-navigation__help {
+        position: static;
+        align-self: flex-end;
+        min-height: 38px;
+        padding: 0 12px;
+        order: -1;
+        transform: none;
+    }
+
+    .taxocsie-admin-navigation__tabs {
+        gap: 2px;
+    }
+
+    .taxocsie-admin-navigation__tab {
+        min-height: 38px;
+        padding: 0 9px;
+        font-size: 13px;
+    }
+}

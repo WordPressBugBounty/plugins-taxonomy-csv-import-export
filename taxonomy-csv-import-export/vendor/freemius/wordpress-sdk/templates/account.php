@@ -464,7 +464,7 @@
                                                     $profile[] = array(
                                                         'id'    => 'plan',
                                                         'title' => $plan_text,
-                                                        'value' => ( is_string( $trial_plan->name ) ?
+                                                        'value' => ( is_object( $trial_plan ) && is_string( $trial_plan->name ) ?
                                                             strtoupper( $trial_plan->title ) :
                                                             fs_text_inline( 'Trial', 'trial', $slug ) )
                                                     );
@@ -474,9 +474,9 @@
                                                     $profile[] = array(
                                                         'id'    => 'plan',
                                                         'title' => ( $has_bundle_license ? ucfirst( $fs->get_module_type() ) . ' ' : '' ) . $plan_text,
-                                                        'value' => strtoupper( is_string( $plan->name ) ?
+                                                        'value' => strtoupper( is_object( $plan ) && is_string( $plan->name ) ?
                                                             $plan->title :
-                                                            strtoupper( $free_text )
+                                                            ( $is_paying ? 'Pro' : $free_text )
                                                         )
                                                     );
 

@@ -20,10 +20,11 @@ final class ReviewPrompt {
 		$url = admin_url( 'admin-post.php?action=taxocsie_review_prompt' );
 		?>
 		<div class="notice notice-info taxocsie-review-prompt">
-			<p><strong><?php esc_html_e( 'Enjoying WP Taxonomy Manager?', 'taxonomy-csv-import-export' ); ?></strong></p>
-			<p><?php esc_html_e( 'A short, honest WordPress.org review helps other site owners discover the plugin.', 'taxonomy-csv-import-export' ); ?></p>
+			<p><strong><?php esc_html_e( 'Help improve WP Taxonomy Manager', 'taxonomy-csv-import-export' ); ?></strong></p>
+			<p><?php esc_html_e( 'Share your feedback with us or leave an honest review on WordPress.org.', 'taxonomy-csv-import-export' ); ?></p>
 			<p>
-				<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'choice', 'review', $url ), 'taxocsie_review_prompt' ) ); ?>"><?php esc_html_e( 'Leave a review', 'taxonomy-csv-import-export' ); ?></a>
+				<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'choice', 'feedback', $url ), 'taxocsie_review_prompt' ) ); ?>"><?php esc_html_e( 'Send feedback', 'taxonomy-csv-import-export' ); ?></a>
+				<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'choice', 'review', $url ), 'taxocsie_review_prompt' ) ); ?>"><?php esc_html_e( 'Leave a review', 'taxonomy-csv-import-export' ); ?></a>
 				<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'choice', 'later', $url ), 'taxocsie_review_prompt' ) ); ?>"><?php esc_html_e( 'Maybe later', 'taxonomy-csv-import-export' ); ?></a>
 				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'choice', 'dismiss', $url ), 'taxocsie_review_prompt' ) ); ?>"><?php esc_html_e( 'Already reviewed / do not ask again', 'taxonomy-csv-import-export' ); ?></a>
 			</p>
@@ -42,6 +43,10 @@ final class ReviewPrompt {
 		}
 		if ( 'review' === $choice ) {
 			wp_redirect( 'https://wordpress.org/support/plugin/taxonomy-csv-import-export/reviews/#new-post' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Fixed trusted destination.
+			exit;
+		}
+		if ( 'feedback' === $choice ) {
+			wp_redirect( 'https://wordpress.org/support/plugin/taxonomy-csv-import-export/' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Fixed trusted destination.
 			exit;
 		}
 		wp_safe_redirect( wp_get_referer() ?: admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG ) );

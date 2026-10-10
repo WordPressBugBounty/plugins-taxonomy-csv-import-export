@@ -1,0 +1,205 @@
+/* Shared data-table finish for WP Taxonomy Manager admin pages. */
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) {
+    width: 100%;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    color: #354159;
+}
+
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) thead th {
+    padding: 14px 16px;
+    border: 0 !important;
+    border-bottom: 1px solid #dfe4ef !important;
+    background: #f7f8fc !important;
+    color: #536079 !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .055em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+body.wp-admin table.taxocsie-panel__table thead th a,
+body.wp-admin table.taxocsie-export__preview-table thead th a {
+    color: #5144bd !important;
+}
+
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) tbody :is(th, td) {
+    padding: 14px 16px;
+    border: 0;
+    border-bottom: 1px solid #edf0f5;
+    color: #354159;
+    font-size: 13px;
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+body.wp-admin .taxocsie-ai-table tbody :is(th, td) {
+    vertical-align: top;
+}
+
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) tbody tr:last-child :is(th, td) {
+    border-bottom: 0;
+}
+
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) tbody tr:not(.is-dirty):not(.is-error):hover :is(th, td) {
+    background: #f8f7ff;
+}
+
+.taxocsie-wrap .taxocsie-sortable-column button {
+    color: #536079;
+}
+
+.taxocsie-wrap .taxocsie-sortable-column .dashicons,
+.taxocsie-wrap .taxocsie-sortable-column[aria-sort="ascending"] .dashicons,
+.taxocsie-wrap .taxocsie-sortable-column[aria-sort="descending"] .dashicons {
+    color: #7868d9;
+}
+
+.taxocsie-wrap .taxocsie-sortable-column button:hover,
+.taxocsie-wrap .taxocsie-sortable-column button:focus-visible {
+    background: #eae7ff;
+    color: #5144bd;
+    outline: 2px solid #a69bed;
+    outline-offset: 1px;
+}
+
+.taxocsie-panel__tablewrap:not(.taxocsie-panel__tablewrap--flush),
+.taxocsie-export__preview-tablewrap,
+.taxocsie-saved-rules__scroll,
+.taxocsie-fields-list__scroll {
+    overflow-x: auto;
+    border: 1px solid #dfe4ef;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(27, 35, 59, .04);
+}
+
+.taxocsie-duplicate-page__group {
+    overflow-x: auto;
+}
+
+/* Demo Generator: keep taxonomy names readable beside compact statistics. */
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table {
+    min-width: 760px;
+    table-layout: fixed;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table thead th,
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table tbody td {
+    padding: 12px 14px;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table :is(th, td):first-child {
+    width: 48px;
+    padding-right: 8px;
+    padding-left: 12px;
+    text-align: center;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table :is(th, td):nth-child(2) {
+    width: 36%;
+    text-align: left;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table :is(th, td):nth-child(3) {
+    width: 16%;
+    text-align: center;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table :is(th, td):nth-child(4) {
+    width: 14%;
+    text-align: center;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats table.taxocsie-panel__table :is(th, td):last-child {
+    width: 26%;
+    text-align: center;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats .taxocsie-sortable-column:nth-child(2) button {
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats .taxocsie-demo-taxonomy-name {
+    display: block;
+    color: #20243a;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats .taxocsie-panel__table code {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 4px;
+    padding: 3px 6px;
+    color: #657187;
+    font-size: 11px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats .taxocsie-demo-type {
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+body.wp-admin .taxocsie-panel--demo-stats .taxocsie-demo-table-actions {
+    gap: 8px;
+}
+
+body.wp-admin :is(
+    table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+    .taxocsie-duplicate-page table.widefat,
+    .taxocsie-maintenance-page table.widefat
+) code {
+    padding: 4px 7px;
+    border: 1px solid #e6eaf1;
+    border-radius: 5px;
+    background: #f3f5f9;
+    color: #4f5b72;
+    font-size: 12px;
+}
+
+@media (max-width: 782px) {
+    body.wp-admin :is(
+        table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+        .taxocsie-duplicate-page table.widefat,
+        .taxocsie-maintenance-page table.widefat
+    ) thead th,
+    body.wp-admin :is(
+        table[class*="taxocsie-"]:not(.taxocsie-all-terms__table),
+        .taxocsie-duplicate-page table.widefat,
+        .taxocsie-maintenance-page table.widefat
+    ) tbody :is(th, td) {
+        padding: 12px 13px;
+    }
+}

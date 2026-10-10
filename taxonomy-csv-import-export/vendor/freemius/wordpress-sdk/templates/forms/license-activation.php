@@ -162,13 +162,14 @@ HTML;
              * @var FS_Plugin_License $available_license
              */
             $available_license  = $available_licenses[0];
+            $available_plan     = $fs->_get_plan_by_id( $available_license->plan_id );
             $value              = sprintf(
                 "%s-Site %s License - %s",
                 ( 1 == $available_license->quota ?
                     'Single' :
                     ( $available_license->is_unlimited() ? 'Unlimited' : $available_license->quota )
                 ),
-                $fs->_get_plan_by_id( $available_license->plan_id )->title,
+                ( is_object( $available_plan ) ? $available_plan->title : 'Pro' ),
                 $available_license->get_html_escaped_masked_secret_key()
             );
 

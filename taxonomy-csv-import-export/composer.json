@@ -1,30 +1,41 @@
 {
     "name": "rlo/wp-taxonomy-manager",
     "description": "Import, export, and manage WordPress taxonomies",
+    "homepage": "https://wp-taxonomy-manager.com/",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "minimum-stability": "dev",
+	"repositories": [
+		{
+			"type": "artifact",
+			"url": "tools/private-sdk"
+		}
+	],
     "require": {
-        "freemius/wordpress-sdk": "2.13.4",
+		"freemius/wordpress-sdk": "2.13.5",
         "woocommerce/action-scheduler": "^4.2.0"
     },
     "autoload": {
         "classmap": [
             "includes/"
-        ],
-        "exclude-from-classmap": [
-            "/includes/modules/ai-auto-tagging/"
         ]
     },
     "scripts": {
+		"post-install-cmd": "@php tools/patch-freemius.php",
+		"post-update-cmd": "@php tools/patch-freemius.php",
 		"generate-pot": "@php tools/generate-pot.php languages/taxocsie.pot",
         "test": [
+			"@php tests/ai-auto-tagging-response-test.php",
 			"@php tests/free-without-premium-test.php",
 			"@php tests/import-mode-test.php",
+			"@php tests/import-presets-test.php",
+			"@php tests/update-fields-test.php",
 			"@php tests/user-import-test.php",
 			"@php tests/term-query-filters-test.php",
 			"@php tests/csv-safety-test.php",
-			"@php tests/taxonomy-permission-test.php"
+			"@php tests/taxonomy-permission-test.php",
+			"@php tests/auto-tagging-combined-save-test.php",
+			"@php tests/settings-pro-visibility-test.php"
 		]
     }
 }

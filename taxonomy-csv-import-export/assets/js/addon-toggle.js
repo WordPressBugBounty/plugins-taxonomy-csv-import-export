@@ -41,6 +41,7 @@
         const input = form.querySelector('input[name="enabled"]');
         const name = form.dataset.addonName;
         const needsWoo = card.dataset.requiresWoocommerce === '1';
+        const needsAcf = card.dataset.requiresAcf === '1';
         input.value = enabled ? '0' : '1';
         button.classList.toggle('is-on', enabled);
         button.setAttribute('aria-pressed', enabled ? 'true' : 'false');
@@ -48,9 +49,10 @@
         button.textContent = enabled ? taxocsieAddonToggle.on : taxocsieAddonToggle.off;
         card.querySelector('[data-addon-off]').hidden = enabled;
         card.querySelector('[data-addon-needs-woo]').hidden = !enabled || !needsWoo;
+        card.querySelector('[data-addon-needs-acf]').hidden = !enabled || !needsAcf;
         const open = card.querySelector('[data-addon-open]');
         if (open) {
-            open.hidden = !enabled || needsWoo;
+            open.hidden = !enabled || needsWoo || needsAcf;
         }
         updateMenu(form, enabled);
     }

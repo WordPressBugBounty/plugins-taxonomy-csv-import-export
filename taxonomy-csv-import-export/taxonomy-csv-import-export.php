@@ -2,13 +2,13 @@
 
 /**
  * Plugin Name: WP Taxonomy Manager
- * Plugin URI: https://wordpress.org/plugins/taxonomy-csv-import-export
+ * Plugin URI: https://wp-taxonomy-manager.com/
  * Description: Import, export, and manage WordPress taxonomies and terms with CSV. Supports hierarchical terms and custom taxonomies.
- * Version: 2.0.0
+ * Version: 2.1.0
  * Requires at least: 6.0
  * Requires PHP: 8.0
  * Author: Md. Rakib Hossen
- * Author URI: https://rlorakib.com/
+ * Author URI: https://rlorakib.wp-taxonomy-manager.com/
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: taxonomy-csv-import-export
@@ -120,7 +120,7 @@ if ( function_exists( 'wtmp_fs' ) ) {
         }
 
         public function define_constants() {
-            define( 'TAXOCSIE_VERSION', '2.0.0' );
+            define( 'TAXOCSIE_VERSION', '2.1.0' );
             define( 'TAXOCSIE_PLUGIN_FILE', __FILE__ );
             define( 'TAXOCSIE_PLUGIN_SLUG', 'taxonomy-csv-import-export' );
             define( 'TAXOCSIE_ROOT_DIR_PATH', plugin_dir_path( __FILE__ ) );
@@ -168,11 +168,15 @@ if ( function_exists( 'wtmp_fs' ) ) {
             TaxoCSIE\TaxonomyCreator::init();
             TaxoCSIE\Settings::init();
             TaxoCSIE\TermCustomLinks::init();
+            TaxoCSIE\TermRedirects::init();
+            TaxoCSIE\UnusedTerms::init();
             TaxoCSIE\Admin::init();
             TaxoCSIE\Menu::init();
             TaxoCSIE\Assets::init();
             TaxoCSIE\Freemius::init();
             TaxoCSIE\ReviewPrompt::init();
+            TaxoCSIE\FreemiusOptin::init();
+            TaxoCSIE\Modules\RulesAutoTagging::init();
         }
 
         /**

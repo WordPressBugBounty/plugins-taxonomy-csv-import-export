@@ -13,12 +13,32 @@ class Assets
 	{
 		$self = new self();
 		add_action('admin_enqueue_scripts', array($self, 'enqueue_taxocsie_taxonomy_scripts'));
+		add_action('admin_enqueue_scripts', array($self, 'enqueue_table_styles'), 999);
+	}
+
+	/** Load the shared table finish after page-specific admin styles. */
+	public function enqueue_table_styles( $hook_suffix )
+	{
+		if ( ! is_string( $hook_suffix ) || false === strpos( $hook_suffix, TAXOCSIE_PLUGIN_SLUG ) ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'taxocsie-table-ui',
+			TAXOCSIE_ASSETS_URI . '/css/table-ui.css',
+			array( 'taxocsie-style' ),
+			filemtime( TAXOCSIE_ASSETS_DIR_PATH . '/css/table-ui.css' ),
+			'all'
+		);
 	}
 
 	public function enqueue_taxocsie_taxonomy_scripts( $hook_suffix )
 	{
 		if ( ! is_string( $hook_suffix ) || false === strpos( $hook_suffix, TAXOCSIE_PLUGIN_SLUG ) ) {
 			return;
+		}
+		if ( false !== strpos( $hook_suffix, 'taxonomy-csv-import-export-unused' ) || false !== strpos( $hook_suffix, 'taxonomy-csv-import-export-redirects' ) ) {
+			wp_enqueue_style( 'taxocsie-term-care', TAXOCSIE_ASSETS_URI . '/css/term-care.css', array(), filemtime( TAXOCSIE_ASSETS_DIR_PATH . '/css/term-care.css' ) );
 		}
 
 		wp_enqueue_script(
@@ -63,29 +83,16 @@ class Assets
 			'ajaxUrl'              => admin_url('admin-ajax.php'),
 			
 			// NEW: Localization strings for UI
-			'analyzing'            => __('Analyzing CSV...', 'taxonomy-csv-import-export'),
 			'importing'            => __('Importing...', 'taxonomy-csv-import-export'),
-			'importBtn'            => __('Import CSV', 'taxonomy-csv-import-export'),
-			'startImport'          => __('Start Import', 'taxonomy-csv-import-export'),
-			'chooseFile'           => __('Please select a CSV file.', 'taxonomy-csv-import-export'),
-			'invalidFile'          => __('Please upload a CSV file.', 'taxonomy-csv-import-export'),
-			'confirmImport'        => __('Are you sure you want to start the import? This action cannot be undone.', 'taxonomy-csv-import-export'),
 			'error'                => __('An error occurred. Please try again.', 'taxonomy-csv-import-export'),
-			'downloadErrors'       => __('Download Error Report', 'taxonomy-csv-import-export'),
-			'clearPreview'         => __('Clear preview data? This will discard all analysis results.', 'taxonomy-csv-import-export'),
-			'largeFileWarning'     => __('Large file detected. Dry run mode is recommended.', 'taxonomy-csv-import-export'),
-			'noDataFound'          => __('No data found in CSV file.', 'taxonomy-csv-import-export'),
-			'readyToImport'        => __('rows ready to import.', 'taxonomy-csv-import-export'),
-			'rowsWithErrors'       => __('rows have errors.', 'taxonomy-csv-import-export'),
-			'noReadyRows'          => __('No rows are ready to import. Please fix the errors.', 'taxonomy-csv-import-export'),
-			'importCompleted'      => __('Import completed!', 'taxonomy-csv-import-export'),
-			'previewCleared'       => __('Preview data cleared.', 'taxonomy-csv-import-export'),
-			'timeoutError'         => __('Request timed out. The file may be too large.', 'taxonomy-csv-import-export'),
-			'invalidResponse'      => __('Invalid response from server. Please check your file.', 'taxonomy-csv-import-export'),
+			'largeFileWarning'     => __('Large files may take longer to import.', 'taxonomy-csv-import-export'),
 			'mappingReady'         => __('Mapping ready', 'taxonomy-csv-import-export'),
+			'mappingReading'       => __('Reading CSV columns. Please wait a moment.', 'taxonomy-csv-import-export'),
 			'mappingNameRequired'  => __('Map one CSV column to Name.', 'taxonomy-csv-import-export'),
 			'mappingDuplicate'     => __('Each import field can only be mapped once.', 'taxonomy-csv-import-export'),
 			'headerReadFailed'     => __('The CSV header could not be read.', 'taxonomy-csv-import-export'),
+			'chooseDestination'    => __('Select a destination category, tag or taxonomy to continue.', 'taxonomy-csv-import-export'),
+			'chooseImportFile'     => __('Choose an import file to continue.', 'taxonomy-csv-import-export'),
 			'ignoreColumn'         => __('Ignore this column', 'taxonomy-csv-import-export'),
 			'fieldName'            => __('Name (required)', 'taxonomy-csv-import-export'),
 			'fieldSlug'            => __('Slug', 'taxonomy-csv-import-export'),

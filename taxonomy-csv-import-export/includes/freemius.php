@@ -39,25 +39,25 @@ final class Freemius {
 
 		$sdk = self::sdk();
 		if ( null !== $sdk && is_callable( array( $sdk, 'add_filter' ) ) ) {
+			$sdk->add_filter( 'pricing_url', array( __CLASS__, 'filter_pricing_url' ) );
 			$sdk->add_filter( 'after_connect_url', array( __CLASS__, 'filter_after_license_activation_url' ) );
 			$sdk->add_filter( 'after_network_activation_url', array( __CLASS__, 'filter_after_license_activation_url' ) );
 		}
 	}
 
+	/** Point Freemius upgrade tabs and notices to website pricing. */
+	public static function filter_pricing_url(): string {
+		return self::get_upgrade_url();
+	}
+
 	/**
-	 * Send successful license activations to the same URL used by Pro badges.
+	 * Return to the plugin Account page after a successful license activation.
 	 *
 	 * @param mixed $url Freemius' default post-activation URL.
 	 * @return string
 	 */
 	public static function filter_after_license_activation_url( $url ): string {
-		$upgrade_url = self::get_upgrade_url();
-
-		if ( '' !== $upgrade_url ) {
-			return $upgrade_url;
-		}
-
-		return is_string( $url ) ? $url : '';
+		return self::get_account_page_url();
 	}
 
 	/**
@@ -84,6 +84,20 @@ final class Freemius {
 		return null !== self::sdk();
 	}
 
+	/** Whether the installed package is the Freemius Premium build. */
+	public static function is_premium_build(): bool {
+		$sdk = self::sdk();
+		if ( null === $sdk || ! is_callable( array( $sdk, 'is_premium' ) ) ) {
+			return false;
+		}
+
+		try {
+			return true === $sdk->is_premium();
+		} catch ( \Throwable $throwable ) {
+			return false;
+		}
+	}
+
 	/**
 	 * Whether Freemius grants access to Premium code.
 	 *
@@ -108,7 +122,7 @@ final class Freemius {
 	 *
 	 * @return bool
 	 */
-	private static function has_active_license(): bool {
+	public static function has_active_license(): bool {
 		$sdk = self::sdk();
 
 		if ( null !== $sdk && is_callable( array( $sdk, 'has_active_valid_license' ) ) ) {
@@ -119,7 +133,7 @@ final class Freemius {
 			}
 		}
 
-		return self::can_use_premium_code();
+		return false;
 	}
 
 	/**
@@ -146,8 +160,7 @@ final class Freemius {
 	/**
 	 * Get the plugin's visible Account page URL.
 	 *
-	 * The page renders Freemius pricing for unlicensed sites and account details
-	 * for licensed sites, so every Pro entry point has one consistent target.
+	 * Premium installs show license activation or Freemius account details here.
 	 *
 	 * @return string
 	 */
@@ -156,19 +169,19 @@ final class Freemius {
 	}
 
 	/**
-	 * Get the internal upgrade entry URL.
+	 * Get the website pricing URL used by Pro upgrade links.
 	 *
 	 * @return string
 	 */
 	public static function get_upgrade_url(): string {
-		$url = self::get_account_page_url();
+		$url = 'https://wp-taxonomy-manager.com/pricing';
 
 		/**
 		 * Filters the Premium entry URL.
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string $url Account page URL.
+		 * @param string $url Website pricing URL.
 		 */
 		$url = apply_filters( 'taxocsie_premium_upgrade_url', $url );
 
@@ -176,9 +189,7 @@ final class Freemius {
 	}
 
 	/**
-	 * Register separate Settings and Account pages below the plugin menu.
-	 *
-	 * The Account callback dynamically renders Freemius pricing or account data.
+	 * Register Settings and the appropriate Free or Premium menu entry.
 	 *
 	 * @return void
 	 */
@@ -192,10 +203,22 @@ final class Freemius {
 			array( __CLASS__, 'render_settings_page' )
 		);
 
+		if ( ! self::is_premium_build() ) {
+			global $submenu;
+			$submenu[ TAXOCSIE_PLUGIN_SLUG ][] = array(
+				__( 'Get Pro', 'taxonomy-csv-import-export' ),
+				'manage_options',
+				self::get_upgrade_url(),
+				__( 'Get Pro', 'taxonomy-csv-import-export' ),
+			);
+			return;
+		}
+
+		$has_license = self::has_active_license();
 		self::$account_hook = (string) add_submenu_page(
 			TAXOCSIE_PLUGIN_SLUG,
-			__( 'WP Taxonomy Manager Account', 'taxonomy-csv-import-export' ),
-			__( 'Account', 'taxonomy-csv-import-export' ),
+			$has_license ? __( 'WP Taxonomy Manager Account', 'taxonomy-csv-import-export' ) : __( 'Activate WP Taxonomy Manager License', 'taxonomy-csv-import-export' ),
+			$has_license ? __( 'Account', 'taxonomy-csv-import-export' ) : __( 'Activate License', 'taxonomy-csv-import-export' ),
 			'manage_options',
 			self::ACCOUNT_PAGE,
 			array( __CLASS__, 'render_account_page' )
@@ -215,18 +238,6 @@ final class Freemius {
 		self::guard_admin_page();
 		?>
 		<div class="taxocsie-wrap taxocsie-settings-wrap tw-max-w-none tw-py-6 tw-pr-5">
-			<div class="tw-relative tw-overflow-hidden tw-rounded-2xl tw-border tw-border-slate-200 tw-bg-white tw-px-6 tw-py-6 tw-shadow-soft sm:tw-px-8">
-				<div class="tw-flex tw-items-start tw-gap-4">
-					<div class="tw-flex tw-h-11 tw-w-11 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-xl tw-bg-brand-100 tw-text-brand-700">
-						<span class="dashicons dashicons-admin-settings tw-text-[22px]" aria-hidden="true"></span>
-					</div>
-					<div>
-						<h1 class="tw-m-0 tw-text-2xl tw-font-bold tw-tracking-tight tw-text-slate-900"><?php esc_html_e( 'Settings', 'taxonomy-csv-import-export' ); ?></h1>
-						<p class="tw-mb-0 tw-mt-1.5 tw-text-sm tw-leading-6 tw-text-slate-600"><?php esc_html_e( 'Configure WP Taxonomy Manager features and import limits.', 'taxonomy-csv-import-export' ); ?></p>
-					</div>
-				</div>
-			</div>
-
 			<?php if ( class_exists( 'TaxoCSIE\\Settings' ) ) : ?>
 				<?php Settings::render_form(); ?>
 			<?php endif; ?>
@@ -247,38 +258,38 @@ final class Freemius {
 			return;
 		}
 
-		if ( self::has_active_license() && is_callable( array( $sdk, '_account_page_load' ) ) ) {
+		$has_license = self::has_active_license();
+		if ( $has_license && is_callable( array( $sdk, '_account_page_load' ) ) ) {
 			$sdk->_account_page_load();
-			return;
-		}
-
-		if ( function_exists( 'fs_enqueue_local_style' ) ) {
-			fs_enqueue_local_style( 'fs_common', '/admin/common.css' );
-			fs_enqueue_local_style( 'fs_checkout', '/admin/checkout.css' );
+		} elseif ( ! $has_license ) {
+			wp_enqueue_script( 'jquery' );
+			wp_add_inline_script( 'jquery', 'jQuery(window).on("load", function () { jQuery(".activate-license-trigger").first().trigger("click"); });' );
+			if ( function_exists( 'fs_enqueue_local_style' ) ) {
+				fs_enqueue_local_style( 'fs_common', '/admin/common.css' );
+			}
 		}
 	}
 
-	/** Render native Freemius pricing or account details based on license state. */
+	/** Render license activation or account details for the Premium build. */
 	public static function render_account_page(): void {
 		self::guard_admin_page();
 
 		$sdk = self::sdk();
-		if ( null === $sdk ) {
-			echo '<div class="wrap"><div class="notice notice-warning"><p>' . esc_html__( 'Freemius is not configured, so account information is unavailable.', 'taxonomy-csv-import-export' ) . '</p></div></div>';
-			return;
-		}
-
-		if ( self::has_active_license() && is_callable( array( $sdk, '_account_page_render' ) ) ) {
+		if ( null !== $sdk && self::has_active_license() && is_callable( array( $sdk, '_account_page_render' ) ) ) {
 			$sdk->_account_page_render();
 			return;
 		}
 
-		if ( is_callable( array( $sdk, '_pricing_page_render' ) ) ) {
-			$sdk->_pricing_page_render();
-			return;
+		echo '<div class="wrap"><h1>' . esc_html__( 'Activate WP Taxonomy Manager Pro', 'taxonomy-csv-import-export' ) . '</h1>';
+		echo '<p>' . esc_html__( 'Enter the license key from your purchase email to activate Pro.', 'taxonomy-csv-import-export' ) . '</p>';
+		if ( null !== $sdk && is_callable( array( $sdk, '_add_license_activation_dialog_box' ) ) && is_callable( array( $sdk, 'get_unique_affix' ) ) ) {
+			$trigger_class = 'activate-license-trigger ' . $sdk->get_unique_affix();
+			echo '<p><button type="button" class="button button-primary ' . esc_attr( $trigger_class ) . '">' . esc_html__( 'Enter license key', 'taxonomy-csv-import-export' ) . '</button></p>';
+			$sdk->_add_license_activation_dialog_box();
+		} else {
+			echo '<div class="notice notice-error inline"><p>' . esc_html__( 'License activation is temporarily unavailable. Please check the Freemius SDK installation.', 'taxonomy-csv-import-export' ) . '</p></div>';
 		}
-
-		echo '<div class="wrap"><div class="notice notice-warning"><p>' . esc_html__( 'Freemius pricing is currently unavailable.', 'taxonomy-csv-import-export' ) . '</p></div></div>';
+		echo '</div>';
 	}
 
 	/**

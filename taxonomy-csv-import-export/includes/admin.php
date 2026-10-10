@@ -7,9 +7,6 @@ if (!defined('ABSPATH')) {
 }
 
 use TaxoCSIE\Helper;
-use TaxoCSIE\Admin\SessionHandler;
-use TaxoCSIE\Admin\PreviewTable;
-use TaxoCSIE\Admin\Validator;
 use TaxoCSIE\Premium\TermImageManager;
 
 class Admin
@@ -27,6 +24,7 @@ class Admin
 		add_action('admin_init', array($self, 'handle_taxocsie_import_export'));
 		add_action( 'admin_post_taxocsie_export_users', array( $self, 'taxocsie_export_users' ) );
 		add_action( 'admin_head', array( $self, 'taxocsie_admin_notice_remove' ), PHP_INT_MAX );
+		add_action( 'in_admin_header', array( $self, 'taxocsie_admin_notice_remove' ), PHP_INT_MAX );
 		add_action('wp_ajax_taxocsie_preview_export', array($self, 'handle_preview_export'));
 		add_action('wp_ajax_taxocsie_get_parent_terms', array($self, 'handle_get_parent_terms'));
 		add_action('wp_ajax_taxocsie_ajax_create_term', array($self, 'handle_ajax_create_term'));
@@ -87,167 +85,15 @@ class Admin
 		return $_FILES[ $field_name ]['tmp_name'];
 	}
 	
-	/**
-	 * Handle dry run import (preview only)
-	 */
-	public function handle_dry_run_import()
-	{
-		if (!current_user_can('manage_options') || !check_admin_referer('taxonomy_csv_import', 'taxonomy_csv_import_nonce')) {
-			wp_die('Unauthorized import request.');
-		}
-
-		$taxonomy = isset( $_POST['taxocsie_type'] ) ? sanitize_text_field( wp_unslash( $_POST['taxocsie_type'] ) ) : '';
-		$csv_upload = $this->validate_csv_upload( 'csv_file' );
-		if ( ! $this->can_use_taxonomy( $taxonomy ) || ! $this->can_use_taxonomy( $taxonomy, 'edit_terms' ) || false === $csv_upload ) {
-			wp_die( 'Invalid import request.' );
-		}
-		
-		// Parse CSV.
-		$csv_data = $this->parse_csv_file( $csv_upload );
-		if (empty($csv_data)) {
-			wp_die('No data found in CSV file.');
-		}
-		
-		// Validate rows
-		$validator = new Validator();
-		$validated_rows = $validator->validate_rows($csv_data, $taxonomy);
-		
-		// Generate preview data
-		$preview_data = $this->generate_preview_data($validated_rows);
-		
-		// Store in session
-		$session = SessionHandler::get_instance();
-		$session->save_preview_data($preview_data);
-		
-		// Redirect to preview page
-		wp_safe_redirect(admin_url('admin.php?page=taxonomy-csv-import-export-manager&preview=1'));
-		exit;
-	}
-	
-	/**
-	 * Parse CSV file
-	 */
-	private function parse_csv_file($file_path) {
-		$rows = array();
-		$handle = fopen($file_path, 'r');// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
-		
-		if (!$handle) {
-			return $rows;
-		}
-		
-		// Read headers
-		$headers = fgetcsv($handle, 0, ',', '"', '\\');
-		if (false === $headers) {
-			fclose($handle);// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-			return $rows;
-		}
-		
-		// Normalize headers
-		$headers = array_map('strtolower', array_map('trim', $headers));
-		$required = array('name', 'taxonomy');
-		
-		// Check required headers
-		$missing = array_diff($required, $headers);
-		if (!empty($missing)) {
-			fclose($handle);// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-			return array('error' => sprintf(
-				/* translators: 1: Missing headers */
-				esc_html__('Missing required headers: %s', 'taxonomy-csv-import-export'),
-				implode(', ', $missing)
-			));
-		}
-		
-		// Read rows
-		$row_number = 1;
-		while (($data = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
-			$data = array_map( array( Helper::class, 'csv_original_cell' ), $data );
-			$row_number++;
-			
-			if (empty(array_filter($data))) {
-				continue;
-			}
-			
-			$row = array();
-			foreach ($headers as $index => $header) {
-				$row[$header] = isset($data[$index]) ? trim($data[$index]) : '';
-			}
-			
-			// Add taxonomy if not present in CSV
-			if (!isset($row['taxonomy']) || empty($row['taxonomy'])) {
-				// Will be set during validation
-			}
-			
-			$rows[] = array(
-				'row_number' => $row_number,
-				'data' => $row
-			);
-		}
-		
-		fclose($handle);// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-		return $rows;
-	}
-	
-	/**
-	 * Generate preview data from validated rows
-	 */
-	private function generate_preview_data($validated_rows) {
-		$preview_data = array(
-			'rows' => array(),
-			'summary' => array(
-				'total' => 0,
-				'new' => 0,
-				'update' => 0,
-				'skip' => 0,
-				'warning' => 0,
-				'error' => 0,
-				'ready' => 0
-			)
-		);
-		
-		foreach ($validated_rows as $row) {
-			$preview_row = array(
-				'row_number' => $row['row_number'],
-				'name' => $row['name'],
-				'slug' => $row['slug'],
-				'description' => $row['description'],
-				'parent' => $row['parent'],
-				'taxonomy' => $row['taxonomy'],
-				'status' => $row['status'],
-				'errors' => $row['errors'],
-				'warnings' => $row['warnings'],
-				'existing_term' => isset($row['existing_term']) ? $row['existing_term'] : null
-			);
-			
-			$preview_data['rows'][] = $preview_row;
-			
-			// Update summary
-			$preview_data['summary']['total']++;
-			
-			if ('error' === $row['status']) {
-				$preview_data['summary']['error']++;
-			} elseif ('warning' === $row['status']) {
-				$preview_data['summary']['warning']++;
-			} elseif ('update' === $row['status']) {
-				$preview_data['summary']['update']++;
-				$preview_data['summary']['ready']++;
-			} elseif ('new' === $row['status']) {
-				$preview_data['summary']['new']++;
-				$preview_data['summary']['ready']++;
-			} elseif ('skip' === $row['status']) {
-				$preview_data['summary']['skip']++;
-			}
-		}
-		
-		return $preview_data;
-	}
-
 	public function taxocsie_export_csv()
 	{
 		if (!current_user_can('manage_options') || !check_admin_referer('taxonomy_csv_export', 'taxonomy_csv_export_nonce')) {
 			wp_die('Unauthorized export request.');
 		}
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-		$taxonomy = sanitize_text_field(wp_unslash($_POST['taxocsie_type']));
+		$taxonomy = isset( $_POST['taxocsie_type'] ) && is_scalar( $_POST['taxocsie_type'] )
+			? sanitize_key( wp_unslash( $_POST['taxocsie_type'] ) )
+			: '';
 		if ( ! $this->can_use_taxonomy( $taxonomy ) ) {
 			wp_die('Invalid taxonomy.');
 		}
@@ -275,7 +121,7 @@ class Admin
 
 		foreach ($terms as $term) {
 			$parent_term = $term->parent ? get_term($term->parent, $taxonomy) : null;
-			$parent_slug = $parent_term ? $parent_term->slug : '';
+			$parent_slug = $parent_term instanceof \WP_Term ? $parent_term->slug : '';
 			$row = array( $term->name, $term->slug, $term->description, $parent_slug, TermCustomLinks::get( (int) $term->term_id ) );
 			if ( $include_images ) {
 				$row[] = TermImageManager::get_source( (int) $term->term_id, $taxonomy );
@@ -525,262 +371,14 @@ class Admin
 		exit;
 	}
 	
-	/**
-	 * AJAX: Handle dry run preview
-	 */
-	public function handle_dry_run_preview() {
-		check_ajax_referer('taxocsie_dry_run', 'nonce');
-		
-		if (!current_user_can('manage_options')) {
-			wp_send_json_error(__('Unauthorized.', 'taxonomy-csv-import-export'));
-		}
-		
-		$csv_upload = $this->validate_csv_upload( 'csv_file' );
-		if ( false === $csv_upload ) {
-			wp_send_json_error( __( 'Please upload a CSV file.', 'taxonomy-csv-import-export' ) );
-		}
-		
-		$taxonomy = isset( $_POST['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) ) : '';
-		if ( ! $this->can_use_taxonomy( $taxonomy ) ) {
-			wp_send_json_error( __( 'Invalid taxonomy.', 'taxonomy-csv-import-export' ) );
-		}
-		
-		// Parse CSV.
-		$csv_data = $this->parse_csv_file( $csv_upload );
-		if (isset($csv_data['error'])) {
-			wp_send_json_error($csv_data['error']);
-		}
-		
-		if (empty($csv_data)) {
-			wp_send_json_error(__('No data found in CSV file.', 'taxonomy-csv-import-export'));
-		}
-		
-		// Validate rows
-		$validator = new Validator();
-		$validated_rows = $validator->validate_rows($csv_data, $taxonomy);
-		
-		// Generate preview
-		$preview_data = $this->generate_preview_data($validated_rows);
-		
-		// Store in session
-		$session = SessionHandler::get_instance();
-		$session->save_preview_data($preview_data);
-		
-		// Render preview table
-		$preview_table = new PreviewTable();
-		$preview_html = $preview_table->render($preview_data);
-		
-		wp_send_json_success(array(
-			'preview_html' => $preview_html,
-			'summary' => $preview_data['summary'],
-			'has_errors' => $preview_data['summary']['error'] > 0,
-			'ready_count' => $preview_data['summary']['ready']
-		));
-	}
-	
-	/**
-	 * AJAX: Start import from preview
-	 */
-	public function handle_start_import() {
-		check_ajax_referer('taxocsie_start_import', 'nonce');
-		
-		if (!current_user_can('manage_options')) {
-			wp_send_json_error(__('Unauthorized.', 'taxonomy-csv-import-export'));
-		}
-		
-		$import_mode = isset($_POST['import_mode']) ? sanitize_text_field(wp_unslash($_POST['import_mode'])) : 'valid_only';
-		
-		// Get preview data from session
-		$session = SessionHandler::get_instance();
-		$preview_data = $session->get_preview_data();
-		
-		if (empty($preview_data)) {
-			wp_send_json_error(__('No preview data found. Please analyze the CSV first.', 'taxonomy-csv-import-export'));
-		}
-		foreach ( $preview_data['rows'] as $row ) {
-			if ( ! isset( $row['taxonomy'] ) || ! is_string( $row['taxonomy'] ) || ! $this->can_use_taxonomy( $row['taxonomy'] ) || ! $this->can_use_taxonomy( $row['taxonomy'], 'edit_terms' ) ) {
-				wp_send_json_error( __( 'You cannot manage terms in the selected taxonomy.', 'taxonomy-csv-import-export' ) );
-			}
-		}
-		
-		// Perform import
-		$results = $this->perform_import_from_preview($preview_data, $import_mode);
-		Dashboard::increment( Dashboard::IMPORTED_ITEMS, $results['imported'] + $results['updated'] );
-		
-		// Clear session
-		$session->clear_preview_data();
-		
-		wp_send_json_success(array(
-			'message' => sprintf(
-				/* translators: 1: Imported count, 2: Updated count, 3: Skipped count */
-				esc_html__('Import completed! %1$d imported, %2$d updated, %3$d skipped.', 'taxonomy-csv-import-export'),
-				$results['imported'],
-				$results['updated'],
-				$results['skipped']
-			),
-			'results' => $results
-		));
-	}
-	
-	/**
-	 * Perform import from preview data
-	 */
-	private function perform_import_from_preview($preview_data, $import_mode) {
-		$results = array(
-			'imported' => 0,
-			'updated' => 0,
-			'skipped' => 0,
-			'errors' => array()
-		);
-		
-		foreach ($preview_data['rows'] as $row) {
-			// Skip rows with errors
-			if (!empty($row['errors'])) {
-				if ('stop_on_error' === $import_mode) {
-					throw new \Exception(sprintf(
-						/* translators: 1: Row number, 2: Error messages */
-						esc_html__('Stopped at row %1$d: %2$s', 'taxonomy-csv-import-export'),
-						$row['row_number'],//phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-						implode(', ', wp_list_pluck($row['errors'], 'message'))// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-					));
-				}
-				$results['skipped']++;
-				continue;
-			}
-			
-			// Process the row
-			try {
-				$taxonomy = $row['taxonomy'];
-				$name = $row['name'];
-				$slug = !empty($row['slug']) ? $row['slug'] : sanitize_title($name);
-				$description = isset($row['description']) ? $row['description'] : '';
-				$parent = isset($row['parent_id']) ? $row['parent_id'] : 0;
-				
-				// Check if term exists
-				$existing = isset($row['existing_term']) ? $row['existing_term'] : null;
-				
-				if ($existing) {
-					// Update existing term
-					$args = array(
-						'name' => $name,
-						'slug' => $slug,
-						'description' => $description,
-						'parent' => $parent
-					);
-					
-					$result = wp_update_term($existing->term_id, $taxonomy, $args);
-					
-					if (is_wp_error($result)) {
-						throw new \Exception($result->get_error_message());
-					}
-					
-					$results['updated']++;
-				} else {
-					// Insert new term
-					$args = array(
-						'slug' => $slug,
-						'description' => $description,
-						'parent' => $parent
-					);
-					
-					$result = wp_insert_term($name, $taxonomy, $args);
-					
-					if (is_wp_error($result)) {
-						throw new \Exception($result->get_error_message());
-					}
-					
-					$results['imported']++;
-				}
-			} catch (\Exception $e) {
-				if ('stop_on_error' === $import_mode) {
-					throw $e;
-				}
-				$results['errors'][] = array(
-					'row' => $row['row_number'],
-					'message' => $e->getMessage()
-				);
-				$results['skipped']++;
-			}
-		}
-		
-		return $results;
-	}
-	
-	/**
-	 * AJAX: Download error report
-	 */
-	public function handle_download_error_report() {
-		check_ajax_referer('taxocsie_download_errors', 'nonce');
-		
-		if (!current_user_can('manage_options')) {
-			wp_die('Unauthorized.');
-		}
-		
-		$session = SessionHandler::get_instance();
-		$preview_data = $session->get_preview_data();
-		
-		if (empty($preview_data)) {
-			wp_die('No preview data found.');
-		}
-		
-		// Generate CSV
-		header('Content-Type: text/csv');
-		header('Content-Disposition: attachment; filename="error-report.csv"');
-		
-		$output = fopen('php://output', 'w');
-		fputcsv($output, array('Row', 'Name', 'Slug', 'Status', 'Error', 'Suggestion'));
-		
-		foreach ($preview_data['rows'] as $row) {
-			if (!empty($row['errors'])) {
-				$error_messages = array();
-				$suggestions = array();
-				
-				foreach ($row['errors'] as $error) {
-					$error_messages[] = $error['message'];
-					if (isset($error['suggestion'])) {
-						$suggestions[] = $error['suggestion'];
-					}
-				}
-				
-				fputcsv($output, array_map( array( Helper::class, 'csv_safe_cell' ), array(
-					$row['row_number'],
-					$row['name'],
-					$row['slug'],
-					$row['status'],
-					implode('; ', $error_messages),
-					implode('; ', $suggestions)
-				) ));
-			}
-		}
-		
-		fclose($output);// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-		exit;
-	}
-	
-	/**
-	 * AJAX: Cancel preview
-	 */
-	public function handle_cancel_preview() {
-		check_ajax_referer('taxocsie_cancel_preview', 'nonce');
-		
-		if (!current_user_can('manage_options')) {
-			wp_send_json_error(__('Unauthorized.', 'taxonomy-csv-import-export'));
-		}
-		
-		$session = SessionHandler::get_instance();
-		$session->clear_preview_data();
-		
-		wp_send_json_success();
-	}
-
 	public function taxocsie_import_users() {
-		if ( ! current_user_can( 'manage_options' ) || ! current_user_can( 'create_users' ) || ! current_user_can( 'edit_users' ) ) {
+		if ( ! current_user_can( 'manage_options' ) || ! current_user_can( 'create_users' ) || ! current_user_can( 'edit_users' ) || ! current_user_can( 'promote_users' ) ) {
 			return;
 		}
 
 		if (
 			! isset( $_POST['taxocsie_nonce'] ) ||
-			! wp_verify_nonce( $_POST['taxocsie_nonce'], 'taxocsie_import_users_nonce' )
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['taxocsie_nonce'] ) ), 'taxocsie_import_users_nonce' )
 		) {
 			wp_safe_redirect( admin_url( 'admin.php?page=taxonomy-csv-import-export-manager&manager_view=users&manager_action=import&user-imported=error' ) );
 			exit;
@@ -889,7 +487,7 @@ class Admin
 		$description = sanitize_textarea_field( wp_unslash( $_POST['description'] ?? '' ) );
 		$raw_link    = sanitize_text_field( wp_unslash( $_POST['custom_link'] ?? '' ) );
 		$custom_link = '' !== $raw_link ? TermCustomLinks::sanitize_link( $raw_link ) : '';
-		$raw_image_id = $_POST['image_id'] ?? '';
+		$raw_image_id = isset( $_POST['image_id'] ) ? sanitize_text_field( wp_unslash( $_POST['image_id'] ) ) : '';
 		$image_id = 0;
 
 		if ( ! $this->can_use_taxonomy( $taxonomy, 'edit_terms' ) ) {
@@ -1145,9 +743,8 @@ class Admin
 	/**
 	 * Remove third-party notices from every WP Taxonomy Manager screen.
 	 *
-	 * Matching the page slug instead of hard-coding screen IDs also covers
-	 * Premium, Settings, and future submenu pages. Other WordPress screens are
-	 * intentionally left untouched.
+	 * Match the plugin slug family and the two Pro pages with legacy slugs.
+	 * Other WordPress screens are intentionally left untouched.
 	 *
 	 * @return void
 	 */
@@ -1155,7 +752,8 @@ class Admin
 		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 		$slug = defined( 'TAXOCSIE_PLUGIN_SLUG' ) ? TAXOCSIE_PLUGIN_SLUG : 'taxonomy-csv-import-export';
 
-		if ( $slug !== $page && 0 !== strpos( $page, $slug . '-' ) ) {
+		$plugin_pages = array( 'taxocsie-term-maintenance', 'taxocsie-term-meta-transfer' );
+		if ( $slug !== $page && 0 !== strpos( $page, $slug . '-' ) && ! in_array( $page, $plugin_pages, true ) ) {
 			return;
 		}
 
@@ -1167,6 +765,8 @@ class Admin
 		remove_all_actions( 'all_admin_notices' );
 		remove_all_actions( 'network_admin_notices' );
 		remove_all_actions( 'user_admin_notices' );
+		add_action( 'admin_notices', array( ReviewPrompt::class, 'render' ) );
+		add_action( 'admin_notices', array( FreemiusOptin::class, 'render' ) );
 	}
 
 	/**
@@ -1174,7 +774,7 @@ class Admin
 	 */
 	public function handle_ajax_demo_generate() {
 		// Check nonce
-		if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'taxocsie_demo_ajax')) {
+		if ( ! isset( $_POST['nonce'] ) || ! is_scalar( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'taxocsie_demo_ajax' ) ) {
 			wp_send_json_error(array('message' => esc_html__('Security check failed. Please refresh the page and try again.', 'taxonomy-csv-import-export')));
 		}
 
@@ -1182,19 +782,27 @@ class Admin
 			wp_send_json_error(array('message' => esc_html__('You do not have permission to perform this action.', 'taxonomy-csv-import-export')));
 		}
 
-		$taxonomy = isset($_POST['taxonomy']) ? sanitize_text_field(wp_unslash($_POST['taxonomy'])) : '';
-		$count = isset($_POST['count']) ? intval($_POST['count']) : 10;
-		$structure = isset($_POST['structure']) ? sanitize_text_field(wp_unslash($_POST['structure'])) : 'flat';
-		$name_format = isset($_POST['name_format']) ? sanitize_text_field(wp_unslash($_POST['name_format'])) : 'prefix';
-		$add_description = isset($_POST['add_description']) && 'true' === $_POST['add_description'];
-		$skip_existing = isset($_POST['skip_existing']) && 'true' === $_POST['skip_existing'];
+		$taxonomy_input = $_POST['demo_taxonomy'] ?? $_POST['taxonomy'] ?? '';
+		$count_input = $_POST['demo_count'] ?? $_POST['count'] ?? 0;
+		$structure_input = $_POST['demo_structure'] ?? $_POST['structure'] ?? 'flat';
+		$name_format_input = $_POST['demo_name_format'] ?? $_POST['name_format'] ?? 'prefix';
+		$taxonomy = is_scalar( $taxonomy_input ) ? sanitize_key( wp_unslash( $taxonomy_input ) ) : '';
+		$count = is_scalar( $count_input ) ? intval( wp_unslash( $count_input ) ) : 0;
+		$structure = is_scalar( $structure_input ) ? sanitize_key( wp_unslash( $structure_input ) ) : '';
+		$name_format = is_scalar( $name_format_input ) ? sanitize_key( wp_unslash( $name_format_input ) ) : '';
+		$add_description = isset( $_POST['demo_add_description'] ) || ( isset( $_POST['add_description'] ) && is_scalar( $_POST['add_description'] ) && 'true' === sanitize_text_field( wp_unslash( $_POST['add_description'] ) ) );
+		$skip_existing = isset( $_POST['demo_skip_existing'] ) || ( isset( $_POST['skip_existing'] ) && is_scalar( $_POST['skip_existing'] ) && 'true' === sanitize_text_field( wp_unslash( $_POST['skip_existing'] ) ) );
 
-		if ( ! $this->can_use_taxonomy( $taxonomy, 'edit_terms' ) ) {
+		$taxonomy_obj = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy_obj || ! $taxonomy_obj->public || ! $this->can_use_taxonomy( $taxonomy, 'edit_terms' ) ) {
 			wp_send_json_error(array('message' => esc_html__('Invalid taxonomy selected.', 'taxonomy-csv-import-export')));
 		}
 
 		if ($count < 1 || $count > 500) {
 			wp_send_json_error(array('message' => esc_html__('Please enter a number between 1 and 500.', 'taxonomy-csv-import-export')));
+		}
+		if ( ! in_array( $structure, array( 'flat', 'hierarchical' ), true ) || ! in_array( $name_format, array( 'prefix', 'plain', 'random' ), true ) || ( 'hierarchical' === $structure && ! $taxonomy_obj->hierarchical ) ) {
+			wp_send_json_error(array('message' => esc_html__('Invalid demo generator options.', 'taxonomy-csv-import-export')));
 		}
 
 		// Use the menu's generation method
