@@ -26,6 +26,7 @@ spl_autoload_register(
 			'TaxoCSIE\\ReviewPrompt'                => __DIR__ . '/review-prompt.php',
 			'TaxoCSIE\\Settings'                    => __DIR__ . '/settings.php',
 			'TaxoCSIE\\FreemiusOptin'                => __DIR__ . '/freemius-optin.php',
+			'TaxoCSIE\\UpdatesOptin'                 => __DIR__ . '/updates-optin.php',
 			'TaxoCSIE\\TermCustomLinks'             => __DIR__ . '/term-custom-links.php',
 			'TaxoCSIE\\TermRedirects'               => __DIR__ . '/class-term-redirects.php',
 			'TaxoCSIE\\UnusedTerms'                 => __DIR__ . '/class-unused-terms.php',

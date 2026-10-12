@@ -4,8 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b
+class ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564
 {
+    public static $files = array (
+        '8d50dc88e56bace65e1e72f6017983ed' => __DIR__ . '/..' . '/freemius/wordpress-sdk/start.php',
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'TaxoCSIE\\AddonSettings' => __DIR__ . '/../..' . '/includes/class-addon-settings.php',
@@ -22,14 +26,12 @@ class ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b
         'TaxoCSIE\\TaxonomyCreator' => __DIR__ . '/../..' . '/includes/taxonomy-creator.php',
         'TaxoCSIE\\TermCustomLinks' => __DIR__ . '/../..' . '/includes/term-custom-links.php',
         'TaxoCSIE\\TermQueryFilters' => __DIR__ . '/../..' . '/includes/term-query-filters.php',
-        'TaxoCSIE\\TermRedirects' => __DIR__ . '/../..' . '/includes/class-term-redirects.php',
-        'TaxoCSIE\\UnusedTerms' => __DIR__ . '/../..' . '/includes/class-unused-terms.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b::$classMap;
+            $loader->classMap = ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564::$classMap;
 
         }, null, ClassLoader::class);
     }

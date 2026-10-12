@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Taxonomy Manager 2.1.0\n"
+"Project-Id-Version: WP Taxonomy Manager 2.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/taxonomy-csv-import-export/\n"
-"POT-Creation-Date: 2026-10-10T01:23:36+00:00\n"
+"POT-Creation-Date: 2026-10-11T15:52:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +28,7 @@ msgid "%1$d candidates found among %2$d terms on scan page %3$d."
 msgstr ""
 
 #. translators: 1: Number of errors
-#: includes/admin.php:827
+#: includes/admin.php:837
 msgid "%1$d errors occurred."
 msgstr ""
 
@@ -137,7 +137,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of updated terms.
-#: includes/admin.php:735
+#: includes/admin.php:737
 msgid "%d term updated."
 msgid_plural "%d terms updated."
 msgstr[0] ""
@@ -181,7 +181,7 @@ msgid "1–500"
 msgstr ""
 
 #. translators: %1$d is the number of errors
-#: includes/menu.php:2338
+#: includes/menu.php:2334
 msgid "<strong>%1$d</strong> errors occurred."
 msgstr ""
 
@@ -225,6 +225,10 @@ msgstr ""
 msgid "A source slug is already in use."
 msgstr ""
 
+#: includes/updates-optin.php:40
+msgid "A subscription request for this site is already in progress."
+msgstr ""
+
 #: premium/views/remote-sync-page.php:10
 msgid "A sync run has been queued. The result will appear in Recent runs."
 msgstr ""
@@ -261,7 +265,7 @@ msgstr ""
 msgid "A valid slug could not be generated."
 msgstr ""
 
-#: includes/admin.php:714
+#: includes/admin.php:716
 msgid "A valid term and non-empty name are required."
 msgstr ""
 
@@ -296,10 +300,11 @@ msgstr ""
 
 #: includes/freemius-optin.php:162
 #: includes/review-prompt.php:36
+#: includes/updates-optin.php:130
 msgid "Access denied."
 msgstr ""
 
-#: includes/freemius.php:222
+#: includes/freemius.php:221
 msgid "Account"
 msgstr ""
 
@@ -323,7 +328,7 @@ msgstr ""
 #. translators: %d: number of selected terms.
 #: includes/menu.php:1429
 #: includes/menu.php:1796
-#: includes/menu.php:2497
+#: includes/menu.php:2491
 #: premium/views/term-fields-page.php:131
 msgid "Actions"
 msgstr ""
@@ -341,7 +346,7 @@ msgstr ""
 msgid "Activate Advanced Custom Fields to use this add-on"
 msgstr ""
 
-#: includes/freemius.php:222
+#: includes/freemius.php:221
 msgid "Activate License"
 msgstr ""
 
@@ -353,11 +358,11 @@ msgstr ""
 msgid "Activate Pro to save drag-and-drop term order and optionally apply it on the frontend."
 msgstr ""
 
-#: includes/freemius.php:221
+#: includes/freemius.php:220
 msgid "Activate WP Taxonomy Manager License"
 msgstr ""
 
-#: includes/freemius.php:282
+#: includes/freemius.php:283
 msgid "Activate WP Taxonomy Manager Pro"
 msgstr ""
 
@@ -494,7 +499,7 @@ msgstr ""
 msgid "After filling in a rule, use Save auto tagging settings below."
 msgstr ""
 
-#: includes/helper.php:254
+#: includes/helper.php:260
 msgid "All Terms"
 msgstr ""
 
@@ -858,8 +863,8 @@ msgstr ""
 msgid "Choose a valid category, tag or taxonomy before enabling AI suggestions."
 msgstr ""
 
-#: includes/admin.php:505
-#: includes/admin.php:512
+#: includes/admin.php:507
+#: includes/admin.php:514
 #: premium/class-term-image-manager.php:83
 msgid "Choose a valid image from the Media Library."
 msgstr ""
@@ -957,6 +962,10 @@ msgstr ""
 msgid "Clicking Yes sends the site administrator email, site URL, WordPress and plugin versions, and enabled diagnostic information to Freemius for the plugin account."
 msgstr ""
 
+#: includes/updates-optin.php:67
+msgid "Clicking Yes sends your email to WP Taxonomy Manager for updates through SendFox. You can unsubscribe from any update email."
+msgstr ""
+
 #: includes/menu.php:2079
 msgid "Columns: username, email, password_hash, roles, first_name, last_name, meta"
 msgstr ""
@@ -1040,6 +1049,10 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
+#: includes/updates-optin.php:34
+msgid "Could not connect to the WP Taxonomy Manager updates server. Please try again later."
+msgstr ""
+
 #: includes/menu.php:1397
 msgid "Could not delete this term. It may be protected by WordPress."
 msgstr ""
@@ -1068,7 +1081,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: includes/helper.php:248
+#: includes/helper.php:254
 msgid "Create Term"
 msgstr ""
 
@@ -1147,7 +1160,7 @@ msgstr ""
 msgid "Created / generated"
 msgstr ""
 
-#: includes/menu.php:2255
+#: includes/menu.php:2250
 msgid "Current Taxonomy Stats"
 msgstr ""
 
@@ -1172,7 +1185,7 @@ msgstr ""
 msgid "Custom link"
 msgstr ""
 
-#: includes/admin.php:500
+#: includes/admin.php:502
 #: premium/admin/class-dry-run-preview.php:516
 msgid "Custom link must be a valid HTTP or HTTPS URL."
 msgstr ""
@@ -1195,11 +1208,11 @@ msgstr ""
 msgid "Daily"
 msgstr ""
 
-#: includes/helper.php:242
+#: includes/helper.php:248
 msgid "Dashboard"
 msgstr ""
 
-#: includes/helper.php:273
+#: includes/helper.php:279
 msgid "Data Manager"
 msgstr ""
 
@@ -1271,7 +1284,7 @@ msgstr ""
 msgid "Delete this term? This removes its associations with content. This cannot be undone."
 msgstr ""
 
-#: includes/helper.php:267
+#: includes/helper.php:273
 msgid "Demo Generator"
 msgstr ""
 
@@ -1412,7 +1425,7 @@ msgstr ""
 msgid "Duplicate term finder, merge, and restore"
 msgstr ""
 
-#: includes/admin.php:207
+#: includes/admin.php:209
 #: includes/assets.php:92
 #: premium/admin/class-advanced-import-page.php:185
 msgid "Each import field can only be mapped once."
@@ -1456,6 +1469,10 @@ msgstr ""
 msgid "Edited CSV file"
 msgstr ""
 
+#: includes/updates-optin.php:41
+msgid "Email updates are temporarily unavailable on the WP Taxonomy Manager server."
+msgstr ""
+
 #: premium/class-ai-auto-tagging.php:71
 msgid "Enable AI suggestions"
 msgstr ""
@@ -1476,11 +1493,11 @@ msgstr ""
 msgid "Enter between 1 and 100 term IDs."
 msgstr ""
 
-#: includes/freemius.php:286
+#: includes/freemius.php:287
 msgid "Enter license key"
 msgstr ""
 
-#: includes/freemius.php:283
+#: includes/freemius.php:284
 msgid "Enter the license key from your purchase email to activate Pro."
 msgstr ""
 
@@ -1603,7 +1620,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: includes/admin.php:599
+#: includes/admin.php:601
 msgid "Failed to fetch terms."
 msgstr ""
 
@@ -1700,7 +1717,7 @@ msgid "Finish the keyword, group, and category or tag for this rule before savin
 msgstr ""
 
 #: includes/menu.php:2155
-#: includes/menu.php:2507
+#: includes/menu.php:2501
 #: premium/views/advanced-import.php:106
 msgid "Flat"
 msgstr ""
@@ -1748,7 +1765,7 @@ msgstr ""
 msgid "Generate 10 demo terms in each of %d selected taxonomies?"
 msgstr ""
 
-#: includes/menu.php:2244
+#: includes/menu.php:2239
 msgid "Generate Demo Terms"
 msgstr ""
 
@@ -1757,21 +1774,22 @@ msgid "Generate demo terms"
 msgstr ""
 
 #. translators: 1: Number of terms created, 2: Taxonomy name
-#: includes/admin.php:811
+#: includes/admin.php:821
 msgid "Generated %1$d terms in \"%2$s\"."
 msgstr ""
 
 #. translators: %1$d is the number of terms created, %2$s is the taxonomy name
-#: includes/menu.php:2322
+#: includes/menu.php:2318
 msgid "Generated <strong>%1$d</strong> terms in <strong>%2$s</strong>."
 msgstr ""
 
-#: includes/freemius.php:210
-#: includes/freemius.php:213
+#: includes/freemius.php:209
+#: includes/freemius.php:212
 msgid "Get Pro"
 msgstr ""
 
 #: includes/freemius-optin.php:60
+#: includes/updates-optin.php:66
 msgid "Get WP Taxonomy Manager updates"
 msgstr ""
 
@@ -1796,7 +1814,7 @@ msgid "Hide third-party notices on WP Taxonomy Manager pages"
 msgstr ""
 
 #: includes/menu.php:2154
-#: includes/menu.php:2507
+#: includes/menu.php:2501
 #: premium/views/advanced-import.php:106
 msgid "Hierarchical"
 msgstr ""
@@ -1993,8 +2011,13 @@ msgstr ""
 msgid "Invalid add-on setting."
 msgstr ""
 
-#: includes/admin.php:406
-#: includes/admin.php:413
+#: includes/admin.php:805
+#: includes/menu.php:2309
+msgid "Invalid demo generator options."
+msgstr ""
+
+#: includes/admin.php:408
+#: includes/admin.php:415
 msgid "Invalid role filter."
 msgstr ""
 
@@ -2002,14 +2025,9 @@ msgstr ""
 msgid "Invalid slug."
 msgstr ""
 
-#: includes/admin.php:791
-#: includes/menu.php:2301
+#: includes/admin.php:798
+#: includes/menu.php:2296
 msgid "Invalid taxonomy selected."
-msgstr ""
-
-#: includes/admin.php
-#: includes/menu.php
-msgid "Invalid demo generator options."
 msgstr ""
 
 #: includes/taxonomy-creator.php:152
@@ -2017,9 +2035,9 @@ msgstr ""
 msgid "Invalid taxonomy selection."
 msgstr ""
 
-#: includes/admin.php:492
-#: includes/admin.php:554
-#: includes/admin.php:588
+#: includes/admin.php:494
+#: includes/admin.php:556
+#: includes/admin.php:590
 msgid "Invalid taxonomy."
 msgstr ""
 
@@ -2433,11 +2451,12 @@ msgstr ""
 msgid "No terms found"
 msgstr ""
 
-#: includes/admin.php:804
+#: includes/admin.php:814
 msgid "No terms were created. All terms might already exist."
 msgstr ""
 
 #: includes/freemius-optin.php:67
+#: includes/updates-optin.php:71
 msgid "No thanks"
 msgstr ""
 
@@ -2645,8 +2664,8 @@ msgstr ""
 msgid "Please check your email to complete your Freemius account confirmation."
 msgstr ""
 
-#: includes/admin.php:795
-#: includes/menu.php:2308
+#: includes/admin.php:802
+#: includes/menu.php:2303
 msgid "Please enter a number between 1 and 500."
 msgstr ""
 
@@ -2803,7 +2822,7 @@ msgstr ""
 msgid "Refine the export"
 msgstr ""
 
-#: includes/helper.php:260
+#: includes/helper.php:266
 #: includes/menu.php:1971
 msgid "Register Taxonomy"
 msgstr ""
@@ -3044,11 +3063,11 @@ msgstr ""
 msgid "Search, edit, and organize terms across taxonomies."
 msgstr ""
 
-#: includes/admin.php:776
+#: includes/admin.php:778
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 
-#: includes/menu.php:2279
+#: includes/menu.php:2275
 msgid "Security check failed. Please try again."
 msgstr ""
 
@@ -3066,7 +3085,7 @@ msgstr ""
 #: includes/class-unused-terms.php:89
 #: includes/menu.php:1444
 #: includes/menu.php:1815
-#: includes/menu.php:2510
+#: includes/menu.php:2504
 msgid "Select %s"
 msgstr ""
 
@@ -3145,7 +3164,7 @@ msgstr ""
 msgid "Select rule %d"
 msgstr ""
 
-#: includes/menu.php:2493
+#: includes/menu.php:2487
 msgid "Select taxonomies on this page"
 msgstr ""
 
@@ -3194,6 +3213,10 @@ msgstr ""
 msgid "Send visitors to a specific URL when they open this term."
 msgstr ""
 
+#: includes/updates-optin.php:38
+msgid "SendFox did not confirm the subscription. Please try again later."
+msgstr ""
+
 #: includes/settings.php:228
 msgid "Set server-side limits for the Premium dry-run analyzer. Larger limits require more memory and processing time."
 msgstr ""
@@ -3207,7 +3230,7 @@ msgstr ""
 msgid "Setting saved."
 msgstr ""
 
-#: includes/freemius.php:201
+#: includes/freemius.php:200
 #: includes/menu.php:1099
 msgid "Settings"
 msgstr ""
@@ -3275,12 +3298,12 @@ msgid "Skipped"
 msgstr ""
 
 #. translators: 1: Number of skipped terms
-#: includes/admin.php:819
+#: includes/admin.php:829
 msgid "Skipped %1$d existing terms."
 msgstr ""
 
 #. translators: %1$d is the number of skipped terms
-#: includes/menu.php:2330
+#: includes/menu.php:2326
 msgid "Skipped <strong>%1$d</strong> existing terms."
 msgstr ""
 
@@ -3440,7 +3463,7 @@ msgstr ""
 #: includes/class-unused-terms.php:200
 #: includes/menu.php:934
 #: includes/menu.php:1429
-#: includes/menu.php:2494
+#: includes/menu.php:2488
 #: premium/admin/class-term-meta-transfer.php:87
 #: premium/class-duplicate-terms.php:82
 #: premium/views/advanced-import.php:54
@@ -3556,7 +3579,7 @@ msgstr ""
 msgid "Term images"
 msgstr ""
 
-#: includes/admin.php:508
+#: includes/admin.php:510
 msgid "Term images require an active Pro license."
 msgstr ""
 
@@ -3574,7 +3597,7 @@ msgstr ""
 msgid "Term name"
 msgstr ""
 
-#: includes/admin.php:496
+#: includes/admin.php:498
 msgid "Term name is required."
 msgstr ""
 
@@ -3638,11 +3661,11 @@ msgstr ""
 msgid "The CSV could not be opened."
 msgstr ""
 
-#: includes/admin.php:152
+#: includes/admin.php:154
 msgid "The CSV file could not be opened."
 msgstr ""
 
-#: includes/admin.php:158
+#: includes/admin.php:160
 msgid "The CSV file is empty."
 msgstr ""
 
@@ -3670,7 +3693,7 @@ msgstr ""
 msgid "The CSV must be non-empty and no larger than %s."
 msgstr ""
 
-#: includes/admin.php:215
+#: includes/admin.php:217
 #: premium/admin/class-dry-run-preview.php:359
 msgid "The CSV must include a name column."
 msgstr ""
@@ -3772,11 +3795,26 @@ msgstr ""
 msgid "The Pro module is unavailable. Reinstall the Premium package."
 msgstr ""
 
+#: includes/updates-optin.php:35
+msgid "The WP Taxonomy Manager updates server did not confirm the subscription. Please try again later."
+msgstr ""
+
+#. translators: 1: HTTP status code, 2: updates server error code.
+#: includes/updates-optin.php:48
+msgid "The WP Taxonomy Manager updates server returned HTTP %1$d (error: %2$s)."
+msgstr ""
+
+#. translators: 1: HTTP status code, 2: updates server error code.
+#. translators: %d: HTTP status code.
+#: includes/updates-optin.php:51
+msgid "The WP Taxonomy Manager updates server returned HTTP %d. Please try again later."
+msgstr ""
+
 #: includes/menu.php:1547
 msgid "The catalog is ready and will be populated as add-ons become available."
 msgstr ""
 
-#: includes/admin.php:332
+#: includes/admin.php:334
 msgid "The custom link is not a valid HTTP or HTTPS URL."
 msgstr ""
 
@@ -3938,7 +3976,7 @@ msgstr ""
 msgid "The source term will be deleted after migration. An audit snapshot permits restoration with a new term ID."
 msgstr ""
 
-#: includes/admin.php:202
+#: includes/admin.php:204
 #: premium/admin/class-dry-run-preview.php:342
 msgid "The submitted column mapping is invalid."
 msgstr ""
@@ -3984,8 +4022,12 @@ msgstr ""
 msgid "The uncompressed Excel workbook is too large."
 msgstr ""
 
-#: includes/admin.php:699
+#: includes/admin.php:701
 msgid "The update request is invalid or too large."
+msgstr ""
+
+#: includes/updates-optin.php:36
+msgid "The updates server could not confirm this SendFox subscription. Please contact WP Taxonomy Manager support."
 msgstr ""
 
 #: premium/admin/class-dry-run-preview.php:182
@@ -4007,6 +4049,10 @@ msgstr ""
 
 #: includes/menu.php:691
 msgid "This creates new terms. Existing names or slugs are skipped; this CSV import does not update them."
+msgstr ""
+
+#: includes/updates-optin.php:37
+msgid "This email is unsubscribed from updates in SendFox. Please contact WP Taxonomy Manager support to resubscribe."
 msgstr ""
 
 #: includes/menu.php:132
@@ -4042,6 +4088,10 @@ msgstr ""
 msgid "This row would not be imported."
 msgstr ""
 
+#: includes/updates-optin.php:39
+msgid "This site has already subscribed with a different email."
+msgstr ""
+
 #: includes/taxonomy-creator.php:84
 msgid "This slug is already used by WordPress or another plugin."
 msgstr ""
@@ -4069,6 +4119,10 @@ msgstr ""
 msgid "Token or password"
 msgstr ""
 
+#: includes/updates-optin.php:42
+msgid "Too many subscription attempts. Please try again later."
+msgstr ""
+
 #: premium/admin/class-term-maintenance.php:448
 msgid "Tool"
 msgstr ""
@@ -4077,7 +4131,7 @@ msgstr ""
 msgid "Top-level terms only"
 msgstr ""
 
-#: includes/menu.php:2496
+#: includes/menu.php:2490
 msgid "Total Terms"
 msgstr ""
 
@@ -4118,7 +4172,7 @@ msgid "Turning this off preserves saved URLs but restores normal taxonomy archiv
 msgstr ""
 
 #: includes/menu.php:1794
-#: includes/menu.php:2495
+#: includes/menu.php:2489
 #: premium/views/term-fields-page.php:131
 msgid "Type"
 msgstr ""
@@ -4145,13 +4199,13 @@ msgstr ""
 msgid "Type RESTORE to undo this job:"
 msgstr ""
 
-#: includes/admin.php:107
+#: includes/admin.php:109
 msgid "Unable to export taxonomy terms."
 msgstr ""
 
-#: includes/admin.php:480
-#: includes/admin.php:548
-#: includes/admin.php:582
+#: includes/admin.php:482
+#: includes/admin.php:550
+#: includes/admin.php:584
 #: includes/class-term-redirects.php:100
 #: includes/class-term-redirects.php:117
 #: includes/class-unused-terms.php:98
@@ -4357,7 +4411,7 @@ msgstr ""
 msgid "WP Taxonomy Manager"
 msgstr ""
 
-#: includes/freemius.php:221
+#: includes/freemius.php:220
 msgid "WP Taxonomy Manager Account"
 msgstr ""
 
@@ -4365,7 +4419,7 @@ msgstr ""
 msgid "WP Taxonomy Manager Premium"
 msgstr ""
 
-#: includes/freemius.php:200
+#: includes/freemius.php:199
 msgid "WP Taxonomy Manager Settings"
 msgstr ""
 
@@ -4375,6 +4429,10 @@ msgstr ""
 
 #: includes/menu.php:246
 msgid "WP Taxonomy Manager navigation"
+msgstr ""
+
+#: includes/updates-optin.php:33
+msgid "We could not subscribe your email. Please try again later."
 msgstr ""
 
 #: includes/menu.php:417
@@ -4421,6 +4479,10 @@ msgstr ""
 msgid "Yes, connect me"
 msgstr ""
 
+#: includes/updates-optin.php:71
+msgid "Yes, subscribe me"
+msgstr ""
+
 #: premium/class-data-formats.php:189
 msgid "You are not allowed to export taxonomy terms."
 msgstr ""
@@ -4437,6 +4499,10 @@ msgstr ""
 msgid "You are not authorized to use rules-based auto tagging."
 msgstr ""
 
+#: includes/updates-optin.php:30
+msgid "You are subscribed to WP Taxonomy Manager email updates."
+msgstr ""
+
 #: includes/menu.php:1109
 msgid "You are using WP Taxonomy Manager Free."
 msgstr ""
@@ -4450,8 +4516,8 @@ msgstr ""
 msgid "You cannot delete one or more selected terms."
 msgstr ""
 
-#: includes/admin.php:628
-#: includes/admin.php:694
+#: includes/admin.php:630
+#: includes/admin.php:696
 #: premium/admin/class-batch-import.php:54
 #: premium/admin/class-batch-import.php:140
 #: premium/admin/class-dry-run-preview.php:127
@@ -4503,12 +4569,12 @@ msgstr ""
 msgid "You do not have permission to change add-ons."
 msgstr ""
 
-#: includes/admin.php:400
+#: includes/admin.php:402
 msgid "You do not have permission to export users."
 msgstr ""
 
-#: includes/admin.php:780
-#: includes/menu.php:2286
+#: includes/admin.php:782
+#: includes/menu.php:2282
 msgid "You do not have permission to perform this action."
 msgstr ""
 

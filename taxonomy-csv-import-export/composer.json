@@ -25,6 +25,7 @@
 		"post-update-cmd": "@php tools/patch-freemius.php",
 		"generate-pot": "@php tools/generate-pot.php languages/taxocsie.pot",
         "test": [
+			"@php tests/updates-optin-test.php",
 			"@php tests/ai-auto-tagging-response-test.php",
 			"@php tests/free-without-premium-test.php",
 			"@php tests/import-mode-test.php",

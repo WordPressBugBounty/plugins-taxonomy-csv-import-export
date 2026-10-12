@@ -1,12 +1,12 @@
 === WP Taxonomy Manager ===
-Contributors: rlorakib, codora, freemius
+Contributors: rlorakib, codora
 Author URI: https://rlorakib.wp-taxonomy-manager.com/
 Plugin URI: https://wp-taxonomy-manager.com/
 Tags: csv import, csv export, taxonomy, custom taxonomy, bulk import
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,9 @@ Yes. Use the **Register Taxonomy** page to create, name, and attach a taxonomy t
 
 == Upgrade Notice ==
 
+= 2.1.1 =
+Improves the optional email updates opt-in response handling and error messages.
+
 = 2.1.0 =
 Adds safer term maintenance and transfer tools, import presets, unused-term cleanup, redirects, and a streamlined Auto Tagging workspace. Back up term data before bulk changes.
 
@@ -114,6 +117,10 @@ Adds safer term maintenance and transfer tools, import presets, unused-term clea
 Adds term management and Pro workflows, refreshes translations, and strengthens CSV and permission handling.
 
 == Changelog ==
+
+= 2.1.1 - 11/10/2026 =
+* Improved: The optional email updates opt-in accepts confirmed 2xx responses and reports server error codes when a subscription fails.
+* Improved: Clear notices when the updated updates bridge reports an unsubscribed SendFox contact or an incomplete contact response.
 
 = 2.1.0 - 09/10/2026 =
 * Added: Term Redirects for changed archive paths and successful Pro merges, with an admin rule list and removal controls.

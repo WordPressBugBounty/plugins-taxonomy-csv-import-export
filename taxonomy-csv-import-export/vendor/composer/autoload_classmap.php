@@ -21,6 +21,4 @@ return array(
     'TaxoCSIE\\TaxonomyCreator' => $baseDir . '/includes/taxonomy-creator.php',
     'TaxoCSIE\\TermCustomLinks' => $baseDir . '/includes/term-custom-links.php',
     'TaxoCSIE\\TermQueryFilters' => $baseDir . '/includes/term-query-filters.php',
-    'TaxoCSIE\\TermRedirects' => $baseDir . '/includes/class-term-redirects.php',
-    'TaxoCSIE\\UnusedTerms' => $baseDir . '/includes/class-unused-terms.php',
 );
