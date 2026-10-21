@@ -184,7 +184,7 @@ final class RulesAutoTagging {
 						<button type="button" class="button taxocsie-add-rule"><span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span><?php esc_html_e( 'Add a keyword rule', 'taxonomy-csv-import-export' ); ?></button>
 					</div>
 					<?php if ( isset( $_GET['rules-updated'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['rules-updated'] ) ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Presentation-only redirect flag. ?>
-						<div class="notice-success taxocsie-panel__notice taxocsie-rules-notification" data-toast-duration="3000" role="status">
+						<div class="notice-success taxocsie-panel__notice taxocsie-rules-notification" role="status">
 							<span class="dashicons dashicons-yes-alt taxocsie-rules-notification__icon" aria-hidden="true"></span>
 							<div class="taxocsie-rules-notification__content">
 								<strong><?php esc_html_e( 'Auto tagging settings saved', 'taxonomy-csv-import-export' ); ?></strong>
@@ -193,7 +193,7 @@ final class RulesAutoTagging {
 						</div>
 					<?php endif; ?>
 					<?php if ( isset( $_GET['rules-deleted'] ) && absint( $_GET['rules-deleted'] ) > 0 ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Presentation-only redirect flag. ?>
-						<div class="notice-success taxocsie-panel__notice taxocsie-rules-notification" data-toast-duration="3000" role="status">
+						<div class="notice-success taxocsie-panel__notice taxocsie-rules-notification" role="status">
 							<span class="dashicons dashicons-yes-alt taxocsie-rules-notification__icon" aria-hidden="true"></span>
 							<div class="taxocsie-rules-notification__content">
 								<strong><?php esc_html_e( 'Rules deleted', 'taxonomy-csv-import-export' ); ?></strong>

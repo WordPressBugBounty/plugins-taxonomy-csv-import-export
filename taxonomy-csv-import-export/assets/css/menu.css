@@ -35,155 +35,22 @@
 }
 
 /* =============================================
-   Dashboard upgrade promotion
+   CSV import wizard
    ============================================= */
-.taxocsie-dashboard {
+.taxocsie-wrap.taxocsie-manager-wrap {
     width: auto;
-    max-width: none !important;
+    max-width: 1760px;
+    margin: 16px auto 40px;
     box-sizing: border-box;
-    padding-right: 20px;
-}
-
-.taxocsie-dashboard__upgrade-button,
-.taxocsie-pro-card__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 38px;
-    padding: 0 16px;
-    border-radius: 7px;
-    background: #f59e0b;
-    box-shadow: 0 5px 14px -8px rgba(120, 53, 15, .8);
-    color: #1d2327;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
-}
-
-.taxocsie-dashboard__upgrade-button:hover,
-.taxocsie-dashboard__upgrade-button:focus,
-.taxocsie-pro-card__button:hover,
-.taxocsie-pro-card__button:focus {
-    background: #fbbf24;
-    box-shadow: 0 8px 18px -9px rgba(120, 53, 15, .85);
-    color: #111827;
-    transform: translateY(-1px);
-}
-
-.taxocsie-dashboard__upgrade-button .dashicons,
-.taxocsie-pro-card__button .dashicons {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
-}
-
-.taxocsie-dashboard__layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 20px;
-    align-items: start;
-}
-
-.taxocsie-dashboard__main {
-    min-width: 0;
-}
-
-.taxocsie-pro-card {
-    margin-top: 20px;
-    overflow: hidden;
-    border: 1px solid #6254d6;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 18px 45px -28px rgba(15, 23, 42, .35);
-}
-
-.taxocsie-pro-card__header {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 15px 18px;
-    background: linear-gradient(115deg, #5144bd, #6254d6);
-    color: #fff;
-}
-
-.taxocsie-pro-card__header .dashicons {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-}
-
-.taxocsie-pro-card__header h2 {
-    margin: 0;
-    color: inherit;
-    font-size: 15px;
-    line-height: 1.35;
-}
-
-.taxocsie-pro-card__body {
-    padding: 19px 18px 20px;
-}
-
-.taxocsie-pro-card__body > p {
-    margin: 0;
-    color: #475569;
-    font-size: 13px;
-    line-height: 1.55;
-}
-
-.taxocsie-pro-card ul {
-    display: grid;
-    gap: 11px;
-    margin: 18px 0 20px;
-    padding: 0;
-}
-
-.taxocsie-pro-card li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin: 0;
-    color: #334155;
-    font-size: 12.5px;
-    line-height: 1.45;
-}
-
-.taxocsie-pro-card li .dashicons {
-    flex: 0 0 17px;
-    width: 17px;
-    height: 17px;
-    margin-top: 1px;
-    color: #6254d6;
-    font-size: 17px;
-}
-
-@media (max-width: 1100px) {
-    .taxocsie-dashboard__layout {
-        grid-template-columns: 1fr;
-    }
-
-    .taxocsie-pro-card {
-        margin-top: 0;
-    }
+    padding-right: 12px;
+    padding-left: 12px;
 }
 
 @media (max-width: 782px) {
-    .taxocsie-dashboard {
-        padding-right: 10px;
+    .taxocsie-wrap.taxocsie-manager-wrap {
+        padding-right: 8px;
+        padding-left: 8px;
     }
-}
-
-/* =============================================
-   CSV import wizard
-   ============================================= */
-.taxocsie-manager-wrap {
-    width: auto;
-    max-width: none !important;
-    box-sizing: border-box;
-    padding-right: 20px;
 }
 
 .taxocsie-import-wizard {
@@ -195,7 +62,7 @@
     align-items: center;
     justify-content: center;
     gap: 0;
-    padding: 22px 30px;
+    padding: 8px max(16px, calc(50% - 480px));
     border-bottom: 1px solid #dbe3ec;
     background: #fff;
 }
@@ -204,17 +71,17 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     flex: 1 1 0;
     justify-content: center;
     margin: 0;
-    padding: 3px 12px;
+    padding: 2px 8px;
     border: 0;
     background: transparent;
     color: #64748b;
     cursor: pointer;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     line-height: 1.4;
 }
@@ -233,8 +100,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 23px;
-    height: 23px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
     background: #94a3b8;
     color: #fff;
@@ -266,18 +133,24 @@
 }
 
 .taxocsie-import-wizard__form {
-    padding: 42px clamp(24px, 5vw, 70px) 34px;
+    padding: 20px clamp(18px, 3vw, 36px) 22px;
 }
 
 .taxocsie-import-stage[hidden] {
     display: none !important;
 }
 
+.taxocsie-import-stage[data-import-stage="1"] {
+    max-width: 1120px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .taxocsie-import-stage__actions {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 22px;
+    margin-top: 14px;
 }
 
 .taxocsie-import-stage__actions--end .button,
@@ -306,31 +179,31 @@
 }
 
 .taxocsie-import-wizard__intro {
-    margin-bottom: 22px;
+    margin-bottom: 14px;
 }
 
 .taxocsie-import-wizard__intro h2 {
     margin: 0;
     color: #172b3d;
-    font-size: 24px;
+    font-size: 21px;
     line-height: 1.3;
 }
 
 .taxocsie-import-wizard__intro p {
     max-width: 820px;
-    margin: 7px 0 0;
+    margin: 4px 0 0;
     color: #64748b;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .taxocsie-import-wizard__destination {
     display: grid;
     grid-template-columns: minmax(220px, 1fr) minmax(280px, 420px);
     align-items: center;
-    gap: 24px;
-    margin-bottom: 18px;
-    padding: 16px 18px;
+    gap: 16px;
+    margin-bottom: 0;
+    padding: 12px 14px;
     border: 1px solid #dbe3ec;
     border-radius: 10px;
     background: #fff;
@@ -347,8 +220,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: 9px;
     background: #ede9fe;
     color: #6254d6;
@@ -369,9 +242,35 @@
 .taxocsie-import-wizard__destination select {
     width: 100%;
     max-width: none;
-    min-height: 43px;
+    min-height: 40px;
     border-color: #cbd5e1;
     border-radius: 7px;
+}
+
+@media (min-width: 1250px) {
+    .taxocsie-import-stage[data-import-stage="1"] {
+        display: grid;
+        grid-template-columns: minmax(250px, 280px) minmax(0, 1fr);
+        align-items: center;
+        column-gap: 16px;
+    }
+
+    .taxocsie-import-stage[data-import-stage="1"] .taxocsie-import-wizard__intro {
+        margin-bottom: 0;
+    }
+
+    .taxocsie-import-stage[data-import-stage="1"] .taxocsie-import-wizard__destination {
+        grid-column: 2;
+        grid-template-columns: minmax(0, 1fr) minmax(210px, 260px);
+        gap: 12px;
+        padding: 10px 12px;
+    }
+
+    .taxocsie-import-stage[data-import-stage="1"] .taxocsie-import-stage__actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
 }
 
 .taxocsie-import-format-field {
@@ -407,9 +306,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 230px;
+    min-height: 180px;
     margin: 0;
-    padding: 28px;
+    padding: 20px;
     overflow: hidden;
     border: 2px dashed #bac7d5;
     border-radius: 12px;
@@ -562,15 +461,21 @@
 .taxocsie-import-review {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 12px;
+}
+
+.taxocsie-import-stage[data-import-stage="3"] {
+    max-width: 960px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .taxocsie-import-review__item {
     display: flex;
     align-items: center;
-    gap: 14px;
-    min-height: 82px;
-    padding: 18px;
+    gap: 10px;
+    min-height: 60px;
+    padding: 10px 12px;
     border: 1px solid #dbe3ec;
     border-radius: 10px;
     background: #fff;
@@ -580,14 +485,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     background: #ede9fe;
     color: #6254d6;
-    font-size: 21px;
-    line-height: 42px;
+    font-size: 18px;
+    line-height: 34px;
 }
 
 .taxocsie-import-review__item small,
@@ -623,10 +528,10 @@
 @media (max-width: 782px) {
     .taxocsie-import-wizard__steps {
         align-items: flex-start;
-        gap: 22px;
+        gap: 12px;
         justify-content: flex-start;
         overflow-x: auto;
-        padding: 18px 20px;
+        padding: 8px 12px;
     }
 
     .taxocsie-import-step {
@@ -639,7 +544,7 @@
     }
 
     .taxocsie-import-wizard__form {
-        padding: 28px 18px 24px;
+        padding: 18px 16px 20px;
     }
 
     .taxocsie-import-wizard__destination {
@@ -648,8 +553,8 @@
     }
 
     .taxocsie-import-wizard .taxocsie-upload-section {
-        min-height: 255px;
-        padding: 24px 16px;
+        min-height: 180px;
+        padding: 20px 16px;
     }
 
     .taxocsie-import-wizard__footer,
@@ -703,11 +608,12 @@
 }
 
 .taxocsie-manager-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, .36fr) minmax(0, .64fr);
+    align-items: stretch;
+    gap: 22px;
     margin-top: 0;
-    padding: 22px 24px;
+    padding: 18px 20px;
     border: 1px solid #dbe3ec;
     border-radius: 16px;
     background: #fff;
@@ -722,11 +628,11 @@
 }
 
 .taxocsie-manager-step-heading {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
 }
 
 .taxocsie-manager-current-step {
-    margin: 22px 0 0;
+    margin: 16px 0 0;
     padding: 0 2px;
 }
 
@@ -818,13 +724,126 @@
 }
 
 .taxocsie-export-actions {
-    padding-top: 17px;
+    padding-top: 12px;
     border-top: 1px solid #e9edf5;
 }
 
-.taxocsie-manager-nav__sections {
+.taxocsie-manager-wrap .taxocsie-panel__form {
+    gap: 12px;
+    padding: 18px 24px;
+}
+
+.taxocsie-manager-wrap .taxocsie-panel__form .taxocsie-manager-substep {
+    margin: 0 0 2px;
+}
+
+.taxocsie-manager-wrap .taxocsie-panel__form .taxocsie-manager-substep:not(:first-of-type) {
+    margin-top: 10px;
+}
+
+.taxocsie-manager-wrap .taxocsie-panel__form .taxocsie-form-help {
+    margin: 0;
+    padding: 8px 12px;
+}
+
+.taxocsie-manager-wrap .taxocsie-export-images-option {
+    margin-top: 2px;
+    padding: 10px 12px;
+}
+
+.taxocsie-manager-wrap .taxocsie-export-filters summary {
+    padding: 10px 12px;
+}
+
+.taxocsie-export-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 16px;
+}
+
+.taxocsie-export-layout__column {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+#taxocsie-export-form .taxocsie-export-layout__column .taxocsie-panel__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 12px;
+}
+
+#taxocsie-export-form .taxocsie-export-layout__column .taxocsie-panel__row > div,
+#taxocsie-export-form .taxocsie-export-layout__column .taxocsie-panel__select {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+}
+
+#taxocsie-export-form .taxocsie-export-layout__column .taxocsie-format-pro-note {
+    margin: 0;
+}
+
+.taxocsie-export-layout__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.taxocsie-export-layout__footer .taxocsie-export-actions {
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+}
+
+@media (max-width: 1450px) {
+    #taxocsie-export-form .taxocsie-export-layout__column .taxocsie-panel__row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1050px) {
+    .taxocsie-export-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+#taxocsie-export-panel > div:first-child {
+    padding: 14px 24px;
+}
+
+@media (max-width: 1200px) {
+    .taxocsie-manager-nav {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .taxocsie-manager-nav__sections {
+        max-width: 640px;
+    }
+
+    /* Scoped to the nav so it outranks the base rule declared further down. */
+    .taxocsie-manager-nav .taxocsie-manager-nav__actions {
+        padding: 14px 0 0;
+        border-top: 1px solid #e2e8f0;
+        border-left: 0;
+    }
+}
+
+.taxocsie-manager-nav__sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
 }
 
 .taxocsie-manager-nav__primary {
@@ -833,11 +852,11 @@
 
 .taxocsie-manager-section {
     display: flex;
-    flex: 1 1 240px;
     align-items: center;
-    gap: 12px;
-    min-width: 220px;
-    padding: 12px 14px;
+    gap: 9px;
+    min-width: 0;
+    min-height: 68px;
+    padding: 8px 10px;
     border: 1px solid #dbe3ec;
     border-radius: 11px;
     background: #fff;
@@ -851,9 +870,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
     border-radius: 9px;
     background: #f1f5f9;
     color: #64748b;
@@ -903,22 +922,49 @@
 
 .taxocsie-manager-nav__actions {
     min-width: 0;
-    padding-top: 20px;
-    border-top: 1px solid #e2e8f0;
+    padding-left: 22px;
+    border-left: 1px solid #e2e8f0;
 }
 
 .taxocsie-manager-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    padding: 4px;
-    border: 1px solid #dbe3ec;
-    border-radius: 10px;
-    background: #f1f5f9;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
 }
 
 .taxocsie-manager-actions[data-manager-actions="terms"] {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.taxocsie-manager-actions[data-manager-actions="users"] {
+    max-width: none;
+}
+
+.taxocsie-manager-actions[data-manager-actions="users"] .taxocsie-manager-action {
+    box-sizing: border-box;
+    min-height: 56px;
+    padding: 8px 10px;
+}
+
+/* Keep the two-choice Users workspace compact without changing term tools. */
+.taxocsie-wrap.taxocsie-manager-wrap:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) {
+    max-width: 1100px;
+}
+
+.taxocsie-manager-nav:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 14px 16px;
+}
+
+.taxocsie-manager-nav:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) .taxocsie-manager-nav__actions {
+    padding-left: 16px;
+}
+
+.taxocsie-manager-nav:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) .taxocsie-manager-section {
+    box-sizing: border-box;
+    min-height: 56px;
 }
 
 .taxocsie-action-pro { padding: 2px 4px; border-radius: 4px; background: #ede9fe; color: #5144bd; font-size: 8px; }
@@ -932,26 +978,29 @@
     align-items: center;
     justify-content: center;
     gap: 7px;
-    min-height: 42px;
+    min-height: 68px;
     min-width: 0;
-    padding: 0 9px;
-    border: 0;
-    border-radius: 7px;
-    background: transparent;
+    padding: 8px 12px;
+    border: 1px solid #dbe3ec;
+    border-radius: 9px;
+    background: #fff;
     color: #475569;
     cursor: pointer;
     font-size: 13px;
     font-weight: 700;
-    transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+    transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
 }
 
 .taxocsie-manager-action:not(:disabled):hover {
+    border-color: #a9a0f4;
+    background: #faf9ff;
     color: #4338ca;
 }
 
 .taxocsie-manager-action.is-active {
-    background: #fff;
-    box-shadow: 0 2px 7px rgba(15, 23, 42, .12);
+    border-color: #8b7ff0;
+    background: #f5f3ff;
+    box-shadow: 0 0 0 2px rgba(113, 100, 230, .1);
     color: #5144bd;
 }
 
@@ -1117,16 +1166,40 @@
     font-size: 12px;
 }
 
-.taxocsie-order-controls, .taxocsie-order-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 28px; }
+.taxocsie-order-controls, .taxocsie-order-footer { display: flex; align-items: center; gap: 12px; padding: 18px 28px; }
+.taxocsie-order-footer { justify-content: space-between; }
 .taxocsie-order-controls select { min-width: 280px; min-height: 40px; }
 .taxocsie-order-status { margin: 0; padding: 11px 28px; border-block: 1px solid #eef2f7; background: #f8fafc; color: #64748b; }
 .taxocsie-order-list { margin: 0; padding: 16px 28px; background: #f8fafc; }
-.taxocsie-order-list[hidden], .taxocsie-order-footer[hidden] { display: none; }
+.taxocsie-order-list[hidden], .taxocsie-order-footer[hidden], .taxocsie-order-navigation[hidden], .taxocsie-order-pagination[hidden], .taxocsie-order-empty[hidden] { display: none; }
 .taxocsie-order-list li { display: flex; align-items: center; gap: 10px; margin: 0 0 7px; padding: 11px 14px; border: 1px solid #dbe3ec; border-radius: 9px; background: #fff; cursor: grab; }
 .taxocsie-order-list li.is-dragging { opacity: .45; }
 .taxocsie-order-list li .dashicons { color: #94a3b8; }
-.taxocsie-order-list li strong { flex: 1; color: #1e293b; }
+.taxocsie-order-list li strong { color: #1e293b; }
 .taxocsie-order-list li small { color: #64748b; }
+.taxocsie-order-details { display: flex; flex: 1; flex-direction: column; min-width: 0; overflow-wrap: anywhere; }
+.taxocsie-order-handle { flex: 0 0 auto; }
+.taxocsie-order-moves { display: inline-flex; gap: 4px; flex: 0 0 auto; }
+.taxocsie-order-position { width: 68px; min-height: 30px; text-align: center; }
+.taxocsie-order-moves .button { min-width: 32px; padding-inline: 5px; font-size: 19px; }
+.taxocsie-order-children { flex: 0 0 auto; }
+.taxocsie-order-navigation { padding: 14px 28px 0; background: #f8fafc; }
+.taxocsie-order-navigation p { margin: 7px 0 0; color: #64748b; }
+.taxocsie-order-breadcrumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+.taxocsie-order-breadcrumbs strong { color: #1e293b; }
+.taxocsie-order-separator { color: #94a3b8; }
+.taxocsie-order-empty { margin: 0; padding: 20px 28px; background: #f8fafc; color: #64748b; }
+.taxocsie-order-pagination { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 0 28px 18px; background: #f8fafc; }
+.taxocsie-order-pagination span { min-width: 90px; text-align: center; font-weight: 600; color: #334155; }
+.taxocsie-order-list li:focus-within { border-color: #4b53bc; box-shadow: 0 0 0 1px #4b53bc; }
+@media (max-width: 600px) {
+  .taxocsie-order-controls, .taxocsie-order-footer { flex-wrap: wrap; padding-inline: 16px; }
+  .taxocsie-order-controls select { width: 100%; min-width: 0; }
+  .taxocsie-order-list, .taxocsie-order-navigation, .taxocsie-order-empty { padding-inline: 16px; }
+  .taxocsie-order-list li { flex-wrap: wrap; }
+  .taxocsie-order-children { margin-left: 30px; }
+  .taxocsie-order-moves { margin-left: auto; }
+}
 .taxocsie-order-footer { border-top: 1px solid #e2e8f0; }
 .taxocsie-order-locked { padding: 42px 24px; text-align: center; }
 .taxocsie-order-locked > .dashicons { width: 42px; height: 42px; color: #7164e6; font-size: 42px; }
@@ -1135,21 +1208,76 @@
 
 .taxocsie-user-upload {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
     align-items: center;
-    gap: 24px;
-    min-height: 128px;
-    padding: 24px;
+    gap: 12px;
+    padding: 10px 12px;
     border: 1px dashed #b8c7dc;
     border-radius: 12px;
     background: #f8faff;
     box-sizing: border-box;
 }
 
+#taxocsie-user-export-panel > div:first-child,
+#taxocsie-user-import-panel > div:first-child {
+    padding: 11px 18px;
+}
+
+.taxocsie-manager-wrap #taxocsie-user-export-panel .taxocsie-panel__form,
+.taxocsie-manager-wrap #taxocsie-user-import-panel .taxocsie-panel__form {
+    box-sizing: border-box;
+    max-width: 100%;
+    margin-inline: auto;
+    gap: 8px;
+    padding: 13px 18px 15px;
+}
+
+#taxocsie-user-export-panel .taxocsie-panel__field,
+#taxocsie-user-import-panel .taxocsie-panel__field {
+    margin-bottom: 4px !important;
+}
+
+#taxocsie-user-export-panel .taxocsie-panel__actions,
+#taxocsie-user-import-panel .taxocsie-panel__actions {
+    margin-top: 0 !important;
+    align-items: end !important;
+}
+
+.taxocsie-user-format {
+    display: grid;
+    gap: 4px;
+    min-width: 178px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.taxocsie-user-format select {
+    width: 100%;
+    min-height: 34px;
+    border-color: #cbd5e1;
+    border-radius: 7px;
+    background-color: #fff;
+}
+
+#taxocsie-user-export-panel .taxocsie-user-export-hint {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 3px;
+    padding: 5px 9px;
+    border-left: 3px solid #7164e6;
+    border-radius: 0 6px 6px 0;
+    background: #f3f1ff;
+    color: #4338a4;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
 .taxocsie-user-upload__intro {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     min-width: 0;
 }
 
@@ -1157,33 +1285,33 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 48px;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
     background: #e8f7fc;
     color: #087fa0;
-    font-size: 23px;
+    font-size: 19px;
 }
 
 .taxocsie-user-upload__intro strong {
     display: block;
     color: #1e293b;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.4;
 }
 
 .taxocsie-user-upload__intro p {
-    margin: 4px 0 0;
+    margin: 2px 0 0;
     color: #64748b;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
 }
 
 .taxocsie-user-upload__control {
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 5px;
     min-width: 0;
 }
 
@@ -1191,7 +1319,7 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 6px;
+    padding: 4px;
     border: 1px solid #cbd5e1;
     border-radius: 9px;
     background: #fff;
@@ -1203,7 +1331,7 @@
 
 .taxocsie-user-upload__control input[type="file"]::file-selector-button {
     margin-right: 12px;
-    padding: 9px 13px;
+    padding: 6px 10px;
     border: 0;
     border-radius: 6px;
     background: #6254d6;
@@ -1231,10 +1359,29 @@
 }
 
 @media (max-width: 782px) {
+    #taxocsie-user-export-panel .taxocsie-panel__actions,
+    #taxocsie-user-import-panel .taxocsie-panel__actions {
+        align-items: stretch !important;
+    }
+
+    .taxocsie-user-format {
+        width: 100%;
+    }
+
+    .taxocsie-manager-nav:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) {
+        grid-template-columns: 1fr;
+    }
+
+    .taxocsie-manager-nav:has(.taxocsie-manager-actions[data-manager-actions="users"]:not([hidden])) .taxocsie-manager-nav__actions {
+        padding: 12px 0 0;
+        border-top: 1px solid #e2e8f0;
+        border-left: 0;
+    }
+
     .taxocsie-user-upload {
         grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 18px;
+        gap: 10px;
+        padding: 12px;
     }
 }
 
@@ -1255,12 +1402,10 @@
     }
 
     .taxocsie-manager-nav__sections {
-        flex-direction: column;
+        grid-template-columns: 1fr;
     }
 
     .taxocsie-manager-section {
-        flex-basis: auto;
-        min-width: 0;
         width: 100%;
     }
 
@@ -1391,13 +1536,26 @@
     gap: 8px;
 }
 
-.taxocsie-export-filters summary small {
+.taxocsie-export-filters summary > small {
     padding: 3px 8px;
     border-radius: 999px;
     background: #e2e8f0;
     color: #64748b;
     font-size: 10px;
     text-transform: uppercase;
+}
+
+.taxocsie-export-filters__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.taxocsie-export-filters__heading small {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.35;
 }
 
 .taxocsie-export-filters[open] summary {
@@ -1419,6 +1577,14 @@
     color: #334155;
     font-size: 12px;
     font-weight: 700;
+}
+
+.taxocsie-export-filter__hint {
+    display: block;
+    margin: -3px 0 7px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.35;
 }
 
 .taxocsie-export-filter select,
@@ -1793,6 +1959,29 @@
     box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
+#taxocsie-import-panel .taxocsie-result__title {
+    margin: 22px 24px 0;
+    padding: 12px 16px;
+    border: 1px solid #dbe3ec;
+    border-left: 4px solid #16a34a;
+    border-radius: 10px 10px 0 0;
+    background: #fff;
+    color: #172033;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+#taxocsie-import-panel .taxocsie-result__title--skipped {
+    border-left-color: #d97706;
+}
+
+#taxocsie-import-panel .taxocsie-result__title + .taxocsie-panel__tablewrap {
+    margin-top: 0;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+}
+
 .taxocsie-panel__tablewrap--flush {
     margin: 0;
     border-radius: 0;
@@ -2079,8 +2268,8 @@ table.taxocsie-export__preview-table.widefat thead th,
     font-size: 13px;
 }
 
-.taxocsie-all-terms__table tbody tr:last-child td {
-    border-bottom: 0;
+.taxocsie-all-terms__table tbody .taxocsie-all-terms__row--last td {
+    border-bottom: 1px solid #cbd5e1;
 }
 
 .taxocsie-all-terms__table .taxocsie-select-column {
@@ -2214,16 +2403,152 @@ table.taxocsie-export__preview-table.widefat thead th,
 .taxocsie-all-terms__empty span:last-child {
     color: #64748b;
 }
-.taxocsie-term-edit-row[hidden] { display: none; }
-.taxocsie-term-edit-row td { padding: 20px 24px; background: #f8faff; }
-.taxocsie-term-edit-fields { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) minmax(220px, 2fr); gap: 16px; }
-.taxocsie-term-edit-fields label { display: flex; flex-direction: column; gap: 6px; color: #334155; font-weight: 600; }
-.taxocsie-term-edit-fields input, .taxocsie-term-edit-fields textarea { width: 100%; max-width: none; font-weight: 400; }
-.taxocsie-term-edit-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; color: #64748b; font-size: 12px; }
-.taxocsie-term-edit-footer a { color: #4338ca; }
-.taxocsie-term-edit-footer > div { display: flex; gap: 8px; white-space: nowrap; }
-@media (max-width: 900px) { .taxocsie-term-edit-fields { grid-template-columns: 1fr 1fr; } .taxocsie-term-edit-fields__description { grid-column: 1 / -1; } }
-@media (max-width: 600px) { .taxocsie-all-terms__toolbar, .taxocsie-all-terms__filters, .taxocsie-term-edit-footer { align-items: stretch; flex-direction: column; } .taxocsie-all-terms__filters input[type="search"], .taxocsie-all-terms__filters select { width: 100%; max-width: none; } .taxocsie-all-terms__controls .taxocsie-table-pagination { flex-wrap: wrap; margin-left: 0; } .taxocsie-term-edit-fields { grid-template-columns: 1fr; } .taxocsie-term-edit-fields__description { grid-column: auto; } }
+.taxocsie-term-edit-row[hidden] {
+    display: none;
+}
+
+.taxocsie-all-terms__table .taxocsie-term-edit-row > td {
+    padding: 18px 24px 16px;
+    border-top: 1px solid #dfe4ef;
+    background: #f8faff;
+}
+
+.taxocsie-term-edit-row form {
+    margin: 0;
+}
+
+.taxocsie-term-edit-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr);
+    align-items: start;
+    gap: 14px;
+}
+
+.taxocsie-term-edit-fields label {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.taxocsie-term-edit-fields input,
+.taxocsie-term-edit-fields textarea {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    min-height: 42px;
+    margin: 0;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: none;
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.taxocsie-term-edit-fields textarea {
+    height: 42px;
+    resize: vertical;
+}
+
+.taxocsie-term-edit-fields input:focus,
+.taxocsie-term-edit-fields textarea:focus {
+    border-color: #7164e6;
+    box-shadow: 0 0 0 2px #ede9ff;
+    outline: none;
+}
+
+.taxocsie-term-edit-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #e1e7f0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.taxocsie-term-edit-footer > span {
+    line-height: 1.5;
+}
+
+.taxocsie-term-edit-footer a {
+    margin-left: 4px;
+    color: #5144bd;
+    font-weight: 600;
+}
+
+.taxocsie-term-edit-footer > div {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.taxocsie-term-edit-footer .button {
+    min-height: 36px;
+    margin: 0;
+    padding: 0 14px;
+    border-radius: 6px;
+}
+
+@media (max-width: 1100px) {
+    .taxocsie-term-edit-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .taxocsie-term-edit-fields__description {
+        grid-column: 1 / -1;
+    }
+
+    .taxocsie-term-edit-fields textarea {
+        height: 62px;
+    }
+}
+
+@media (max-width: 700px) {
+    .taxocsie-term-edit-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .taxocsie-term-edit-fields__description {
+        grid-column: auto;
+    }
+
+    .taxocsie-term-edit-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .taxocsie-all-terms__toolbar,
+    .taxocsie-all-terms__filters {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .taxocsie-all-terms__filters input[type="search"],
+    .taxocsie-all-terms__filters select {
+        width: 100%;
+        max-width: none;
+    }
+
+    .taxocsie-all-terms__controls .taxocsie-table-pagination {
+        flex-wrap: wrap;
+        margin-left: 0;
+    }
+}
 
 @media (max-width: 600px) {
     .taxocsie-all-terms__toolbar {
@@ -2666,6 +2991,11 @@ table.taxocsie-export__preview-table.widefat thead th,
     margin-right: 20px;
 }
 
+.taxocsie-register-page > .taxocsie-help-strip {
+    margin-top: 12px;
+    padding: 11px 16px;
+}
+
 .taxocsie-register-card,
 .taxocsie-register-list {
     overflow: hidden;
@@ -2681,7 +3011,7 @@ table.taxocsie-export__preview-table.widefat thead th,
 
 .taxocsie-register-card {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 14px;
 }
 
 .taxocsie-register-card__header,
@@ -2695,7 +3025,7 @@ table.taxocsie-export__preview-table.widefat thead th,
 }
 
 .taxocsie-register-card__header {
-    padding: 12px 16px;
+    padding: 11px 18px;
 }
 
 .taxocsie-register-card__header > div {
@@ -2735,8 +3065,8 @@ table.taxocsie-export__preview-table.widefat thead th,
 .taxocsie-register-card > .taxocsie-panel__form {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    padding: 24px 28px;
+    gap: 14px;
+    padding: 18px 20px;
 }
 
 .taxocsie-register-card .taxocsie-reg-grid,
@@ -2748,7 +3078,7 @@ table.taxocsie-export__preview-table.widefat thead th,
 .taxocsie-reg-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 14px;
 }
 
 .taxocsie-register-card .taxocsie-panel__field {
@@ -2771,38 +3101,41 @@ table.taxocsie-export__preview-table.widefat thead th,
 }
 
 .taxocsie-register-card .taxocsie-panel__textarea {
-    min-height: 56px;
+    min-height: 58px;
+    height: 58px;
+    resize: vertical;
 }
 
 .taxocsie-register-setting {
     min-width: 0;
-    padding: 18px;
-    border: 1px solid #e2e5f0;
-    border-radius: 14px;
-    background: linear-gradient(145deg, #fbfbff 0%, #f7f8fc 100%);
-    box-shadow: 0 8px 24px -22px rgba(44, 39, 92, .75), inset 0 1px 0 #fff;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1px solid #dfe5f0;
+    border-radius: 12px;
+    background: #fafbff;
+    box-shadow: 0 4px 12px rgba(44, 39, 92, .035);
 }
 
 .taxocsie-register-setting__header {
     display: flex;
     align-items: center;
-    gap: 11px;
-    margin-bottom: 14px;
+    gap: 9px;
+    margin-bottom: 10px;
 }
 
 .taxocsie-register-setting__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
     border: 1px solid #ddd9ff;
     border-radius: 10px;
     background: linear-gradient(145deg, #f1efff 0%, #e9e6ff 100%);
     color: var(--tc-purple);
-    font-size: 18px;
-    line-height: 36px;
+    font-size: 16px;
+    line-height: 32px;
 }
 
 .taxocsie-register-setting__header > div {
@@ -2829,23 +3162,24 @@ table.taxocsie-export__preview-table.widefat thead th,
 .taxocsie-type-options {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
 }
 
 .taxocsie-type-option {
     display: flex;
     position: relative;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
     min-height: 64px;
-    padding: 11px 12px;
+    box-sizing: border-box;
+    padding: 9px 10px;
     border: 1px solid #d9deea;
     border-radius: 11px;
     cursor: pointer;
     background: #fff;
-    box-shadow: 0 3px 10px -9px rgba(15, 23, 42, .55);
-    transition: border-color .18s, background .18s, box-shadow .18s, transform .18s;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .035);
+    transition: border-color .18s, background .18s, box-shadow .18s;
 }
 
 .taxocsie-type-option input[type="radio"] {
@@ -2856,8 +3190,7 @@ table.taxocsie-export__preview-table.widefat thead th,
 
 .taxocsie-type-option:hover {
     border-color: #b9b2f6;
-    box-shadow: 0 9px 20px -15px rgba(55, 45, 145, .65);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(55, 45, 145, .09);
 }
 
 .taxocsie-type-option:focus-within {
@@ -2867,18 +3200,18 @@ table.taxocsie-export__preview-table.widefat thead th,
 
 .taxocsie-type-option--active {
     border-color: var(--tc-purple);
-    background: linear-gradient(145deg, #f7f5ff 0%, #f0edff 100%);
-    box-shadow: 0 10px 22px -17px rgba(81, 68, 189, .8), inset 3px 0 0 var(--tc-purple);
+    background: #f5f3ff;
+    box-shadow: inset 3px 0 0 var(--tc-purple);
 }
 
 .taxocsie-type-option__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     background: #f1f3f7;
     color: #64748b;
     font-size: 18px;
@@ -2943,17 +3276,18 @@ table.taxocsie-export__preview-table.widefat thead th,
 }
 
 .taxocsie-register-card .taxocsie-post-types-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 8px;
 }
 
 /* Let the export selector use the available panel width without sparse columns. */
 #taxocsie-user-export-panel .taxocsie-roles-grid {
-    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
     align-content: start;
-    gap: 10px;
-    max-height: 340px;
+    gap: 7px;
+    max-height: 220px;
     overflow-y: auto;
-    padding: 4px 5px 4px 1px;
+    padding: 2px 4px 2px 1px;
     scrollbar-color: #cbd5e1 transparent;
     scrollbar-width: thin;
 }
@@ -2961,10 +3295,10 @@ table.taxocsie-export__preview-table.widefat thead th,
 #taxocsie-user-export-panel .taxocsie-roles-grid .taxocsie-checkbox-label {
     box-sizing: border-box;
     min-width: 0;
-    min-height: 46px;
+    min-height: 38px;
     margin: 0 !important;
-    padding: 10px 12px !important;
-    gap: 10px !important;
+    padding: 7px 9px !important;
+    gap: 7px !important;
     border: 1px solid #dfe4ee;
     border-radius: 9px;
     background: #fff;
@@ -3000,36 +3334,36 @@ table.taxocsie-export__preview-table.widefat thead th,
 
 @media (max-width: 600px) {
     #taxocsie-user-export-panel .taxocsie-roles-grid {
-        grid-template-columns: 1fr;
-        max-height: 300px;
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        max-height: 230px;
     }
 }
 
 .taxocsie-register-card .taxocsie-post-types-grid .taxocsie-checkbox-label {
     position: relative;
-    align-items: flex-start !important;
-    gap: 11px !important;
+    align-items: center !important;
+    gap: 9px !important;
     min-width: 0;
     margin: 0 !important;
-    min-height: 72px;
-    padding: 13px 14px !important;
+    min-height: 64px;
+    box-sizing: border-box;
+    padding: 9px 11px !important;
     border: 1px solid #d9deea;
     border-radius: 11px;
     background: #fff;
-    box-shadow: 0 3px 10px -9px rgba(15, 23, 42, .55);
-    transition: border-color .18s, background .18s, box-shadow .18s, transform .18s;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .035);
+    transition: border-color .18s, background .18s, box-shadow .18s;
 }
 
 .taxocsie-register-card .taxocsie-post-types-grid .taxocsie-checkbox-label:hover {
     border-color: #b9b2f6;
-    box-shadow: 0 9px 20px -15px rgba(55, 45, 145, .65);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(55, 45, 145, .09);
 }
 
 .taxocsie-register-card .taxocsie-post-types-grid .taxocsie-checkbox-label:has(input:checked) {
     border-color: var(--tc-purple);
-    background: linear-gradient(145deg, #f7f5ff 0%, #f0edff 100%);
-    box-shadow: 0 10px 22px -17px rgba(81, 68, 189, .8), inset 3px 0 0 var(--tc-purple);
+    background: #f5f3ff;
+    box-shadow: inset 3px 0 0 var(--tc-purple);
 }
 
 .taxocsie-register-card .taxocsie-post-types-grid .taxocsie-checkbox-label:focus-within {
@@ -3046,16 +3380,16 @@ table.taxocsie-export__preview-table.widefat thead th,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     background: #f1f3f7;
     color: #68758a;
     font-size: 18px;
     line-height: 1 !important;
     text-align: center;
-    margin-top: 2px;
+    margin-top: 0;
 }
 
 .taxocsie-checkbox-label:has(input:checked) .taxocsie-post-type-icon {
@@ -3108,7 +3442,7 @@ table.taxocsie-export__preview-table.widefat thead th,
     visibility: visible;
     color: transparent;
     font-size: 16px;
-    margin-top: 8px;
+    margin-top: 0;
 }
 
 .taxocsie-checkbox-label:has(input:checked) .taxocsie-post-type-check {
@@ -3168,9 +3502,9 @@ table.taxocsie-export__preview-table.widefat thead th,
 
 .taxocsie-register-card .taxocsie-panel__actions {
     justify-content: flex-end !important;
-    min-height: 50px;
-    margin: 2px -28px -24px !important;
-    padding: 14px 28px;
+    min-height: 0;
+    margin: 0 -20px -18px !important;
+    padding: 11px 20px;
     border-top: 1px solid #e5e9ef;
     background: #fbfcfe;
 }
@@ -3232,11 +3566,11 @@ table.taxocsie-export__preview-table.widefat thead th,
 }
 
 /* Pro duplicate discovery and dry-run impact preview. */
-.taxocsie-duplicate-page { margin-right: 20px; }
+.taxocsie-duplicate-page { box-sizing: border-box; width: auto; max-width: none; margin-right: 20px; }
 .taxocsie-duplicate-page__badge { display: inline-block; padding: 3px 7px; border-radius: 5px; background: #ede9fe; color: #5144bd; font-size: 11px; vertical-align: middle; }
-.taxocsie-duplicate-page__filter { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.taxocsie-duplicate-page__filter { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 20px 0; padding: 16px 18px; border: 1px solid #dbe3ec; border-radius: 10px; background: #fff; }
 .taxocsie-duplicate-page__filter label { font-weight: 600; }
-.taxocsie-duplicate-page__filter select { min-width: 210px; }
+.taxocsie-duplicate-page__filter select { flex: 1 1 280px; width: auto; min-width: 210px; max-width: none; }
 .taxocsie-duplicate-page__group, .taxocsie-duplicate-page__impact { margin: 18px 0; padding: 18px; border: 1px solid #dbe3ec; border-radius: 10px; background: #fff; }
 .taxocsie-duplicate-page__group h3, .taxocsie-duplicate-page__impact h2 { margin: 0 0 12px; }
 .taxocsie-duplicate-page__group table { border: 0; }
@@ -5100,23 +5434,163 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     width: auto;
     max-width: none;
     box-sizing: border-box;
+    padding-top: 12px;
+    padding-bottom: 12px;
     padding-right: 20px;
+}
+
+.taxocsie-addons-page .taxocsie-addons-catalog {
+    margin-top: 10px;
+}
+
+.taxocsie-addons-catalog__header {
+    padding: 14px 18px;
+}
+
+/* Add-on search. */
+.taxocsie-addons-catalog__tools {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 10px;
+}
+
+.taxocsie-addons-search {
+    position: relative;
+}
+
+.taxocsie-addons-search[hidden],
+.taxocsie-addon-card[hidden],
+.taxocsie-addons-empty[hidden] {
+    display: none;
+}
+
+.taxocsie-addons-search .dashicons {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+    color: #8a94a8;
+    font-size: 16px;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.taxocsie-addons-search input[type="search"] {
+    width: 260px;
+    min-height: 36px;
+    margin: 0;
+    padding: 0 12px 0 34px;
+    border: 1px solid #d5dbe5;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: none;
+    color: #172036;
+    font-size: 13px;
+}
+
+.taxocsie-addons-search input[type="search"]:focus {
+    border-color: #7966ed;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(121, 102, 237, .18);
+}
+
+.taxocsie-addons-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 36px 20px 40px;
+    color: #5f6b80;
+    text-align: center;
+}
+
+.taxocsie-addons-empty > .dashicons {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background: #f1efff;
+    color: #7966ed;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.taxocsie-addons-empty p {
+    margin: 0;
+}
+
+.taxocsie-addons-empty strong {
+    color: #0d1b3d;
+    font-size: 14px;
+}
+
+.taxocsie-addons-empty .button {
+    margin-top: 10px;
+}
+
+/* Pro note at the foot of the catalog. */
+.taxocsie-addons-catalog__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    padding: 12px 18px;
+    border-top: 1px solid #eef1f6;
+    background: #faf9ff;
+    color: #465578;
+    font-size: 13px;
+}
+
+.taxocsie-addons-catalog__footer p {
+    flex: 1 1 260px;
+    margin: 0;
+}
+
+.taxocsie-addons-catalog__footer > .dashicons {
+    width: 16px;
+    height: 16px;
+    color: #7966ed;
+    font-size: 16px;
+}
+
+.taxocsie-addons-catalog__footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: #5d49d6;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.taxocsie-addons-catalog__footer a:hover,
+.taxocsie-addons-catalog__footer a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.taxocsie-addons-catalog__footer a .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
 }
 
 .taxocsie-addons-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    padding: 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    padding: 16px;
 }
 
 .taxocsie-addon-card {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    min-height: 266px;
+    min-height: 0;
     box-sizing: border-box;
-    padding: 24px;
+    padding: 16px;
     border: 1px solid #dfe3ea;
     border-radius: 4px;
     background: #fff;
@@ -5132,16 +5606,16 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
+    gap: 10px;
 }
 
 .taxocsie-addon-card__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 46px;
-    width: 46px;
-    height: 46px;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
     box-sizing: border-box;
     border: 1px solid #ffa500;
     border-radius: 50%;
@@ -5149,16 +5623,16 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
 }
 
 .taxocsie-addon-card__icon .dashicons {
-    width: 22px;
-    height: 22px;
-    font-size: 22px;
-    line-height: 22px;
+    width: 19px;
+    height: 19px;
+    font-size: 19px;
+    line-height: 19px;
 }
 
 .taxocsie-addon-card__body {
     flex: 1 1 auto;
     min-width: 0;
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 .taxocsie-addon-card__title {
@@ -5204,11 +5678,11 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
 }
 
 .taxocsie-addon-card__body p {
-    margin: 8px 0 0;
+    margin: 5px 0 0;
     color: #465578;
     font-size: 13px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 18px;
 }
 
 .taxocsie-addon-card__pro {
@@ -5305,7 +5779,19 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
 }
 
 .taxocsie-addon-card__footer {
-    margin-top: 14px;
+    margin-top: 10px;
+}
+
+.taxocsie-addon-card__tool-link {
+    color: #5d49d6;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.taxocsie-addon-card__tool-link:hover,
+.taxocsie-addon-card__tool-link:focus-visible {
+    text-decoration: underline;
 }
 
 .taxocsie-addon-card__hint {
@@ -5325,7 +5811,13 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     display: none !important;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
+    .taxocsie-addons-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1000px) {
     .taxocsie-addons-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -5334,11 +5826,32 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
 @media (max-width: 700px) {
     .taxocsie-addons-grid {
         grid-template-columns: minmax(0, 1fr);
-        padding: 16px;
+        padding: 12px;
     }
 
-    .taxocsie-addon-card {
-        min-height: 0;
+    .taxocsie-addons-catalog__header {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    .taxocsie-addons-catalog__tools {
+        width: 100%;
+    }
+
+    .taxocsie-addons-search,
+    .taxocsie-addons-search input[type="search"] {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .taxocsie-addons-catalog__footer {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    /* Line the wrapped link up with the note text, past the star icon. */
+    .taxocsie-addons-catalog__footer a {
+        margin-left: 26px;
     }
 }
 
@@ -5415,9 +5928,8 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     }
 }
 
-/* Task guidance shared by the Dashboard and Data Manager. */
-.taxocsie-help-strip,
-.taxocsie-getting-started {
+/* Task guidance on the Data Manager. Dashboard styles live in dashboard.css. */
+.taxocsie-help-strip {
     box-sizing: border-box;
     margin-top: 18px;
     padding: 17px 20px;
@@ -5443,500 +5955,6 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     font-size: 13px;
 }
 
-.taxocsie-getting-started h2 {
-    margin: 0 0 12px;
-    color: #17345b;
-    font-size: 17px;
-    line-height: 1.4;
-}
-
-.taxocsie-getting-started ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 20px;
-    margin: 0 0 13px;
-    padding: 0;
-    list-style: none;
-}
-
-.taxocsie-getting-started li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1 1 205px;
-    font-size: 13px;
-    line-height: 1.45;
-}
-
-.taxocsie-getting-started li span {
-    display: inline-flex;
-    flex: 0 0 23px;
-    align-items: center;
-    justify-content: center;
-    height: 23px;
-    border-radius: 50%;
-    background: #dbeafe;
-    color: #17478a;
-    font-weight: 700;
-}
-
-.taxocsie-getting-started a {
-    color: #17478a;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.taxocsie-getting-started__note {
-    margin: 0 0 12px;
-    color: #375474;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-/* Dashboard workspace: compact cards with a clear task hierarchy. */
-.taxocsie-dashboard {
-    --dashboard-ink: #20223b;
-    --dashboard-muted: #697084;
-    --dashboard-line: #e2e2eb;
-    margin-top: 12px;
-    padding-bottom: 24px;
-    color: var(--dashboard-ink);
-}
-
-.taxocsie-dashboard .taxocsie-dashboard__upgrade {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0 0 16px;
-    padding: 12px 17px;
-    border: 0;
-    border-radius: 9px;
-    background: linear-gradient(115deg, #5144bd 0%, #6254d6 58%, #7164e6 100%);
-    color: #fff;
-    text-align: left;
-}
-
-.taxocsie-dashboard .taxocsie-dashboard__upgrade p {
-    margin: 0;
-    color: #fff;
-    font-size: 13px;
-    line-height: 1.55;
-}
-
-.taxocsie-dashboard .taxocsie-dashboard__upgrade p strong {
-    margin-right: 4px;
-    color: #fff;
-}
-
-.taxocsie-dashboard .taxocsie-dashboard__upgrade-button {
-    min-height: 34px;
-    padding: 0 12px;
-    font-size: 13px;
-}
-
-.taxocsie-dashboard__upgrade + .taxocsie-getting-started {
-    margin-top: 0;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started {
-    display: grid;
-    grid-template-columns: minmax(170px, .8fr) minmax(0, 2fr) auto;
-    align-items: center;
-    gap: 8px 22px;
-    margin-top: 16px;
-    padding: 16px 19px;
-    border: 1px solid #dedcf1;
-    border-radius: 12px;
-    background: #f7f6ff;
-    color: var(--dashboard-ink);
-}
-
-.taxocsie-dashboard .taxocsie-getting-started h2 {
-    margin: 0;
-    color: var(--dashboard-ink);
-    font-size: 15px;
-    line-height: 1.35;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 14px;
-    margin: 0;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started li {
-    flex: 0 1 auto;
-    gap: 5px;
-    color: #444761;
-    font-size: 13px;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started li span {
-    flex-basis: 17px;
-    height: 17px;
-    border-radius: 5px;
-    background: #e5e1ff;
-    color: #5444ba;
-    font-size: 10px;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started__note {
-    grid-column: 2;
-    margin: 0;
-    color: var(--dashboard-muted);
-    font-size: 13px;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started a {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    white-space: nowrap;
-    color: #5545bf;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-.taxocsie-dashboard .taxocsie-getting-started a:hover,
-.taxocsie-dashboard .taxocsie-getting-started a:focus-visible {
-    text-decoration: underline;
-}
-
-.taxocsie-dashboard__layout {
-    grid-template-columns: minmax(0, 1fr) 250px;
-    gap: 20px;
-}
-
-.taxocsie-dashboard__metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 18px;
-}
-
-.taxocsie-dashboard__metric {
-    min-width: 0;
-    padding: 18px 19px 16px;
-    border: 1px solid var(--dashboard-line);
-    border-top: 2px solid var(--metric-accent);
-    border-radius: 11px;
-    background: #fff;
-}
-
-.taxocsie-dashboard__metric--brand { --metric-accent: #7868d9; --metric-soft: #f1edff; }
-.taxocsie-dashboard__metric--cyan { --metric-accent: #279cb0; --metric-soft: #e8f8fa; }
-.taxocsie-dashboard__metric--emerald { --metric-accent: #32a17c; --metric-soft: #e9f8f1; }
-.taxocsie-dashboard__metric--amber { --metric-accent: #cc9240; --metric-soft: #fff4e5; }
-
-.taxocsie-dashboard__metric-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 6px;
-}
-
-.taxocsie-dashboard__metric-label,
-.taxocsie-dashboard__metric-note {
-    margin: 0;
-    color: var(--dashboard-muted);
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.taxocsie-dashboard__metric-label {
-    font-weight: 600;
-}
-
-.taxocsie-dashboard__metric-value {
-    margin: 7px 0 0;
-    color: var(--dashboard-ink);
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -.04em;
-    line-height: 1.15;
-}
-
-.taxocsie-dashboard__metric-icon {
-    display: flex;
-    flex: 0 0 28px;
-    align-items: center;
-    justify-content: center;
-    height: 28px;
-    border-radius: 8px;
-    background: var(--metric-soft);
-    color: var(--metric-accent);
-}
-
-.taxocsie-dashboard__metric-icon .dashicons {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
-}
-
-.taxocsie-dashboard__metric-note {
-    margin-top: 11px;
-    font-size: 13px;
-}
-
-.taxocsie-dashboard__panel {
-    overflow: hidden;
-    margin-top: 18px;
-    border: 1px solid var(--dashboard-line);
-    border-radius: 12px;
-    background: #fff;
-}
-
-.taxocsie-dashboard__panel-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 17px 20px;
-    border-bottom: 1px solid #ededf2;
-}
-
-.taxocsie-dashboard__panel-header h2 {
-    margin: 0;
-    color: var(--dashboard-ink);
-    font-size: 16px;
-    line-height: 1.3;
-}
-
-.taxocsie-dashboard__panel-header p {
-    margin: 3px 0 0;
-    color: var(--dashboard-muted);
-    font-size: 13px;
-}
-
-.taxocsie-dashboard__section-label {
-    padding: 4px 8px;
-    border-radius: 5px;
-    background: #f1efff;
-    color: #5b4dc0;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.taxocsie-dashboard__action-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    padding: 20px;
-    background: #fafafe;
-}
-
-.taxocsie-dashboard__action {
-    display: flex;
-    min-width: 0;
-    align-items: center;
-    gap: 13px;
-    padding: 16px;
-    border: 1px solid #e5e5ee;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(32, 34, 59, .04);
-    color: var(--dashboard-ink);
-    text-decoration: none;
-    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
-}
-
-.taxocsie-dashboard__action:hover,
-.taxocsie-dashboard__action:focus-visible {
-    border-color: #bcb4ee;
-    box-shadow: 0 8px 20px rgba(49, 41, 100, .09);
-    color: #5144bd;
-    transform: translateY(-2px);
-}
-
-.taxocsie-dashboard__action:focus-visible {
-    outline: 2px solid #7868d9;
-    outline-offset: 2px;
-}
-
-.taxocsie-dashboard__action-icon {
-    display: flex;
-    flex: 0 0 34px;
-    align-items: center;
-    justify-content: center;
-    height: 34px;
-    border-radius: 8px;
-    background: #f1f0f7;
-    color: #68628b;
-}
-
-.taxocsie-dashboard__action:hover .taxocsie-dashboard__action-icon,
-.taxocsie-dashboard__action:focus-visible .taxocsie-dashboard__action-icon {
-    background: #eae6ff;
-    color: #5144bd;
-}
-
-.taxocsie-dashboard__action-icon .dashicons {
-    width: 17px;
-    height: 17px;
-    font-size: 17px;
-}
-
-.taxocsie-dashboard__action-copy {
-    display: block;
-    min-width: 0;
-    flex: 1;
-}
-
-.taxocsie-dashboard__action-copy strong,
-.taxocsie-dashboard__action-copy span {
-    display: block;
-}
-
-.taxocsie-dashboard__action-copy strong {
-    color: inherit;
-    font-size: 14px;
-    line-height: 1.3;
-}
-
-.taxocsie-dashboard__action-copy span {
-    margin-top: 3px;
-    color: var(--dashboard-muted);
-    font-size: 13px;
-    line-height: 1.35;
-}
-
-.taxocsie-dashboard__action-arrow.dashicons {
-    width: 15px;
-    height: 15px;
-    color: #aaa5bd;
-    font-size: 15px;
-}
-
-.taxocsie-dashboard__action:hover .taxocsie-dashboard__action-arrow,
-.taxocsie-dashboard__action:focus-visible .taxocsie-dashboard__action-arrow {
-    color: #5144bd;
-}
-
-.taxocsie-dashboard__sync-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    padding: 17px 20px;
-}
-
-.taxocsie-dashboard__sync-grid p {
-    margin: 0 0 5px;
-    color: var(--dashboard-muted);
-    font-size: 13px;
-}
-
-.taxocsie-dashboard__sync-grid strong {
-    color: var(--dashboard-ink);
-    font-size: 14px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card__button {
-    min-height: 34px;
-    padding: 0 12px;
-    font-size: 13px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card {
-    margin-top: 18px;
-    border-color: #dcd8f4;
-    border-radius: 12px;
-    box-shadow: none;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card__header {
-    padding: 14px 16px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card__header h2 {
-    font-size: 15px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card__body {
-    padding: 16px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card__body > p {
-    font-size: 13px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card ul {
-    gap: 11px;
-    margin: 16px 0 18px;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card li {
-    gap: 8px;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.taxocsie-dashboard .taxocsie-pro-card li .dashicons {
-    flex-basis: 15px;
-    width: 15px;
-    height: 15px;
-    font-size: 15px;
-}
-
-@media (max-width: 1100px) {
-    .taxocsie-dashboard__layout {
-        grid-template-columns: 1fr;
-    }
-
-    .taxocsie-dashboard .taxocsie-pro-card {
-        margin-top: 0;
-    }
-}
-
-@media (max-width: 900px) {
-    .taxocsie-dashboard .taxocsie-getting-started {
-        grid-template-columns: 1fr;
-    }
-
-    .taxocsie-dashboard .taxocsie-getting-started__note,
-    .taxocsie-dashboard .taxocsie-getting-started a {
-        grid-column: 1;
-        grid-row: auto;
-    }
-}
-
-@media (max-width: 782px) {
-    .taxocsie-dashboard__metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .taxocsie-dashboard .taxocsie-dashboard__upgrade {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-@media (max-width: 600px) {
-    .taxocsie-dashboard__action-grid,
-    .taxocsie-dashboard__sync-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .taxocsie-dashboard__sync-grid > div + div {
-        padding-top: 10px;
-        border-top: 1px solid #f0f0f4;
-    }
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .taxocsie-dashboard__action {
-        transition: none;
-    }
-
-    .taxocsie-dashboard__action:hover,
-    .taxocsie-dashboard__action:focus-visible {
-        transform: none;
-    }
-}
-
 .taxocsie-form-help {
     margin: 12px 0 0;
     padding: 11px 14px;
@@ -5946,4 +5964,22 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     color: #1e3a5f;
     font-size: 13px;
     line-height: 1.55;
+}
+
+/* Recent CSV imports and undo preview, aligned with the import result tables. */
+.taxocsie-import-history {
+    padding-bottom: 24px;
+}
+
+.taxocsie-import-history > p,
+.taxocsie-import-history > .notice,
+.taxocsie-import-history__confirm {
+    margin: 14px 24px 0;
+}
+
+.taxocsie-import-history__confirm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
 }

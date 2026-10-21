@@ -122,7 +122,7 @@ class Admin
 		foreach ($terms as $term) {
 			$parent_term = $term->parent ? get_term($term->parent, $taxonomy) : null;
 			$parent_slug = $parent_term instanceof \WP_Term ? $parent_term->slug : '';
-			$row = array( $term->name, $term->slug, $term->description, $parent_slug, TermCustomLinks::get( (int) $term->term_id ) );
+			$row = array( Helper::term_text( $term->name ), $term->slug, Helper::term_text( $term->description ), $parent_slug, TermCustomLinks::get( (int) $term->term_id ) );
 			if ( $include_images ) {
 				$row[] = TermImageManager::get_source( (int) $term->term_id, $taxonomy );
 			}
@@ -149,12 +149,15 @@ class Admin
 			wp_die( 'Invalid import request.' );
 		}
 
-		$handle = fopen( $csv_upload, 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
-		if ( false === $handle ) {
+		// Excel files may use semicolons or tabs and UTF-16 or Windows-1252 text.
+		$csv = CsvReader::open( $csv_upload );
+		if ( false === $csv ) {
 			wp_die( esc_html__( 'The CSV file could not be opened.', 'taxonomy-csv-import-export' ) );
 		}
+		$handle    = $csv['handle'];
+		$delimiter = $csv['delimiter'];
 
-		$raw_headers = fgetcsv( $handle, 0, ',', '"', '' );
+		$raw_headers = fgetcsv( $handle, 0, $delimiter, '"', '' );
 		if ( ! is_array( $raw_headers ) ) {
 			fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			wp_die( esc_html__( 'The CSV file is empty.', 'taxonomy-csv-import-export' ) );
@@ -176,8 +179,10 @@ class Admin
 			'custom_link'  => 'custom_link',
 			'custom_url'   => 'custom_link',
 			'term_link'    => 'custom_link',
+			'term_path'     => 'path',
+			'category_path' => 'path',
 		);
-		$destinations      = array( 'name', 'slug', 'description', 'parent_slug', 'image_source', 'custom_link' );
+		$destinations      = array( 'name', 'slug', 'description', 'parent_slug', 'image_source', 'custom_link', 'path' );
 		$submitted_mapping = isset( $_POST['column_mapping'] ) && is_array( $_POST['column_mapping'] )
 			? wp_unslash( $_POST['column_mapping'] )
 			: array();
@@ -212,9 +217,9 @@ class Admin
 			$headers[] = $mapped;
 		}
 
-		if ( ! in_array( 'name', $headers, true ) ) {
+		if ( ! in_array( 'name', $headers, true ) && ! in_array( 'path', $headers, true ) ) {
 			fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-			wp_die( esc_html__( 'The CSV must include a name column.', 'taxonomy-csv-import-export' ) );
+			wp_die( esc_html__( 'The CSV must include a name or term path column.', 'taxonomy-csv-import-export' ) );
 		}
 
 		$images_available = class_exists( TermImageManager::class ) && TermImageManager::is_available();
@@ -224,8 +229,10 @@ class Admin
 		$skipped          = array();
 		$image_errors     = array();
 		$link_errors      = array();
+		$rows             = array();
+		$hierarchical     = is_taxonomy_hierarchical( $taxonomy );
 
-		while ( false !== ( $row = fgetcsv( $handle, 0, ',', '"', '' ) ) ) {
+		while ( false !== ( $row = fgetcsv( $handle, 0, $delimiter, '"', '' ) ) ) {
 			$row = array_map( array( Helper::class, 'csv_original_cell' ), $row );
 			if ( array() === array_filter( $row, static function ( $value ) { return '' !== trim( (string) $value ); } ) ) {
 				continue;
@@ -238,32 +245,128 @@ class Admin
 				}
 			}
 
-			$name         = sanitize_text_field( $data['name'] ?? '' );
-			$slug         = sanitize_title( $data['slug'] ?? '' );
-			$description  = sanitize_textarea_field( $data['description'] ?? '' );
-			$parent_slug  = sanitize_title( $data['parent_slug'] ?? '' );
-			$image_source = sanitize_text_field( $data['image_source'] ?? '' );
-			$custom_link  = sanitize_text_field( $data['custom_link'] ?? '' );
-			$parent_id    = 0;
-			$display_row  = array( $name, $slug, $description, $parent_slug );
-			if ( $has_link_column ) {
-				$display_row[] = $custom_link;
+			// "Clothing > Men > Shirts": the last part is the term, earlier parts are its parents.
+			$path = array_values( array_filter( array_map( 'sanitize_text_field', Helper::split_term_path( (string) ( $data['path'] ?? '' ) ) ), 'strlen' ) );
+			$name = sanitize_text_field( $data['name'] ?? '' );
+			if ( '' === $name && $path ) {
+				$name = end( $path );
 			}
-			if ( $has_image_column ) {
-				$display_row[] = $image_source;
-			}
-
 			if ( empty( $name ) ) {
 				continue;
 			}
+			$ancestors = $hierarchical ? array_slice( $path, 0, -1 ) : array();
+
+			$slug   = sanitize_title( $data['slug'] ?? '' );
+			$rows[] = array(
+				'name'         => $name,
+				'slug'         => $slug,
+				'slug_key'     => $path ? self::path_key( array_merge( $ancestors, array( $name ) ) ) : ( '' !== $slug ? $slug : sanitize_title( $name ) ),
+				'description'  => sanitize_textarea_field( $data['description'] ?? '' ),
+				'parent_slug'  => sanitize_title( $data['parent_slug'] ?? '' ),
+				'parent_key'   => $path ? self::path_key( $ancestors ) : sanitize_title( $data['parent_slug'] ?? '' ),
+				'has_path'     => (bool) $path,
+				'ancestors'    => $ancestors,
+				'image_source' => sanitize_text_field( $data['image_source'] ?? '' ),
+				'custom_link'  => sanitize_text_field( $data['custom_link'] ?? '' ),
+			);
+		}
+		fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+
+		// A path row waits for its nearest ancestor row in the file, not only its direct parent.
+		$row_keys = array_fill_keys( array_column( $rows, 'slug_key' ), true );
+		foreach ( $rows as &$item ) {
+			for ( $depth = count( $item['ancestors'] ); $item['has_path'] && $depth > 1; $depth-- ) {
+				$key = self::path_key( array_slice( $item['ancestors'], 0, $depth ) );
+				if ( isset( $row_keys[ $key ] ) ) {
+					break;
+				}
+				$item['parent_key'] = self::path_key( array_slice( $item['ancestors'], 0, $depth - 1 ) );
+			}
+		}
+		unset( $item );
+
+		/*
+		* Create parents listed later in the file before their children.
+		*/
+		$order = $hierarchical
+			? Helper::parent_first_order( array_map( static function ( $item ) {
+				return array( 'slug' => $item['slug_key'], 'parent' => $item['parent_key'] );
+			}, $rows ) )
+			: array_keys( $rows );
+
+		$created_ids = array();
+		$sequence    = 0;
+		foreach ( $order as $row_index ) {
+			$name         = $rows[ $row_index ]['name'];
+			$slug         = $rows[ $row_index ]['slug'];
+			$description  = $rows[ $row_index ]['description'];
+			$parent_slug  = $rows[ $row_index ]['parent_slug'];
+			$image_source = $rows[ $row_index ]['image_source'];
+			$custom_link  = $rows[ $row_index ]['custom_link'];
+			$parent_id    = 0;
 
 			/*
-			* Check if term already exists by name.
+			* Resolve a term path, creating missing parents level by level.
 			*/
-			$existing_term = term_exists( $name, $taxonomy );
+			if ( $rows[ $row_index ]['has_path'] ) {
+				$path_failed = false;
+				foreach ( $rows[ $row_index ]['ancestors'] as $ancestor ) {
+					$found = term_exists( $ancestor, $taxonomy, $parent_id );
+					if ( $found ) {
+						$parent_id = (int) $found['term_id'];
+						continue;
+					}
+					$created = wp_insert_term( $ancestor, $taxonomy, array( 'parent' => $parent_id ) );
+					if ( is_wp_error( $created ) ) {
+						$path_failed = true;
+						break;
+					}
+					$created_term  = get_term( (int) $created['term_id'], $taxonomy );
+					$created_ids[] = (int) $created['term_id'];
+					$imported[]    = array( $row_index, $sequence++, $this->import_display_row( $ancestor, $created_term instanceof \WP_Term ? $created_term->slug : '', '', $this->term_slug( $parent_id, $taxonomy ), $has_link_column, $has_image_column ) );
+					$parent_id     = (int) $created['term_id'];
+				}
+				$parent_slug = $this->term_slug( $parent_id, $taxonomy );
+				$display_row = $this->import_display_row( $name, $slug, $description, $parent_slug, $has_link_column, $has_image_column, $custom_link, $image_source );
+
+				if ( $path_failed ) {
+					$skipped[] = array( $row_index, $sequence++, $display_row );
+					continue;
+				}
+
+				// A path names one exact position, so only that level is checked.
+				$existing_term = $hierarchical
+					? term_exists( $name, $taxonomy, $parent_id )
+					: term_exists( $name, $taxonomy );
+			} else {
+				$display_row = $this->import_display_row( $name, $slug, $description, $parent_slug, $has_link_column, $has_image_column, $custom_link, $image_source );
+
+				/*
+				* Resolve parent slug to ID.
+				*/
+				if ( ! empty( $parent_slug ) ) {
+					$parent_term = get_term_by(
+						'slug',
+						$parent_slug,
+						$taxonomy
+					);
+
+					if ( $parent_term && ! is_wp_error( $parent_term ) ) {
+						$parent_id = (int) $parent_term->term_id;
+					}
+				}
+
+				/*
+				* Check if term already exists by name. A resolved parent limits the
+				* check to its children, so equal names under different parents import.
+				*/
+				$existing_term = $hierarchical && $parent_id
+					? term_exists( $name, $taxonomy, $parent_id )
+					: term_exists( $name, $taxonomy );
+			}
 
 			if ( $existing_term ) {
-				$skipped[] = $display_row;
+				$skipped[] = array( $row_index, $sequence++, $display_row );
 				continue;
 			}
 
@@ -278,23 +381,8 @@ class Admin
 				);
 
 				if ( $existing_slug && ! is_wp_error( $existing_slug ) ) {
-					$skipped[] = $display_row;
+					$skipped[] = array( $row_index, $sequence++, $display_row );
 					continue;
-				}
-			}
-
-			/*
-			* Resolve parent slug to ID.
-			*/
-			if ( ! empty( $parent_slug ) ) {
-				$parent_term = get_term_by(
-					'slug',
-					$parent_slug,
-					$taxonomy
-				);
-
-				if ( $parent_term && ! is_wp_error( $parent_term ) ) {
-					$parent_id = (int) $parent_term->term_id;
 				}
 			}
 
@@ -312,9 +400,10 @@ class Admin
 			);
 
 			if ( is_wp_error( $inserted ) ) {
-				$skipped[] = $display_row;
+				$skipped[] = array( $row_index, $sequence++, $display_row );
 				continue;
 			}
+			$created_ids[] = (int) $inserted['term_id'];
 
 			if ( $images_available && '' !== $image_source ) {
 				$image_result = TermImageManager::import_from_source( (int) $inserted['term_id'], $taxonomy, $image_source, $name );
@@ -336,9 +425,16 @@ class Admin
 				}
 			}
 
-			$imported[] = $display_row;
+			$imported[] = array( $row_index, $sequence++, $display_row );
 		}
-		fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+
+		// Report rows in file order, as before; created path parents precede their row.
+		$imported = $this->sort_import_report( $imported );
+		$skipped  = $this->sort_import_report( $skipped );
+
+		// sanitize_file_name() also strips path separators.
+		$file_name = isset( $_FILES['csv_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['csv_file']['name'] ) ) : '';
+		$job_id    = ImportHistory::record( $taxonomy, $file_name, $created_ids );
 
 		/*
 		* Store only successfully imported rows.
@@ -364,11 +460,47 @@ class Admin
 
 		wp_safe_redirect(
 			admin_url(
-				'admin.php?page=taxonomy-csv-import-export-manager&imported=1'
+				'admin.php?page=taxonomy-csv-import-export-manager&imported=1' . ( '' !== $job_id ? '&import_job=' . $job_id : '' )
 			)
 		);
 
 		exit;
+	}
+
+	/** Build one row of the import result table. */
+	private function import_display_row( string $name, string $slug, string $description, string $parent_slug, bool $has_link_column, bool $has_image_column, string $custom_link = '', string $image_source = '' ): array {
+		$row = array( $name, $slug, $description, $parent_slug );
+		if ( $has_link_column ) {
+			$row[] = $custom_link;
+		}
+		if ( $has_image_column ) {
+			$row[] = $image_source;
+		}
+		return $row;
+	}
+
+	private function term_slug( int $term_id, string $taxonomy ): string {
+		$term = $term_id ? get_term( $term_id, $taxonomy ) : null;
+		return $term instanceof \WP_Term ? $term->slug : '';
+	}
+
+	/** Comparable key for a term path such as Clothing > Men. */
+	private static function path_key( array $segments ): string {
+		return $segments ? 'path:' . implode( '/', array_map( 'sanitize_title', $segments ) ) : '';
+	}
+
+	/**
+	 * Sort report entries by file row, then by the order they were produced.
+	 *
+	 * @param array[] $entries Entries of [ row index, sequence, display row ].
+	 */
+	private function sort_import_report( array $entries ): array {
+		usort( $entries, static function ( $a, $b ) {
+			return array( $a[0], $a[1] ) <=> array( $b[0], $b[1] );
+		} );
+		return array_map( static function ( $entry ) {
+			return $entry[2];
+		}, $entries );
 	}
 	
 	public function taxocsie_import_users() {
@@ -384,13 +516,19 @@ class Admin
 			exit;
 		}
 
-		$file = $this->validate_csv_upload( 'taxocsie_import_file' );
+		$format = isset( $_POST['user_format'] ) && is_string( $_POST['user_format'] )
+			? sanitize_key( wp_unslash( $_POST['user_format'] ) ) : 'csv';
+		$file = UserFormats::uploaded_file( 'taxocsie_import_file', $format );
 		if ( false === $file ) {
 			wp_safe_redirect( admin_url( 'admin.php?page=taxonomy-csv-import-export-manager&manager_view=users&manager_action=import&user-imported=error' ) );
 			exit;
 		}
 
-		$imported = Helper::import_users( $file );
+		$imported = UserFormats::import( $file, $format );
+		if ( is_wp_error( $imported ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=taxonomy-csv-import-export-manager&manager_view=users&manager_action=import&user-imported=error' ) );
+			exit;
+		}
 		Dashboard::increment( Dashboard::IMPORTED_ITEMS, $imported );
 
 		wp_safe_redirect( admin_url( 'admin.php?page=taxonomy-csv-import-export-manager&manager_view=users&manager_action=import&user-imported=success' ) );
@@ -417,7 +555,12 @@ class Admin
 			$selected_roles[] = $role;
 		}
 
-		Helper::export_users( $selected_roles );
+		$format = isset( $_POST['user_format'] ) && is_string( $_POST['user_format'] )
+			? sanitize_key( wp_unslash( $_POST['user_format'] ) ) : 'csv';
+		if ( ! UserFormats::supported( $format ) ) {
+			wp_die( esc_html__( 'Unsupported user export format.', 'taxonomy-csv-import-export' ), '', array( 'response' => 400 ) );
+		}
+		Helper::export_users( $selected_roles, $format );
 	}
 
 	public function taxocsie_create_term() {
@@ -537,7 +680,7 @@ class Admin
 		$term = get_term( $result['term_id'], $taxonomy );
 		wp_send_json_success( array(
 			'term_id' => $result['term_id'],
-			'name'    => $term->name,
+			'name'    => Helper::term_text( $term->name ),
 			'slug'    => $term->slug,
 			'image_warning' => $image_warning,
 		) );
@@ -567,7 +710,7 @@ class Admin
 		$items = array();
 		if ( ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
-				$items[] = array( 'id' => $term->term_id, 'name' => $term->name );
+				$items[] = array( 'id' => $term->term_id, 'name' => Helper::term_text( $term->name ) );
 			}
 		}
 
@@ -605,9 +748,9 @@ class Admin
 		foreach ( $terms as $term ) {
 			$parent_term = $term->parent ? get_term( $term->parent, $taxonomy ) : null;
 			$row = array(
-				'name'        => $term->name,
+				'name'        => Helper::term_text( $term->name ),
 				'slug'        => $term->slug,
-				'description' => $term->description,
+				'description' => Helper::term_text( $term->description ),
 				'parent_slug' => ( $parent_term && ! is_wp_error( $parent_term ) ) ? $parent_term->slug : '',
 				'custom_link' => TermCustomLinks::get( (int) $term->term_id ),
 			);
@@ -671,7 +814,7 @@ class Admin
 			$parent = $term->parent ? get_term( $term->parent, $taxonomy ) : null;
 			$rows[] = array(
 				'id'     => (int) $term->term_id,
-				'name'   => $term->name,
+				'name'   => Helper::term_text( $term->name ),
 				'slug'   => $term->slug,
 				'parent' => $parent instanceof \WP_Term ? $parent->name : '',
 				'count'  => (int) $term->count,

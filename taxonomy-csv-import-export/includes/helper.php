@@ -22,6 +22,68 @@ class Helper {
 		return $value;
 	}
 
+	/**
+	 * Plain text of a stored term name or description.
+	 *
+	 * WordPress saves "&" in term names and descriptions as "&amp;". Decode it for
+	 * files, previews, form fields, and name matching; saving again re-encodes it
+	 * without doubling.
+	 */
+	public static function term_text( string $value ): string {
+		return wp_specialchars_decode( $value, ENT_QUOTES );
+	}
+
+	/**
+	 * Split a term path such as "Clothing > Men > Shirts" into its parts.
+	 *
+	 * @return string[] Trimmed, non-empty parts from the top level down.
+	 */
+	public static function split_term_path( string $path ): array {
+		return array_values( array_filter( array_map( 'trim', explode( '>', $path ) ), 'strlen' ) );
+	}
+
+	/**
+	 * Order import rows so a parent defined in the same file is processed first.
+	 *
+	 * Each row needs a sanitized 'slug' key (its own slug, or the slug its name
+	 * produces) and 'parent' (the sanitized parent slug, or ''). Rows keep their
+	 * original order unless a later row is an ancestor. Cycles and parents that
+	 * are not in the file fall back to file order.
+	 *
+	 * @param array $rows Rows keyed by their original position.
+	 * @return array Original row keys in processing order.
+	 */
+	public static function parent_first_order( array $rows ): array {
+		$position = array();
+		foreach ( $rows as $index => $row ) {
+			$slug = (string) ( $row['slug'] ?? '' );
+			if ( '' !== $slug && ! isset( $position[ $slug ] ) ) {
+				$position[ $slug ] = $index;
+			}
+		}
+
+		$order  = array();
+		$placed = array();
+		foreach ( array_keys( $rows ) as $index ) {
+			$chain   = array();
+			$current = $index;
+			while ( ! isset( $placed[ $current ] ) && ! isset( $chain[ $current ] ) ) {
+				$chain[ $current ] = true;
+				$parent            = (string) ( $rows[ $current ]['parent'] ?? '' );
+				if ( '' === $parent || ! isset( $position[ $parent ] ) ) {
+					break;
+				}
+				$current = $position[ $parent ];
+			}
+			foreach ( array_reverse( array_keys( $chain ) ) as $key ) {
+				$placed[ $key ] = true;
+				$order[]        = $key;
+			}
+		}
+
+		return $order;
+	}
+
     public static function import_users( string $file ): int {
 		$processed = 0;
 
@@ -60,7 +122,7 @@ class Helper {
             // Proper JSON decode
             $meta = [];
             if ( ! empty( $data[6] ) ) {
-                $decoded = json_decode( wp_unslash( $data[6] ), true );
+                $decoded = json_decode( $data[6], true );
                 if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded ) ) {
                     $meta = $decoded;
                 }
@@ -172,7 +234,12 @@ class Helper {
 		);
 	}
 
-    public static function export_users( $selected_roles = [] ) {
+    public static function export_users( $selected_roles = [], string $format = 'csv' ) {
+		UserFormats::download( self::user_export_rows( $selected_roles ), $format );
+	}
+
+	/** Collect the same account fields for every download format. */
+	public static function user_export_rows( $selected_roles = [] ): array {
 
         set_time_limit(0);// phpcs:ignore WordPress.PHP.TimeLimit -- Large exports may require more time.
 
@@ -186,23 +253,7 @@ class Helper {
         }
 
         $users = get_users( $args );
-		$exported_count = count( $users );
-
-        header( 'Content-Type: text/csv; charset=utf-8' );
-        header( 'Content-Disposition: attachment; filename=users-export.csv' );
-
-        $output = fopen( 'php://output', 'w' );
-
-        // Header
-        fputcsv( $output, [
-            'username',
-            'email',
-            'password_hash',
-            'roles',
-            'first_name',
-            'last_name',
-            'meta'
-        ], ',', '"', '' );
+		$rows  = array();
 
         foreach ( $users as $user ) {
 
@@ -223,21 +274,18 @@ class Helper {
                 $clean_meta[$key] = maybe_unserialize( $value[0] ?? '' );
             }
 
-            fputcsv( $output, array_map( array( self::class, 'csv_safe_cell' ), [
-                $user->user_login,
-                $user->user_email,
-                $user->user_pass,
-                implode( '|', $user_obj->roles ?? ['subscriber'] ),
-                get_user_meta( $user->ID, 'first_name', true ),
-                get_user_meta( $user->ID, 'last_name', true ),
-                wp_json_encode( $clean_meta ),
-            ] ), ',', '"', '' );
+            $rows[] = array(
+				'username'      => (string) $user->user_login,
+				'email'         => (string) $user->user_email,
+				'password_hash' => (string) $user->user_pass,
+				'roles'         => implode( '|', $user_obj->roles ?? array( 'subscriber' ) ),
+				'first_name'    => (string) get_user_meta( $user->ID, 'first_name', true ),
+				'last_name'     => (string) get_user_meta( $user->ID, 'last_name', true ),
+				'meta'          => wp_json_encode( $clean_meta ),
+			);
         }
 
-		Dashboard::increment( Dashboard::EXPORTED_ITEMS, $exported_count );
-
-        fclose( $output );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-        exit;
+		return $rows;
     }
 
     public static function taxoscie_main_menu_title()

@@ -1,5 +1,13 @@
 jQuery(function ($) {
 
+    $('#taxocsie_import_file').on('change', function () {
+        var name = this.files && this.files[0] ? this.files[0].name : '';
+        var extension = name.split('.').pop().toLowerCase();
+        if (['csv', 'xlsx', 'json'].indexOf(extension) !== -1) {
+            $('#taxocsie_user_import_format').val(extension);
+        }
+    });
+
     // ============================================================
     // GLOBAL PLUGIN NOTIFICATIONS
     // ============================================================
@@ -18,17 +26,12 @@ jQuery(function ($) {
         window.setTimeout(function () { $toast.remove(); }, 220);
     }
 
-    function showTaxocsieNotification(type, message, title, durationOverride) {
+    function showTaxocsieNotification(type, message, title) {
         var normalizedType = ['success', 'error', 'warning', 'info'].indexOf(type) !== -1 ? type : 'info';
         var titles = { success: 'Success', error: 'Something went wrong', warning: 'Please check', info: 'Notice' };
         var icons = { success: 'yes-alt', error: 'dismiss', warning: 'warning', info: 'info-outline' };
         var text = getNotificationText(message);
-		var duration = normalizedType === 'error' ? 10000 :
-			(normalizedType === 'warning' ? 8000 :
-			(normalizedType === 'info' ? 6000 : 5000));
-        if (Number(durationOverride) > 0) {
-			duration = Math.max(3000, Math.min(15000, Number(durationOverride)));
-        }
+        var duration = 1500;
         var $region = $('#taxocsie-toast-region');
 
         if (!$region.length) {
@@ -73,7 +76,7 @@ jQuery(function ($) {
         if (message.length > 280) {
             message = message.substring(0, 277) + '...';
         }
-        showTaxocsieNotification(type, message, title || undefined, $notice.attr('data-toast-duration'));
+        showTaxocsieNotification(type, message, title || undefined);
         $notice.remove();
     });
 
@@ -468,66 +471,202 @@ jQuery(function ($) {
         });
     });
 
+    var orderState = null;
     var draggedOrderItem = null;
-    $('#taxocsie-order-load').on('click', function () {
+
+    function renderOrder() {
+        if (!orderState) { return; }
+        var state = orderState;
+        var pages = Math.max(1, Math.ceil(state.terms.length / state.pageSize));
+        state.page = Math.max(1, Math.min(state.page, pages));
+        var start = (state.page - 1) * state.pageSize;
+        var visible = state.terms.slice(start, start + state.pageSize);
+        var $trail = $('#taxocsie-order-breadcrumbs').empty();
+        state.breadcrumbs.forEach(function (crumb, index) {
+            if (index) { $trail.append($('<span>', { class: 'taxocsie-order-separator', 'aria-hidden': 'true' }).text('›')); }
+            if (index === state.breadcrumbs.length - 1) {
+                $trail.append($('<strong>').text(crumb.name));
+            } else {
+                $trail.append($('<button>', { type: 'button', class: 'button-link', 'data-parent-id': crumb.id }).text(crumb.name));
+            }
+        });
+        var $list = $('#taxocsie-order-list').empty();
+        visible.forEach(function (term, index) {
+            var absoluteIndex = start + index;
+            var $row = $('<li>', { draggable: state.saving ? 'false' : 'true', 'data-term-id': term.id });
+            $row.append($('<span>', { class: 'dashicons dashicons-move taxocsie-order-handle', 'aria-hidden': 'true' }));
+            var $details = $('<span>', { class: 'taxocsie-order-details' });
+            $details.append($('<strong>').text(term.name));
+            $details.append($('<small>').text('ID ' + term.id + ' · ' + term.count + ' ' + taxocsieData.orderItems));
+            $row.append($details);
+            if (state.hierarchical && term.has_children) {
+                $row.append($('<button>', { type: 'button', class: 'button button-secondary taxocsie-order-children', 'data-parent-id': term.id, disabled: state.saving }).text(taxocsieData.orderOpenChildren));
+            }
+            var $moves = $('<span>', { class: 'taxocsie-order-moves' });
+            $moves.append($('<input>', { type: 'number', class: 'taxocsie-order-position', min: 1, max: state.terms.length, value: absoluteIndex + 1, 'aria-label': taxocsieData.orderPosition + ': ' + term.name, disabled: state.saving }));
+            $moves.append($('<button>', { type: 'button', class: 'button', 'data-move': '-1', 'aria-label': taxocsieData.orderMoveUp + ': ' + term.name, disabled: state.saving || absoluteIndex === 0 }).text('↑'));
+            $moves.append($('<button>', { type: 'button', class: 'button', 'data-move': '1', 'aria-label': taxocsieData.orderMoveDown + ': ' + term.name, disabled: state.saving || absoluteIndex === state.terms.length - 1 }).text('↓'));
+            $row.append($moves).appendTo($list);
+        });
+        $('#taxocsie-order-empty').prop('hidden', visible.length !== 0);
+        $('#taxocsie-order-page-label').text(taxocsieData.orderPage + ' ' + state.page + ' / ' + pages);
+        $('#taxocsie-order-prev').prop('disabled', state.saving || state.page === 1);
+        $('#taxocsie-order-next').prop('disabled', state.saving || state.page === pages);
+        $('#taxocsie-order-pagination').prop('hidden', pages === 1);
+        $('#taxocsie-order-list, #taxocsie-order-footer, #taxocsie-order-navigation').prop('hidden', false);
+        $('#taxocsie-order-save, #taxocsie-order-frontend, #taxocsie-order-taxonomy, #taxocsie-order-load, #taxocsie-order-breadcrumbs button').prop('disabled', state.saving);
+        $('#taxocsie-order-status').text(state.terms.length + ' ' + taxocsieData.orderTerms + ' · ' + (state.dirty ? taxocsieData.orderUnsaved : taxocsieData.orderSaved));
+    }
+
+    function loadOrder(parent) {
         var taxonomy = String($('#taxocsie-order-taxonomy').val() || '');
         if (!taxonomy) {
-            showTaxocsieNotification('warning', 'Choose a taxonomy first.');
+            showTaxocsieNotification('warning', taxocsieData.massChooseTaxonomy);
             return;
         }
-        $('#taxocsie-order-status').text('Loading terms...');
-        $.post(taxocsieData.ajaxUrl, { action: 'taxocsie_get_term_order', nonce: taxocsieData.termOrderingNonce, taxonomy: taxonomy })
+        $('#taxocsie-order-status').text(taxocsieData.massLoading);
+        $('#taxocsie-order-load').prop('disabled', true);
+        $.post(taxocsieData.ajaxUrl, { action: 'taxocsie_get_term_order', nonce: taxocsieData.termOrderingNonce, taxonomy: taxonomy, parent: parent })
             .done(function (response) {
                 if (!response || !response.success) {
                     showTaxocsieNotification('error', getNotificationText(response && response.data));
                     return;
                 }
-                var $list = $('#taxocsie-order-list').empty();
-                (response.data.terms || []).forEach(function (term) {
-                    $('<li>', { draggable: 'true', 'data-term-id': term.id })
-                        .append($('<span>', { class: 'dashicons dashicons-move' }))
-                        .append($('<strong>').text(term.name))
-                        .append($('<small>').text('ID ' + term.id + ' · ' + term.count + ' items'))
-                        .appendTo($list);
-                });
+                orderState = {
+                    taxonomy: taxonomy, parent: response.data.parent,
+                    terms: response.data.terms || [], breadcrumbs: response.data.breadcrumbs || [],
+                    hierarchical: !!response.data.hierarchical, pageSize: response.data.page_size || 100,
+                    page: 1, dirty: false, saving: false
+                };
                 $('#taxocsie-order-frontend').prop('checked', !!response.data.frontend);
-                $('#taxocsie-order-list, #taxocsie-order-footer').prop('hidden', false);
-                $('#taxocsie-order-status').text(response.data.limited ? 'Showing the first 500 terms.' : response.data.terms.length + ' terms loaded.');
-            });
-    });
+                renderOrder();
+            }).fail(function () { showTaxocsieNotification('error', taxocsieData.error); })
+            .always(function () { $('#taxocsie-order-load').prop('disabled', false); });
+    }
 
+    function saveOrder() {
+        var deferred = $.Deferred();
+        if (!orderState || orderState.saving) { return deferred.reject().promise(); }
+        var state = orderState;
+        var ids = state.terms.map(function (term) { return term.id; });
+        var chunks = Math.max(1, Math.ceil(ids.length / state.pageSize));
+        var index = 0;
+        state.saving = true;
+        renderOrder();
+        function sendNext() {
+            var offset = index * state.pageSize;
+            $('#taxocsie-order-status').text(taxocsieData.orderSaving + ' ' + (index + 1) + ' / ' + chunks);
+            $.post(taxocsieData.ajaxUrl, {
+                action: 'taxocsie_save_term_order', nonce: taxocsieData.termOrderingNonce,
+                taxonomy: state.taxonomy, parent: state.parent, offset: offset, total: ids.length,
+                term_ids: ids.slice(offset, offset + state.pageSize),
+                frontend: $('#taxocsie-order-frontend').is(':checked') ? '1' : '0'
+            }).done(function (response) {
+                if (!response || !response.success) {
+                    showTaxocsieNotification('error', getNotificationText(response && response.data));
+                    state.saving = false;
+                    renderOrder();
+                    deferred.reject();
+                    return;
+                }
+                index++;
+                if (index < chunks) { sendNext(); return; }
+                state.dirty = false;
+                state.saving = false;
+                renderOrder();
+                showTaxocsieNotification('success', taxocsieData.orderSaveComplete);
+                deferred.resolve();
+            }).fail(function () {
+                showTaxocsieNotification('error', taxocsieData.orderSaveFailed);
+                state.saving = false;
+                renderOrder();
+                deferred.reject();
+            });
+        }
+        sendNext();
+        return deferred.promise();
+    }
+
+    function openOrderParent(parent) {
+        if (orderState && orderState.saving) { return; }
+        if (orderState && orderState.dirty) {
+            saveOrder().done(function () { loadOrder(parent); });
+        } else { loadOrder(parent); }
+    }
+
+    $('#taxocsie-order-load').on('click', function () { openOrderParent(0); });
+    $('#taxocsie-order-breadcrumbs').on('click', 'button[data-parent-id]', function () { openOrderParent(Number($(this).data('parent-id'))); });
+    $('#taxocsie-order-list').on('click', '.taxocsie-order-children', function () { openOrderParent(Number($(this).data('parent-id'))); });
+    $('#taxocsie-order-prev, #taxocsie-order-next').on('click', function () {
+        if (!orderState || orderState.saving) { return; }
+        orderState.page += this.id === 'taxocsie-order-prev' ? -1 : 1;
+        renderOrder();
+    });
+    $('#taxocsie-order-list').on('click', 'button[data-move]', function () {
+        if (!orderState || orderState.saving) { return; }
+        var termId = Number($(this).closest('li').data('term-id'));
+        var direction = Number($(this).data('move'));
+        var index = orderState.terms.findIndex(function (term) { return term.id === termId; });
+        var target = index + direction;
+        if (index < 0 || target < 0 || target >= orderState.terms.length) { return; }
+        var moved = orderState.terms[index];
+        orderState.terms[index] = orderState.terms[target];
+        orderState.terms[target] = moved;
+        orderState.page = Math.floor(target / orderState.pageSize) + 1;
+        orderState.dirty = true;
+        renderOrder();
+        $('#taxocsie-order-list li[data-term-id="' + moved.id + '"] button[data-move="' + direction + '"]').trigger('focus');
+    });
+    $('#taxocsie-order-list').on('change', '.taxocsie-order-position', function () {
+        if (!orderState || orderState.saving) { return; }
+        var termId = Number($(this).closest('li').data('term-id'));
+        var index = orderState.terms.findIndex(function (term) { return term.id === termId; });
+        var position = Number($(this).val());
+        if (index < 0 || !Number.isInteger(position) || position < 1 || position > orderState.terms.length) {
+            renderOrder();
+            return;
+        }
+        var moved = orderState.terms.splice(index, 1)[0];
+        orderState.terms.splice(position - 1, 0, moved);
+        orderState.page = Math.floor((position - 1) / orderState.pageSize) + 1;
+        orderState.dirty = true;
+        renderOrder();
+        $('#taxocsie-order-list li[data-term-id="' + moved.id + '"] .taxocsie-order-position').trigger('focus');
+    });
     $('#taxocsie-order-list').on('dragstart', 'li', function (event) {
+        if (!orderState || orderState.saving) { event.preventDefault(); return; }
         draggedOrderItem = this;
         $(this).addClass('is-dragging');
         event.originalEvent.dataTransfer.effectAllowed = 'move';
+        event.originalEvent.dataTransfer.setData('text/plain', String($(this).data('term-id')));
     }).on('dragover', 'li', function (event) {
         event.preventDefault();
         if (!draggedOrderItem || draggedOrderItem === this) { return; }
         var box = this.getBoundingClientRect();
         this.parentNode.insertBefore(draggedOrderItem, event.originalEvent.clientY < box.top + box.height / 2 ? this : this.nextSibling);
-    }).on('dragend', 'li', function () {
+    }).on('drop', 'li', function (event) { event.preventDefault(); })
+      .on('dragend', 'li', function () {
         $(this).removeClass('is-dragging');
+        if (orderState && draggedOrderItem) {
+            var start = (orderState.page - 1) * orderState.pageSize;
+            var byId = {};
+            orderState.terms.slice(start, start + orderState.pageSize).forEach(function (term) { byId[term.id] = term; });
+            var reordered = $('#taxocsie-order-list li').map(function () { return byId[$(this).data('term-id')]; }).get();
+            reordered.forEach(function (term, index) { orderState.terms[start + index] = term; });
+            orderState.dirty = true;
+            renderOrder();
+        }
         draggedOrderItem = null;
     });
-
-    $('#taxocsie-order-save').on('click', function () {
-        var taxonomy = String($('#taxocsie-order-taxonomy').val() || '');
-        var ids = $('#taxocsie-order-list li').map(function () { return $(this).data('term-id'); }).get();
-        var $button = $(this).prop('disabled', true);
-        $.post(taxocsieData.ajaxUrl, {
-            action: 'taxocsie_save_term_order',
-            nonce: taxocsieData.termOrderingNonce,
-            taxonomy: taxonomy,
-            term_ids: ids,
-            frontend: $('#taxocsie-order-frontend').is(':checked') ? '1' : '0'
-        }).done(function (response) {
-            if (response && response.success) {
-                showTaxocsieNotification('success', response.data.message);
-                $('#taxocsie-order-status').text(response.data.message);
-            } else {
-                showTaxocsieNotification('error', getNotificationText(response && response.data));
-            }
-        }).always(function () { $button.prop('disabled', false); });
+    $('#taxocsie-order-frontend').on('change', function () {
+        if (orderState && !orderState.saving) { orderState.dirty = true; renderOrder(); }
+    });
+    $('#taxocsie-order-save').on('click', saveOrder);
+    window.addEventListener('beforeunload', function (event) {
+        if (orderState && (orderState.dirty || orderState.saving)) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
     });
 
     // ============================================================
@@ -711,7 +850,7 @@ jQuery(function ($) {
                 showTaxocsieNotification('error', getNotificationText(response.data) || 'The export could not be prepared.');
                 return;
             }
-            window.location.assign(response.data.download_url);
+            window.top.location.assign(response.data.download_url);
             showTaxocsieNotification('success', 'Your download is starting.');
         }).fail(function (response) {
             showTaxocsieNotification('error', premiumFormatError(response, 'The export request failed.'));
@@ -823,7 +962,8 @@ jQuery(function ($) {
 		[ 'description', taxocsieData.fieldDescription ],
 		[ 'parent_slug', taxocsieData.fieldParent ],
 		[ 'custom_link', taxocsieData.fieldLink ],
-		[ 'image_source', taxocsieData.fieldImage ]
+		[ 'image_source', taxocsieData.fieldImage ],
+		[ 'path', taxocsieData.fieldPath ]
 	];
 	var columnHeaderAliases = {
 		name: 'name', term_name: 'name', title: 'name',
@@ -831,17 +971,53 @@ jQuery(function ($) {
 		description: 'description', desc: 'description',
 		parent: 'parent_slug', parent_slug: 'parent_slug',
 		custom_link: 'custom_link', custom_url: 'custom_link', term_link: 'custom_link',
-		image: 'image_source', image_url: 'image_source', image_source: 'image_source'
+		image: 'image_source', image_url: 'image_source', image_source: 'image_source',
+		term_path: 'path', category_path: 'path'
 	};
 
 	function normalizeImportHeader(header) {
 		return String(header).replace(/^\uFEFF/, '').trim().toLowerCase().replace(/[ -]/g, '_');
 	}
 
+	// Same rules as TaxoCSIE\CsvReader so column indexes match the server.
+	function decodeImportBytes(buffer) {
+		var bytes = new Uint8Array(buffer);
+		if (0xFF === bytes[0] && 0xFE === bytes[1]) return new TextDecoder('utf-16le').decode(bytes.subarray(2));
+		if (0xFE === bytes[0] && 0xFF === bytes[1]) return new TextDecoder('utf-16be').decode(bytes.subarray(2));
+		try {
+			return new TextDecoder('utf-8', { fatal: true }).decode(bytes, { stream: true });
+		} catch (error) {
+			return new TextDecoder('windows-1252').decode(bytes);
+		}
+	}
+
+	function detectImportDelimiter(text) {
+		var counts = { ',': 0, ';': 0, '\t': 0 };
+		var quoted = false;
+
+		for (var index = 0; index < text.length; index++) {
+			var character = text.charAt(index);
+			if ('"' === character) {
+				quoted = !quoted;
+				continue;
+			}
+			if (quoted) continue;
+			if ('\n' === character || '\r' === character) break;
+			if (Object.prototype.hasOwnProperty.call(counts, character)) counts[character]++;
+		}
+
+		var best = ',';
+		[';', '\t'].forEach(function(delimiter) {
+			if (counts[delimiter] > counts[best]) best = delimiter;
+		});
+		return best;
+	}
+
 	function parseImportCsvHeader(text) {
 		var columns = [];
 		var value = '';
 		var quoted = false;
+		var delimiter = detectImportDelimiter(text);
 
 		for (var index = 0; index < text.length; index++) {
 			var character = text.charAt(index);
@@ -852,7 +1028,7 @@ jQuery(function ($) {
 				} else {
 					quoted = !quoted;
 				}
-			} else if (',' === character && !quoted) {
+			} else if (delimiter === character && !quoted) {
 				columns.push(value);
 				value = '';
 			} else if (('\n' === character || '\r' === character) && !quoted) {
@@ -870,19 +1046,21 @@ jQuery(function ($) {
 		var selected = {};
 		var duplicate = false;
 		var hasName = false;
+		var hasPath = false;
 
 		$columnMappingRows.find('select').each(function() {
 			if ('ignore' === this.value) return;
 			if (selected[this.value]) duplicate = true;
 			selected[this.value] = true;
 			hasName = hasName || 'name' === this.value;
+			hasPath = hasPath || 'path' === this.value;
 		});
 
-		columnMappingValid = hasName && !duplicate;
+		columnMappingValid = (hasName || hasPath) && !duplicate;
 		$columnMappingStatus
 			.toggleClass('is-ready', columnMappingValid)
 			.toggleClass('is-error', !columnMappingValid)
-			.text(duplicate ? taxocsieData.mappingDuplicate : (hasName ? taxocsieData.mappingReady : taxocsieData.mappingNameRequired));
+			.text(duplicate ? taxocsieData.mappingDuplicate : ((hasName || hasPath) ? taxocsieData.mappingReady : taxocsieData.mappingNameOrPath));
 	}
 
 	function renderColumnMapper(headers) {
@@ -934,7 +1112,7 @@ jQuery(function ($) {
 		reader.onload = function() {
 			if (request !== columnMappingRequest) return;
 			columnMappingPending = false;
-			var headers = parseImportCsvHeader(String(reader.result || ''));
+			var headers = parseImportCsvHeader(decodeImportBytes(reader.result));
 			if (!headers.length || (headers.length === 1 && !headers[0].trim())) {
 				$columnMappingStatus.addClass('is-error').text(taxocsieData.headerReadFailed);
 				showTaxocsieNotification('error', taxocsieData.headerReadFailed);
@@ -948,7 +1126,7 @@ jQuery(function ($) {
 			$columnMappingStatus.addClass('is-error').text(taxocsieData.headerReadFailed);
 			showTaxocsieNotification('error', taxocsieData.headerReadFailed);
 		};
-		reader.readAsText(file.slice(0, 131072));
+		reader.readAsArrayBuffer(file.slice(0, 131072));
 	}
 
     function updatePremiumImportFormat() {
@@ -2028,10 +2206,13 @@ jQuery(function ($) {
         var url = new URL(window.location.href);
         url.searchParams.set('per_page', this.value);
         url.searchParams.delete('paged');
-        window.location.assign(url.toString());
+        url.searchParams.delete('taxocsie_embed');
+        window.top.location.assign(url.toString());
     }).on('click', '.taxocsie-terms-page-prev, .taxocsie-terms-page-next', function () {
         if (!this.disabled) {
-            window.location.assign($(this).attr('data-url'));
+            var url = new URL($(this).attr('data-url'), window.location.href);
+            url.searchParams.delete('taxocsie_embed');
+            window.top.location.assign(url.toString());
         }
     }).on('submit', '#taxocsie-terms-bulk-form', function (event) {
         var count = $('.taxocsie-all-terms .taxocsie-term-select:checked').length;

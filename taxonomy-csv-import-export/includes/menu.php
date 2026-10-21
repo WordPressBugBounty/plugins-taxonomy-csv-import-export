@@ -35,6 +35,10 @@ class Menu {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin page routing.
 		$current_page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
+		// Shared page gutters in admin-navigation.css apply to every plugin screen.
+		if ( isset( $this->navigation_pages()[ $current_page ] ) ) {
+			$classes .= ' taxocsie-admin-page';
+		}
 		if ( TAXOCSIE_PLUGIN_SLUG . '-create' === $current_page ) {
 			$classes .= ' taxocsie-create-admin-page';
 		}
@@ -115,6 +119,11 @@ class Menu {
 			'offAction' => /* translators: %s: add-on name. */ __( 'Turn off %s', 'taxonomy-csv-import-export' ),
 			'saved' => __( 'Setting saved.', 'taxonomy-csv-import-export' ),
 			'error' => __( 'Could not save this setting. Please try again.', 'taxonomy-csv-import-export' ),
+			/* translators: %d: number of add-ons matching the search. */
+			'searchResult' => __( '%d add-on found.', 'taxonomy-csv-import-export' ),
+			/* translators: %d: number of add-ons matching the search. */
+			'searchResults' => __( '%d add-ons found.', 'taxonomy-csv-import-export' ),
+			'searchNone' => __( 'No add-ons match your search.', 'taxonomy-csv-import-export' ),
 		) );
 	}
 
@@ -179,7 +188,7 @@ class Menu {
 	}
 
 	/** Registered plugin pages, including menus supplied by enabled add-ons. */
-	private function navigation_pages(): array {
+	public static function navigation_pages(): array {
 		global $submenu;
 		$pages = array();
 		foreach ( $submenu[ TAXOCSIE_PLUGIN_SLUG ] ?? array() as $item ) {
@@ -202,6 +211,7 @@ class Menu {
 			'manual' => __( 'Manually', 'taxonomy-csv-import-export' ),
 			'ai' => __( 'AI Suggestions', 'taxonomy-csv-import-export' ),
 			'termTools' => __( 'Term Tools', 'taxonomy-csv-import-export' ),
+			'toggleSubmenu' => __( 'Toggle submenu', 'taxonomy-csv-import-export' ),
 		) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin page routing.
 		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
@@ -341,7 +351,7 @@ class Menu {
 		$term_ordering_available   = class_exists( 'TaxoCSIE\\Premium\\TermOrdering' ) && \TaxoCSIE\Premium\TermOrdering::is_available();
 		$upgrade_url               = Freemius::get_upgrade_url();
 		?>
-		<div class="taxocsie-wrap taxocsie-manager-wrap tw-max-w-[1200px] tw-py-6 tw-pr-5">
+		<div class="taxocsie-wrap taxocsie-manager-wrap tw-py-6">
 
 			<div class="taxocsie-manager-nav" aria-label="<?php esc_attr_e( 'Data Manager workspace navigation', 'taxonomy-csv-import-export' ); ?>">
 				<div class="taxocsie-manager-nav__primary">
@@ -411,6 +421,8 @@ class Menu {
 					<?php wp_nonce_field( 'taxonomy_csv_export', 'taxonomy_csv_export_nonce' ); ?>
 					<input type="hidden" name="taxonomy_export_csv" value="1">
 
+					<div class="taxocsie-export-layout">
+					<div class="taxocsie-export-layout__column">
 					<div class="taxocsie-manager-substep"><span>1</span><div><strong><?php esc_html_e( 'Choose taxonomy and format', 'taxonomy-csv-import-export' ); ?></strong><p><?php esc_html_e( 'Select the terms to include and the file type to download.', 'taxonomy-csv-import-export' ); ?></p></div></div>
 					<div class="taxocsie-panel__row tw-flex tw-flex-col tw-gap-5 lg:tw-flex-row lg:tw-items-end">
 						<div class="tw-w-full lg:tw-max-w-md">
@@ -448,11 +460,19 @@ class Menu {
 
 					</div>
 					<p class="taxocsie-form-help"><?php esc_html_e( 'All terms in the selected taxonomy are included unless you add filters below.', 'taxonomy-csv-import-export' ); ?></p>
+					<?php if ( ! $premium_formats_available ) : ?>
+						<div class="taxocsie-format-pro-note">
+							<span class="dashicons dashicons-lock" aria-hidden="true"></span>
+							<span><?php esc_html_e( 'Excel and JSON formats are available with Pro.', 'taxonomy-csv-import-export' ); ?> <a href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?></a></span>
+						</div>
+					<?php endif; ?>
+					</div>
 
+					<div class="taxocsie-export-layout__column">
 					<div class="taxocsie-manager-substep"><span>2</span><div><strong><?php esc_html_e( 'Refine the export', 'taxonomy-csv-import-export' ); ?></strong><p><?php esc_html_e( 'Filters and term images are optional.', 'taxonomy-csv-import-export' ); ?></p></div></div>
 					<details class="taxocsie-export-filters">
 						<summary>
-							<span><span class="dashicons dashicons-filter" aria-hidden="true"></span><?php esc_html_e( 'Filter exported terms', 'taxonomy-csv-import-export' ); ?></span>
+							<span><span class="dashicons dashicons-filter" aria-hidden="true"></span><span class="taxocsie-export-filters__heading"><strong><?php esc_html_e( 'Filter exported terms', 'taxonomy-csv-import-export' ); ?></strong><small><?php esc_html_e( 'Choose which terms to include.', 'taxonomy-csv-import-export' ); ?></small></span></span>
 							<small><?php esc_html_e( 'Optional', 'taxonomy-csv-import-export' ); ?></small>
 						</summary>
 						<div class="taxocsie-export-filters__grid">
@@ -462,38 +482,34 @@ class Menu {
 							</label>
 							<div class="taxocsie-export-filter taxocsie-export-filter--name">
 								<label for="taxocsie-filter-name"><?php esc_html_e( 'Name filter', 'taxonomy-csv-import-export' ); ?></label>
+								<small class="taxocsie-export-filter__hint" id="taxocsie-filter-name-hint"><?php esc_html_e( 'Match terms by name.', 'taxonomy-csv-import-export' ); ?></small>
 								<div class="taxocsie-export-filter__joined">
 									<select name="taxocsie_filter_name_match" aria-label="<?php esc_attr_e( 'Name matching method', 'taxonomy-csv-import-export' ); ?>">
 										<option value="contains"><?php esc_html_e( 'Contains', 'taxonomy-csv-import-export' ); ?></option>
 										<option value="prefix"><?php esc_html_e( 'Starts with', 'taxonomy-csv-import-export' ); ?></option>
 									</select>
-									<input type="search" id="taxocsie-filter-name" name="taxocsie_filter_name" placeholder="<?php esc_attr_e( 'Term name', 'taxonomy-csv-import-export' ); ?>">
+									<input type="search" id="taxocsie-filter-name" name="taxocsie_filter_name" aria-describedby="taxocsie-filter-name-hint" placeholder="<?php esc_attr_e( 'Term name', 'taxonomy-csv-import-export' ); ?>">
 								</div>
 							</div>
 							<div class="taxocsie-export-filter">
 								<label for="taxocsie-filter-parent"><?php esc_html_e( 'Parent', 'taxonomy-csv-import-export' ); ?></label>
-								<select id="taxocsie-filter-parent" name="taxocsie_filter_parent">
+								<small class="taxocsie-export-filter__hint" id="taxocsie-filter-parent-hint"><?php esc_html_e( 'Limit the export to top-level terms if needed.', 'taxonomy-csv-import-export' ); ?></small>
+								<select id="taxocsie-filter-parent" name="taxocsie_filter_parent" aria-describedby="taxocsie-filter-parent-hint">
 									<option value="any"><?php esc_html_e( 'Any parent', 'taxonomy-csv-import-export' ); ?></option>
 									<option value="root"><?php esc_html_e( 'Top-level terms only', 'taxonomy-csv-import-export' ); ?></option>
 								</select>
 							</div>
 							<div class="taxocsie-export-filter">
 								<span class="taxocsie-export-filter__label"><?php esc_html_e( 'Term count', 'taxonomy-csv-import-export' ); ?></span>
+								<small class="taxocsie-export-filter__hint" id="taxocsie-filter-count-hint"><?php esc_html_e( 'Set a minimum or maximum number of assigned items.', 'taxonomy-csv-import-export' ); ?></small>
 								<div class="taxocsie-export-filter__range">
-									<input type="number" min="0" name="taxocsie_filter_count_min" aria-label="<?php esc_attr_e( 'Minimum term count', 'taxonomy-csv-import-export' ); ?>" placeholder="<?php esc_attr_e( 'Minimum', 'taxonomy-csv-import-export' ); ?>">
+									<input type="number" min="0" name="taxocsie_filter_count_min" aria-label="<?php esc_attr_e( 'Minimum term count', 'taxonomy-csv-import-export' ); ?>" aria-describedby="taxocsie-filter-count-hint" placeholder="<?php esc_attr_e( 'Minimum', 'taxonomy-csv-import-export' ); ?>">
 									<span>&ndash;</span>
-									<input type="number" min="0" name="taxocsie_filter_count_max" aria-label="<?php esc_attr_e( 'Maximum term count', 'taxonomy-csv-import-export' ); ?>" placeholder="<?php esc_attr_e( 'Maximum', 'taxonomy-csv-import-export' ); ?>">
+									<input type="number" min="0" name="taxocsie_filter_count_max" aria-label="<?php esc_attr_e( 'Maximum term count', 'taxonomy-csv-import-export' ); ?>" aria-describedby="taxocsie-filter-count-hint" placeholder="<?php esc_attr_e( 'Maximum', 'taxonomy-csv-import-export' ); ?>">
 								</div>
 							</div>
 						</div>
 					</details>
-
-					<?php if ( ! $premium_formats_available ) : ?>
-						<div class="taxocsie-format-pro-note">
-							<span class="dashicons dashicons-lock" aria-hidden="true"></span>
-							<span><?php esc_html_e( 'Excel and JSON formats are available with Pro.', 'taxonomy-csv-import-export' ); ?> <a href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?></a></span>
-						</div>
-					<?php endif; ?>
 
 					<div id="taxocsie-export-images-option" class="taxocsie-export-images-option">
 						<label class="taxocsie-export-images-option__label" for="taxocsie-include-images">
@@ -520,10 +536,13 @@ class Menu {
 							<a class="taxocsie-export-images-option__upgrade" href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'Upgrade to enable term images', 'taxonomy-csv-import-export' ); ?></a>
 						<?php endif; ?>
 					</div>
-					<div class="taxocsie-manager-substep"><span>3</span><div><strong><?php esc_html_e( 'Preview or download', 'taxonomy-csv-import-export' ); ?></strong><p><?php esc_html_e( 'Preview the terms first, or download the selected file directly.', 'taxonomy-csv-import-export' ); ?></p></div></div>
+					</div>
+					</div>
+					<div class="taxocsie-export-layout__footer">
 					<div class="taxocsie-panel__actions taxocsie-export-actions tw-flex tw-flex-wrap tw-gap-3">
 						<button type="button" id="export-preview-btn" class="button taxocsie-panel__btn-preview tw-inline-flex tw-h-11 tw-items-center tw-justify-center tw-rounded-lg tw-border tw-border-slate-300 tw-bg-white tw-px-5 tw-text-sm tw-font-semibold tw-text-slate-700 tw-shadow-sm tw-transition hover:tw-border-brand-500 hover:tw-text-brand-700 focus:tw-ring-4 focus:tw-ring-brand-100"><?php esc_html_e( 'Preview', 'taxonomy-csv-import-export' ); ?></button>
 						<button type="submit" class="button button-primary taxocsie-panel__btn-submit tw-inline-flex tw-h-11 tw-items-center tw-justify-center tw-rounded-lg tw-border-0 tw-bg-brand-600 tw-px-6 tw-text-sm tw-font-semibold tw-text-white tw-shadow-sm tw-transition hover:tw-bg-brand-700 focus:tw-ring-4 focus:tw-ring-brand-100"><?php esc_html_e( 'Download CSV', 'taxonomy-csv-import-export' ); ?></button>
+					</div>
 					</div>
 				</form>
 
@@ -568,7 +587,7 @@ class Menu {
 					<section class="taxocsie-import-stage is-active" data-import-stage="1">
 						<header class="taxocsie-import-wizard__intro">
 							<h2><?php esc_html_e( 'Choose where terms will go', 'taxonomy-csv-import-export' ); ?></h2>
-						<p><?php esc_html_e( 'Choose where the new categories or tags should be created. For standard post categories, select Categories (category).', 'taxonomy-csv-import-export' ); ?></p>
+							<p><?php esc_html_e( 'Choose a destination taxonomy. For post categories, select Categories (category).', 'taxonomy-csv-import-export' ); ?></p>
 						</header>
 
 						<div class="taxocsie-import-wizard__destination">
@@ -598,7 +617,7 @@ class Menu {
 					<section class="taxocsie-import-stage" data-import-stage="2" hidden>
 						<header class="taxocsie-import-wizard__intro">
 							<h2 id="taxocsie-import-upload-title"><?php esc_html_e( 'Upload your CSV file', 'taxonomy-csv-import-export' ); ?></h2>
-							<p><?php esc_html_e( 'Choose a file with a name field. For CSV, match its columns below or download the example template.', 'taxonomy-csv-import-export' ); ?></p>
+							<p><?php esc_html_e( 'Choose a file with a name field. For CSV, match its columns below or download sample data.', 'taxonomy-csv-import-export' ); ?></p>
 						</header>
 
 						<div class="taxocsie-import-format-field">
@@ -662,7 +681,7 @@ class Menu {
 							</button>
 							<a class="button taxocsie-template-button taxocsie-csv-only-note" href="<?php echo esc_url( TAXOCSIE_ASSETS_URI . '/templates/taxonomy-import-template.csv' ); ?>" download>
 								<span class="dashicons dashicons-download" aria-hidden="true"></span>
-								<?php esc_html_e( 'Download template', 'taxonomy-csv-import-export' ); ?>
+								<?php esc_html_e( 'Download data', 'taxonomy-csv-import-export' ); ?>
 							</a>
 							<button type="button" class="button button-primary taxocsie-wizard-next" data-next-step="3">
 								<?php esc_html_e( 'Confirm import', 'taxonomy-csv-import-export' ); ?>
@@ -701,7 +720,7 @@ class Menu {
 								<span><small id="taxocsie-review-file-label"><?php esc_html_e( 'CSV file', 'taxonomy-csv-import-export' ); ?></small><strong id="taxocsie-review-file">&mdash;</strong></span>
 							</div>
 						</div>
-						<p class="taxocsie-form-help"><?php esc_html_e( 'For parent and child categories, put parent rows before their children, or make sure the parent already exists.', 'taxonomy-csv-import-export' ); ?></p>
+						<p class="taxocsie-form-help"><?php esc_html_e( 'Parent rows can appear anywhere in the file; they are created before their children. A term path column such as "Clothing > Men > Shirts" creates missing parents. You can undo an import from Recent CSV imports.', 'taxonomy-csv-import-export' ); ?></p>
 
 						<div class="taxocsie-import-stage__actions">
 							<button type="button" class="button taxocsie-wizard-back" data-previous-step="2">
@@ -910,6 +929,8 @@ class Menu {
 					<?php endif; ?>
 
 				<?php endif; ?>
+
+				<?php ImportHistory::render(); ?>
 			</div>
 
 			<!-- Inline term editor -->
@@ -985,7 +1006,7 @@ class Menu {
 			<div id="taxocsie-order-panel" role="tabpanel" aria-labelledby="taxocsie-tab-order" class="taxocsie-manager-panel taxocsie-panel taxocsie-order-panel tw-mt-4"<?php echo ! $has_initial_action || 'order' !== $default_mode ? ' style="display:none;"' : ''; ?>>
 				<div class="tw-flex tw-items-center tw-gap-3 tw-border-b tw-border-slate-100 tw-bg-slate-50/80 tw-px-6 tw-py-5 sm:tw-px-8">
 					<span class="dashicons dashicons-sort tw-text-brand-700" aria-hidden="true"></span>
-					<div><h2 class="tw-m-0 tw-text-base tw-font-bold"><?php esc_html_e( 'Taxonomy Order', 'taxonomy-csv-import-export' ); ?></h2><p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Drag terms into the order you want, without changing their parent relationships.', 'taxonomy-csv-import-export' ); ?></p></div>
+					<div><h2 class="tw-m-0 tw-text-base tw-font-bold"><?php esc_html_e( 'Taxonomy Order', 'taxonomy-csv-import-export' ); ?></h2><p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Order one parent group at a time. Drag terms or use the arrow buttons; parent relationships stay unchanged.', 'taxonomy-csv-import-export' ); ?></p></div>
 				</div>
 				<?php if ( $term_ordering_available ) : ?>
 					<div class="taxocsie-order-controls">
@@ -993,7 +1014,13 @@ class Menu {
 						<button type="button" id="taxocsie-order-load" class="button button-primary"><?php esc_html_e( 'Load terms', 'taxonomy-csv-import-export' ); ?></button>
 					</div>
 					<p id="taxocsie-order-status" class="taxocsie-order-status" role="status"><?php esc_html_e( 'Choose a taxonomy to start ordering.', 'taxonomy-csv-import-export' ); ?></p>
+					<div id="taxocsie-order-navigation" class="taxocsie-order-navigation" hidden>
+						<nav id="taxocsie-order-breadcrumbs" class="taxocsie-order-breadcrumbs" aria-label="<?php esc_attr_e( 'Term hierarchy', 'taxonomy-csv-import-export' ); ?>"></nav>
+						<p><?php esc_html_e( 'Drag to reorder this page. Use arrows or enter a position to move across pages. Open children to order direct child terms.', 'taxonomy-csv-import-export' ); ?></p>
+					</div>
 					<ul id="taxocsie-order-list" class="taxocsie-order-list" hidden></ul>
+					<p id="taxocsie-order-empty" class="taxocsie-order-empty" hidden><?php esc_html_e( 'No terms in this group yet. Return to the previous level or choose another taxonomy.', 'taxonomy-csv-import-export' ); ?></p>
+					<div id="taxocsie-order-pagination" class="taxocsie-order-pagination" hidden><button type="button" id="taxocsie-order-prev" class="button"><?php esc_html_e( 'Previous', 'taxonomy-csv-import-export' ); ?></button><span id="taxocsie-order-page-label"></span><button type="button" id="taxocsie-order-next" class="button"><?php esc_html_e( 'Next', 'taxonomy-csv-import-export' ); ?></button></div>
 					<div id="taxocsie-order-footer" class="taxocsie-order-footer" hidden>
 						<label><input type="checkbox" id="taxocsie-order-frontend"> <?php esc_html_e( 'Use this custom order for frontend term queries', 'taxonomy-csv-import-export' ); ?></label>
 						<button type="button" id="taxocsie-order-save" class="button button-primary"><?php esc_html_e( 'Save order', 'taxonomy-csv-import-export' ); ?></button>
@@ -1052,217 +1079,281 @@ class Menu {
 		);
 
 		$manager_url = admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-manager' );
-		$actions     = array(
+		$export_url  = add_query_arg( 'manager_view', 'export', $manager_url );
+		$import_url  = add_query_arg( 'manager_view', 'import', $manager_url );
+		$action_groups = array(
 			array(
-				'label'       => __( 'Export taxonomy', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Preview and download taxonomy terms as CSV.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-download',
-				'url'         => add_query_arg( 'manager_view', 'export', $manager_url ),
+				'title'   => __( 'Move data', 'taxonomy-csv-import-export' ),
+				'actions' => array(
+					array(
+						'label'       => __( 'Export taxonomy', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Preview and download taxonomy terms as CSV.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-download',
+						'url'         => $export_url,
+					),
+					array(
+						'label'       => __( 'Import taxonomy', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Upload taxonomy terms from a CSV file.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-upload',
+						'url'         => $import_url,
+					),
+					array(
+						'label'       => __( 'Manage users', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Import or export WordPress users by role.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-groups',
+						'url'         => add_query_arg( 'manager_view', 'users', $manager_url ),
+					),
+				),
 			),
 			array(
-				'label'       => __( 'Import taxonomy', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Upload taxonomy terms from a CSV file.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-upload',
-				'url'         => add_query_arg( 'manager_view', 'import', $manager_url ),
-			),
-			array(
-				'label'       => __( 'Manage users', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Import or export WordPress users by role.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-groups',
-				'url'         => add_query_arg( 'manager_view', 'users', $manager_url ),
-			),
-			array(
-				'label'       => __( 'Create a term', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Add a new term to any available taxonomy.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-plus-alt2',
-				'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-create' ),
-			),
-			array(
-				'label'       => __( 'All terms', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Search, edit, and organize terms across taxonomies.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-category',
-				'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-all-terms' ),
-			),
-			array(
-				'label'       => __( 'Generate demo terms', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Create realistic sample terms for testing.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-lightbulb',
-				'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-demo' ),
-			),
-			array(
-				'label'       => __( 'Register taxonomy', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Build a custom taxonomy without writing code.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-tag',
-				'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-taxonomy' ),
-			),
-			array(
-				'label'       => __( 'Settings', 'taxonomy-csv-import-export' ),
-				'description' => __( 'Adjust import limits and admin preferences.', 'taxonomy-csv-import-export' ),
-				'icon'        => 'dashicons-admin-generic',
-				'url'         => admin_url( 'admin.php?page=' . Settings::PAGE ),
+				'title'   => __( 'Build and organize', 'taxonomy-csv-import-export' ),
+				'actions' => array(
+					array(
+						'label'       => __( 'All terms', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Search, edit, and organize terms across taxonomies.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-category',
+						'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-all-terms' ),
+					),
+					array(
+						'label'       => __( 'Create a term', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Add a new term to any available taxonomy.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-plus-alt2',
+						'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-create' ),
+					),
+					array(
+						'label'       => __( 'Register taxonomy', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Build a custom taxonomy without writing code.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-tag',
+						'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-taxonomy' ),
+						'meta'        => $stats['registered_taxonomies'] > 0 ? sprintf(
+							/* translators: %s: Number of taxonomies registered with this plugin. */
+							_n( '%s registered', '%s registered', $stats['registered_taxonomies'], 'taxonomy-csv-import-export' ),
+							number_format_i18n( $stats['registered_taxonomies'] )
+						) : '',
+					),
+					array(
+						'label'       => __( 'Generate demo terms', 'taxonomy-csv-import-export' ),
+						'description' => __( 'Create realistic sample terms for testing.', 'taxonomy-csv-import-export' ),
+						'icon'        => 'dashicons-lightbulb',
+						'url'         => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-demo' ),
+					),
+				),
 			),
 		);
+		$metric_cards = array(
+			array(
+				'label' => __( 'Terms on this site', 'taxonomy-csv-import-export' ),
+				'value' => $stats['total_terms'],
+				'note'  => sprintf(
+					/* translators: %s: Number of available public taxonomies. */
+					_n( 'Across %s public taxonomy', 'Across %s public taxonomies', $stats['available_taxonomies'], 'taxonomy-csv-import-export' ),
+					number_format_i18n( $stats['available_taxonomies'] )
+				),
+				'icon'  => 'dashicons-category',
+			),
+			array(
+				'label' => __( 'Imported items', 'taxonomy-csv-import-export' ),
+				'value' => $stats['imported_items'],
+				'note'  => __( 'Terms and users processed', 'taxonomy-csv-import-export' ),
+				'icon'  => 'dashicons-upload',
+			),
+			array(
+				'label' => __( 'Exported items', 'taxonomy-csv-import-export' ),
+				'value' => $stats['exported_items'],
+				'note'  => __( 'Terms and users downloaded', 'taxonomy-csv-import-export' ),
+				'icon'  => 'dashicons-download',
+			),
+			array(
+				'label' => __( 'Created / generated', 'taxonomy-csv-import-export' ),
+				'value' => $stats['created_items'],
+				'note'  => __( 'Terms added here or as demo data', 'taxonomy-csv-import-export' ),
+				'icon'  => 'dashicons-plus-alt2',
+			),
+		);
+		$recent_imports = array_slice( ImportHistory::recent(), 0, 5 );
+		$date_format    = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 		?>
 		<div class="taxocsie-wrap taxocsie-dashboard">
+			<header class="taxocsie-dashboard__header">
+				<div>
+					<h1 class="taxocsie-dashboard__title"><?php esc_html_e( 'Dashboard', 'taxonomy-csv-import-export' ); ?></h1>
+					<p class="taxocsie-dashboard__subtitle"><?php esc_html_e( 'Import, export, and organize the taxonomy terms on this site.', 'taxonomy-csv-import-export' ); ?></p>
+				</div>
+				<div class="taxocsie-dashboard__header-actions">
+					<a class="taxocsie-dashboard__button" href="<?php echo esc_url( $export_url ); ?>"><span class="dashicons dashicons-download" aria-hidden="true"></span><?php esc_html_e( 'Export terms', 'taxonomy-csv-import-export' ); ?></a>
+					<a class="taxocsie-dashboard__button taxocsie-dashboard__button--primary" href="<?php echo esc_url( $import_url ); ?>"><span class="dashicons dashicons-upload" aria-hidden="true"></span><?php esc_html_e( 'Import CSV', 'taxonomy-csv-import-export' ); ?></a>
+				</div>
+			</header>
+
 			<?php if ( $show_upgrade && '' !== $upgrade_url ) : ?>
 				<div class="taxocsie-dashboard__upgrade" role="region" aria-label="<?php esc_attr_e( 'Upgrade to WP Taxonomy Manager Pro', 'taxonomy-csv-import-export' ); ?>">
 					<p><strong><?php esc_html_e( 'You are using WP Taxonomy Manager Free.', 'taxonomy-csv-import-export' ); ?></strong> <?php esc_html_e( 'Upgrade to Pro for advanced imports, term media, automation, and WooCommerce tools.', 'taxonomy-csv-import-export' ); ?></p>
 					<a class="taxocsie-dashboard__upgrade-button" href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?><span class="dashicons dashicons-arrow-right-alt" aria-hidden="true"></span></a>
 				</div>
 			<?php endif; ?>
-			<section class="taxocsie-getting-started" aria-labelledby="taxocsie-getting-started-title">
-				<h2 id="taxocsie-getting-started-title"><?php esc_html_e( 'Moving categories to another site?', 'taxonomy-csv-import-export' ); ?></h2>
-				<ol>
-					<li><span>1</span><?php esc_html_e( 'Export Categories on the original site.', 'taxonomy-csv-import-export' ); ?></li>
-					<li><span>2</span><?php esc_html_e( 'Import that CSV into Categories on the new site.', 'taxonomy-csv-import-export' ); ?></li>
-					<li><span>3</span><?php esc_html_e( 'Check the results in All Terms.', 'taxonomy-csv-import-export' ); ?></li>
-				</ol>
-				<p class="taxocsie-getting-started__note"><?php esc_html_e( 'CSV moves the category names and details. It does not move posts or their category assignments.', 'taxonomy-csv-import-export' ); ?></p>
-				<a href="<?php echo esc_url( add_query_arg( 'manager_view', 'export', $manager_url ) ); ?>"><?php esc_html_e( 'Start with export', 'taxonomy-csv-import-export' ); ?> <span aria-hidden="true">&rarr;</span></a>
-			</section>
 
-			<?php if ( $show_upgrade ) : ?>
-				<div class="taxocsie-dashboard__layout">
-					<main class="taxocsie-dashboard__main">
-			<?php endif; ?>
-
-			<div class="taxocsie-dashboard__metrics" aria-label="<?php esc_attr_e( 'Activity overview', 'taxonomy-csv-import-export' ); ?>">
-				<?php
-				$metric_cards = array(
-					array(
-						'label' => __( 'Exported items', 'taxonomy-csv-import-export' ),
-						'value' => $stats['exported_items'],
-						'note'  => __( 'Terms and users downloaded', 'taxonomy-csv-import-export' ),
-						'icon'  => 'dashicons-download',
-						'tone'  => 'brand',
-					),
-					array(
-						'label' => __( 'Imported items', 'taxonomy-csv-import-export' ),
-						'value' => $stats['imported_items'],
-						'note'  => __( 'Terms and users processed', 'taxonomy-csv-import-export' ),
-						'icon'  => 'dashicons-upload',
-						'tone'  => 'cyan',
-					),
-					array(
-						'label' => __( 'Created / generated', 'taxonomy-csv-import-export' ),
-						'value' => $stats['created_items'],
-						'note'  => sprintf(
-							/* translators: %s: Total number of taxonomy terms. */
-							__( '%s total terms available', 'taxonomy-csv-import-export' ),
-							number_format_i18n( $stats['total_terms'] )
-						),
-						'icon'  => 'dashicons-plus-alt2',
-						'tone'  => 'emerald',
-					),
-					array(
-						'label' => __( 'Registered taxonomies', 'taxonomy-csv-import-export' ),
-						'value' => $stats['registered_taxonomies'],
-						'note'  => sprintf(
-							/* translators: %s: Number of available public taxonomies. */
-							__( '%s public taxonomies available', 'taxonomy-csv-import-export' ),
-							number_format_i18n( $stats['available_taxonomies'] )
-						),
-						'icon'  => 'dashicons-tag',
-						'tone'  => 'amber',
-					),
-				);
-
-				foreach ( $metric_cards as $card ) :
-					?>
-					<div class="taxocsie-dashboard__metric taxocsie-dashboard__metric--<?php echo esc_attr( $card['tone'] ); ?>">
+			<div class="taxocsie-dashboard__metrics" role="group" aria-label="<?php esc_attr_e( 'Activity overview', 'taxonomy-csv-import-export' ); ?>">
+				<?php foreach ( $metric_cards as $card ) : ?>
+					<div class="taxocsie-dashboard__metric">
 						<div class="taxocsie-dashboard__metric-top">
-							<div>
-								<p class="taxocsie-dashboard__metric-label"><?php echo esc_html( $card['label'] ); ?></p>
-								<p class="taxocsie-dashboard__metric-value"><?php echo esc_html( number_format_i18n( $card['value'] ) ); ?></p>
-							</div>
-							<div class="taxocsie-dashboard__metric-icon">
-								<span class="dashicons <?php echo esc_attr( $card['icon'] ); ?>" aria-hidden="true"></span>
-							</div>
+							<p class="taxocsie-dashboard__metric-label"><?php echo esc_html( $card['label'] ); ?></p>
+							<span class="taxocsie-dashboard__metric-icon"><span class="dashicons <?php echo esc_attr( $card['icon'] ); ?>" aria-hidden="true"></span></span>
 						</div>
+						<p class="taxocsie-dashboard__metric-value"><?php echo esc_html( number_format_i18n( $card['value'] ) ); ?></p>
 						<p class="taxocsie-dashboard__metric-note"><?php echo esc_html( $card['note'] ); ?></p>
 					</div>
 				<?php endforeach; ?>
 			</div>
 
-			<?php if ( $show_sync_summary ) : ?>
-				<section class="taxocsie-dashboard__panel taxocsie-dashboard__sync" aria-labelledby="taxocsie-dashboard-sync-title">
-					<div class="taxocsie-dashboard__panel-header">
-						<div>
-							<h2 id="taxocsie-dashboard-sync-title"><?php esc_html_e( 'Remote CSV Sync', 'taxonomy-csv-import-export' ); ?></h2>
-							<p><?php esc_html_e( 'Schedule and latest import result at a glance.', 'taxonomy-csv-import-export' ); ?></p>
+			<?php // Row 1: quick actions (beside the Pro card on Free). Row 2: recent imports beside the guide. ?>
+			<div class="taxocsie-dashboard__layout<?php echo $show_upgrade ? ' taxocsie-dashboard__layout--with-pro' : ''; ?>">
+					<section class="taxocsie-dashboard__panel taxocsie-dashboard__actions" aria-labelledby="taxocsie-dashboard-actions-title">
+						<div class="taxocsie-dashboard__panel-header">
+							<div>
+								<h2 id="taxocsie-dashboard-actions-title"><?php esc_html_e( 'Quick actions', 'taxonomy-csv-import-export' ); ?></h2>
+								<p><?php esc_html_e( 'Jump directly to the task you want to complete.', 'taxonomy-csv-import-export' ); ?></p>
+							</div>
+							<a class="taxocsie-dashboard__panel-link" href="<?php echo esc_url( admin_url( 'admin.php?page=' . Settings::PAGE ) ); ?>"><span class="dashicons dashicons-admin-generic" aria-hidden="true"></span><?php esc_html_e( 'Settings', 'taxonomy-csv-import-export' ); ?></a>
 						</div>
-						<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-remote-sync' ) ); ?>"><?php esc_html_e( 'Manage sync', 'taxonomy-csv-import-export' ); ?></a>
-					</div>
-					<div class="taxocsie-dashboard__sync-grid">
-						<div>
-							<p><?php esc_html_e( 'Schedule', 'taxonomy-csv-import-export' ); ?></p>
-							<strong><?php echo esc_html( ! empty( $sync_config['enabled'] ) ? ( $sync_scheduler_ready ? __( 'Active', 'taxonomy-csv-import-export' ) : __( 'Scheduler unavailable', 'taxonomy-csv-import-export' ) ) : __( 'Paused', 'taxonomy-csv-import-export' ) ); ?></strong>
-						</div>
-						<div>
-							<p><?php esc_html_e( 'Last run', 'taxonomy-csv-import-export' ); ?></p>
-							<strong><?php echo ! empty( $last_sync['time'] ) ? esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $last_sync['time'] ) ) : esc_html__( 'Not yet run', 'taxonomy-csv-import-export' ); ?></strong>
-						</div>
-						<div>
-							<p><?php esc_html_e( 'Last result', 'taxonomy-csv-import-export' ); ?></p>
-							<strong><?php echo esc_html( $last_sync ? ( $sync_status_labels[ $last_sync_status ] ?? ucwords( str_replace( '_', ' ', $last_sync_status ) ) ) : __( 'No result yet', 'taxonomy-csv-import-export' ) ); ?></strong>
-						</div>
-					</div>
-				</section>
-			<?php endif; ?>
 
-			<section class="taxocsie-dashboard__panel taxocsie-dashboard__actions" aria-labelledby="taxocsie-dashboard-actions-title">
-				<div class="taxocsie-dashboard__panel-header">
-					<div>
-						<h2 id="taxocsie-dashboard-actions-title"><?php esc_html_e( 'Quick actions', 'taxonomy-csv-import-export' ); ?></h2>
-						<p><?php esc_html_e( 'Jump directly to the task you want to complete.', 'taxonomy-csv-import-export' ); ?></p>
-					</div>
-					<span class="taxocsie-dashboard__section-label"><?php esc_html_e( 'Data Manager tools', 'taxonomy-csv-import-export' ); ?></span>
-				</div>
-
-				<div class="taxocsie-dashboard__action-grid">
-					<?php foreach ( $actions as $action ) : ?>
-						<a class="taxocsie-dashboard__action" href="<?php echo esc_url( $action['url'] ); ?>">
-							<span class="taxocsie-dashboard__action-icon">
-								<span class="dashicons <?php echo esc_attr( $action['icon'] ); ?>" aria-hidden="true"></span>
-							</span>
-							<span class="taxocsie-dashboard__action-copy">
-								<strong><?php echo esc_html( $action['label'] ); ?></strong>
-								<span><?php echo esc_html( $action['description'] ); ?></span>
-							</span>
-							<span class="dashicons dashicons-arrow-right-alt2 taxocsie-dashboard__action-arrow" aria-hidden="true"></span>
-						</a>
-					<?php endforeach; ?>
-				</div>
-			</section>
-
-			<?php if ( $show_upgrade ) : ?>
-					</main>
-
-					<aside class="taxocsie-pro-card" aria-labelledby="taxocsie-pro-card-title">
-						<div class="taxocsie-pro-card__header">
-							<span class="dashicons dashicons-superhero-alt" aria-hidden="true"></span>
-							<h2 id="taxocsie-pro-card-title"><?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?></h2>
+						<div class="taxocsie-dashboard__groups">
+							<?php foreach ( $action_groups as $group ) : ?>
+								<div class="taxocsie-dashboard__group">
+									<h3 class="taxocsie-dashboard__group-title"><?php echo esc_html( $group['title'] ); ?></h3>
+									<ul class="taxocsie-dashboard__action-list">
+										<?php foreach ( $group['actions'] as $action ) : ?>
+											<li>
+												<a class="taxocsie-dashboard__action" href="<?php echo esc_url( $action['url'] ); ?>">
+													<span class="taxocsie-dashboard__action-icon"><span class="dashicons <?php echo esc_attr( $action['icon'] ); ?>" aria-hidden="true"></span></span>
+													<span class="taxocsie-dashboard__action-copy">
+														<strong><?php echo esc_html( $action['label'] ); ?><?php if ( ! empty( $action['meta'] ) ) : ?> <em class="taxocsie-dashboard__action-meta"><?php echo esc_html( $action['meta'] ); ?></em><?php endif; ?></strong>
+														<span><?php echo esc_html( $action['description'] ); ?></span>
+													</span>
+													<span class="dashicons dashicons-arrow-right-alt2 taxocsie-dashboard__action-arrow" aria-hidden="true"></span>
+												</a>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							<?php endforeach; ?>
 						</div>
-						<div class="taxocsie-pro-card__body">
-							<p><?php esc_html_e( 'Manage complex taxonomy workflows with these Pro tools:', 'taxonomy-csv-import-export' ); ?></p>
-							<ul>
-								<?php foreach ( $pro_features as $feature ) : ?>
-									<li>
-										<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
-										<span><?php echo esc_html( $feature ); ?></span>
+					</section>
+
+					<?php if ( $show_upgrade ) : ?>
+						<section class="taxocsie-pro-card" aria-labelledby="taxocsie-pro-card-title">
+							<div class="taxocsie-pro-card__header">
+								<span class="dashicons dashicons-superhero-alt" aria-hidden="true"></span>
+								<h2 id="taxocsie-pro-card-title"><?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?></h2>
+							</div>
+							<div class="taxocsie-pro-card__body">
+								<p><?php esc_html_e( 'Manage complex taxonomy workflows with these Pro tools:', 'taxonomy-csv-import-export' ); ?></p>
+								<ul>
+									<?php foreach ( $pro_features as $feature ) : ?>
+										<li>
+											<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
+											<span><?php echo esc_html( $feature ); ?></span>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+								<?php if ( '' !== $upgrade_url ) : ?>
+									<a class="taxocsie-pro-card__button" href="<?php echo esc_url( $upgrade_url ); ?>">
+										<?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?>
+										<span class="dashicons dashicons-arrow-right-alt" aria-hidden="true"></span>
+									</a>
+								<?php endif; ?>
+							</div>
+						</section>
+					<?php endif; ?>
+
+					<section class="taxocsie-dashboard__panel taxocsie-dashboard__imports-panel" aria-labelledby="taxocsie-dashboard-imports-title">
+						<div class="taxocsie-dashboard__panel-header">
+							<div>
+								<h2 id="taxocsie-dashboard-imports-title"><?php esc_html_e( 'Recent CSV imports', 'taxonomy-csv-import-export' ); ?></h2>
+								<p><?php esc_html_e( 'Review what each import created, or undo it.', 'taxonomy-csv-import-export' ); ?></p>
+							</div>
+							<?php if ( $recent_imports ) : ?>
+								<a class="taxocsie-dashboard__panel-link" href="<?php echo esc_url( ImportHistory::review_url() ); ?>"><?php esc_html_e( 'View all', 'taxonomy-csv-import-export' ); ?><span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span></a>
+							<?php endif; ?>
+						</div>
+
+						<?php if ( $recent_imports ) : ?>
+							<ul class="taxocsie-dashboard__imports">
+								<?php foreach ( $recent_imports as $job ) : ?>
+									<?php
+									$job_taxonomy = get_taxonomy( $job['taxonomy'] );
+									$job_status   = (string) $job['status'];
+									$job_created  = count( (array) $job['terms'] );
+									?>
+									<li class="taxocsie-dashboard__import">
+										<span class="taxocsie-dashboard__import-icon"><span class="dashicons dashicons-media-spreadsheet" aria-hidden="true"></span></span>
+										<span class="taxocsie-dashboard__import-copy">
+											<strong><?php echo esc_html( '' !== $job['file'] ? $job['file'] : __( 'CSV file', 'taxonomy-csv-import-export' ) ); ?></strong>
+											<span>
+												<?php
+												echo esc_html( implode( ' · ', array(
+													$job_taxonomy ? $job_taxonomy->label : $job['taxonomy'],
+													/* translators: %s: Number of terms created by one import. */
+													sprintf( _n( '%s term created', '%s terms created', $job_created, 'taxonomy-csv-import-export' ), number_format_i18n( $job_created ) ),
+													wp_date( $date_format, (int) $job['time'] ),
+												) ) );
+												?>
+											</span>
+										</span>
+										<span class="taxocsie-dashboard__status taxocsie-dashboard__status--<?php echo esc_attr( $job_status ); ?>"><?php echo esc_html( ImportHistory::status_label( $job_status ) ); ?></span>
+										<?php if ( 'undone' !== $job_status ) : ?>
+											<a class="taxocsie-dashboard__import-link" href="<?php echo esc_url( ImportHistory::review_url( (string) $job['id'] ) ); ?>"><?php esc_html_e( 'Review', 'taxonomy-csv-import-export' ); ?><span class="screen-reader-text"> <?php echo esc_html( $job['file'] ); ?></span></a>
+										<?php endif; ?>
 									</li>
 								<?php endforeach; ?>
 							</ul>
-							<?php if ( '' !== $upgrade_url ) : ?>
-								<a class="taxocsie-pro-card__button" href="<?php echo esc_url( $upgrade_url ); ?>">
-									<?php esc_html_e( 'Upgrade to Pro', 'taxonomy-csv-import-export' ); ?>
-									<span class="dashicons dashicons-arrow-right-alt" aria-hidden="true"></span>
-								</a>
-							<?php endif; ?>
+						<?php else : ?>
+							<div class="taxocsie-dashboard__empty">
+								<span class="taxocsie-dashboard__empty-icon"><span class="dashicons dashicons-media-spreadsheet" aria-hidden="true"></span></span>
+								<p><strong><?php esc_html_e( 'No CSV imports yet', 'taxonomy-csv-import-export' ); ?></strong></p>
+								<p><?php esc_html_e( 'Imports appear here so you can check the created terms or undo an import.', 'taxonomy-csv-import-export' ); ?></p>
+								<a class="taxocsie-dashboard__button" href="<?php echo esc_url( $import_url ); ?>"><span class="dashicons dashicons-upload" aria-hidden="true"></span><?php esc_html_e( 'Import CSV', 'taxonomy-csv-import-export' ); ?></a>
+							</div>
+						<?php endif; ?>
+					</section>
+
+				<aside class="taxocsie-dashboard__aside">
+					<?php if ( $show_sync_summary ) : ?>
+						<section class="taxocsie-dashboard__card" aria-labelledby="taxocsie-dashboard-sync-title">
+							<div class="taxocsie-dashboard__card-header">
+								<h2 id="taxocsie-dashboard-sync-title"><?php esc_html_e( 'Remote CSV Sync', 'taxonomy-csv-import-export' ); ?></h2>
+								<a class="taxocsie-dashboard__panel-link" href="<?php echo esc_url( admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-remote-sync' ) ); ?>"><?php esc_html_e( 'Manage sync', 'taxonomy-csv-import-export' ); ?></a>
+							</div>
+							<dl class="taxocsie-dashboard__facts">
+								<div>
+									<dt><?php esc_html_e( 'Schedule', 'taxonomy-csv-import-export' ); ?></dt>
+									<dd><?php echo esc_html( ! empty( $sync_config['enabled'] ) ? ( $sync_scheduler_ready ? __( 'Active', 'taxonomy-csv-import-export' ) : __( 'Scheduler unavailable', 'taxonomy-csv-import-export' ) ) : __( 'Paused', 'taxonomy-csv-import-export' ) ); ?></dd>
+								</div>
+								<div>
+									<dt><?php esc_html_e( 'Last run', 'taxonomy-csv-import-export' ); ?></dt>
+									<dd><?php echo ! empty( $last_sync['time'] ) ? esc_html( wp_date( $date_format, (int) $last_sync['time'] ) ) : esc_html__( 'Not yet run', 'taxonomy-csv-import-export' ); ?></dd>
+								</div>
+								<div>
+									<dt><?php esc_html_e( 'Last result', 'taxonomy-csv-import-export' ); ?></dt>
+									<dd><?php echo esc_html( $last_sync ? ( $sync_status_labels[ $last_sync_status ] ?? ucwords( str_replace( '_', ' ', $last_sync_status ) ) ) : __( 'No result yet', 'taxonomy-csv-import-export' ) ); ?></dd>
+								</div>
+							</dl>
+						</section>
+					<?php endif; ?>
+
+					<section class="taxocsie-dashboard__card taxocsie-dashboard__guide" aria-labelledby="taxocsie-getting-started-title">
+						<div class="taxocsie-dashboard__card-header">
+							<h2 id="taxocsie-getting-started-title"><?php esc_html_e( 'Moving categories to another site?', 'taxonomy-csv-import-export' ); ?></h2>
 						</div>
-					</aside>
-				</div>
-			<?php endif; ?>
+						<ol class="taxocsie-dashboard__steps">
+							<li><?php esc_html_e( 'Export Categories on the original site.', 'taxonomy-csv-import-export' ); ?></li>
+							<li><?php esc_html_e( 'Import that CSV into Categories on the new site.', 'taxonomy-csv-import-export' ); ?></li>
+							<li><?php esc_html_e( 'Check the results in All Terms.', 'taxonomy-csv-import-export' ); ?></li>
+						</ol>
+						<p class="taxocsie-dashboard__guide-note"><?php esc_html_e( 'CSV moves the category names and details. It does not move posts or their category assignments.', 'taxonomy-csv-import-export' ); ?></p>
+						<a class="taxocsie-dashboard__panel-link" href="<?php echo esc_url( $export_url ); ?>"><?php esc_html_e( 'Start with export', 'taxonomy-csv-import-export' ); ?><span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span></a>
+					</section>
+				</aside>
+			</div>
 		</div>
 		<?php
 	}
@@ -1429,7 +1520,7 @@ class Menu {
 					<thead><tr><th scope="col" class="taxocsie-select-column"><input type="checkbox" class="taxocsie-terms-select-all" aria-label="<?php esc_attr_e( 'Select all terms on this page', 'taxonomy-csv-import-export' ); ?>" <?php disabled( ! $terms ); ?>></th><th scope="col"><?php esc_html_e( 'Term', 'taxonomy-csv-import-export' ); ?></th><th scope="col"><?php esc_html_e( 'Taxonomy', 'taxonomy-csv-import-export' ); ?></th><th scope="col"><?php esc_html_e( 'Slug', 'taxonomy-csv-import-export' ); ?></th><th scope="col"><?php esc_html_e( 'Parent', 'taxonomy-csv-import-export' ); ?></th><th scope="col"><?php esc_html_e( 'Count', 'taxonomy-csv-import-export' ); ?></th><th scope="col"><?php esc_html_e( 'Actions', 'taxonomy-csv-import-export' ); ?></th></tr></thead>
 					<tbody>
 					<?php if ( ! $terms ) : ?><tr><td colspan="7" class="taxocsie-all-terms__empty"><span class="dashicons dashicons-search" aria-hidden="true"></span><strong><?php esc_html_e( 'No terms found', 'taxonomy-csv-import-export' ); ?></strong><span><?php esc_html_e( 'Try a different search or taxonomy, or create a new term.', 'taxonomy-csv-import-export' ); ?></span></td></tr><?php endif; ?>
-					<?php foreach ( $terms as $term ) :
+					<?php $last_term_key = array_key_last( $terms ); foreach ( $terms as $term_key => $term ) :
 						$taxonomy = $taxonomies[ $term->taxonomy ];
 						$parent = $term->parent ? get_term( $term->parent, $term->taxonomy ) : null;
 						$can_edit = current_user_can( $taxonomy->cap->edit_terms );
@@ -1440,7 +1531,7 @@ class Menu {
 							: 0;
 						$image_html = $image_id ? wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'class' => 'taxocsie-all-terms__image', 'alt' => '', 'loading' => 'lazy' ) ) : '';
 					?>
-					<tr class="taxocsie-all-terms__row">
+					<tr class="taxocsie-all-terms__row<?php echo $term_key === $last_term_key ? ' taxocsie-all-terms__row--last' : ''; ?>">
 						<td class="taxocsie-select-column"><input type="checkbox" class="taxocsie-term-select" form="taxocsie-terms-bulk-form" name="term_ids[]" value="<?php echo esc_attr( $term->term_id ); ?>" aria-label="<?php echo esc_attr( sprintf( /* translators: %s: term or taxonomy name. */ __( 'Select %s', 'taxonomy-csv-import-export' ), $term->name ) ); ?>" <?php disabled( ! $can_delete ); ?>></td>
 						<td><span class="taxocsie-all-terms__title"><?php echo wp_kses_post( $image_html ); ?><strong><?php echo esc_html( $term->name ); ?></strong></span><?php if ( $term->description ) : ?><span class="taxocsie-all-terms__description"><?php echo esc_html( wp_trim_words( $term->description, 14 ) ); ?></span><?php endif; ?></td>
 						<td><span class="taxocsie-all-terms__badge"><?php echo esc_html( $taxonomy->label ); ?></span></td>
@@ -1473,7 +1564,7 @@ class Menu {
 		/**
 		 * Filters the add-ons displayed in the catalog.
 		 *
-		 * Each add-on may contain name, description, icon, and url values.
+		 * Each add-on may contain name, description, icon, url, and docs_url values.
 		 * Add-ons are intentionally registered separately from this page so the
 		 * catalog can be populated when the product list is ready.
 		 *
@@ -1490,6 +1581,7 @@ class Menu {
 				'feature' => 'advanced_csv_import',
 				'requires_acf' => true,
 				'url' => admin_url( 'admin.php?page=taxocsie-term-meta-transfer' ),
+				'docs_url' => 'https://wp-taxonomy-manager.com/documentation/#meta-transfer',
 			),
 			array(
 				'key' => 'duplicate_terms',
@@ -1498,6 +1590,7 @@ class Menu {
 				'icon' => 'dashicons-admin-page',
 				'feature' => 'duplicate_term_merge',
 				'url' => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-duplicates' ),
+				'docs_url' => 'https://wp-taxonomy-manager.com/documentation/#duplicates',
 			),
 			array(
 				'key' => 'remote_sync',
@@ -1506,6 +1599,7 @@ class Menu {
 				'icon' => 'dashicons-update',
 				'feature' => 'scheduled_remote_csv_sync',
 				'url' => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-remote-sync' ),
+				'docs_url' => 'https://wp-taxonomy-manager.com/documentation/#sync',
 			),
 			array(
 				'key' => 'woocommerce',
@@ -1515,6 +1609,7 @@ class Menu {
 				'feature' => 'dynamic_term_meta',
 				'requires_woocommerce' => true,
 				'url' => admin_url( 'admin.php?page=' . TAXOCSIE_PLUGIN_SLUG . '-term-fields' ),
+				'docs_url' => 'https://wp-taxonomy-manager.com/documentation/#woo',
 			),
 		) );
 		$addons = is_array( $addons ) ? $addons : array();
@@ -1523,18 +1618,26 @@ class Menu {
 		$access = class_exists( 'TaxoCSIE\\Premium\\PremiumAccess' ) ? new \TaxoCSIE\Premium\PremiumAccess() : null;
 		$upgrade_url = Freemius::get_upgrade_url();
 		?>
-		<div class="taxocsie-wrap taxocsie-addons-page tw-py-6">
+		<div class="taxocsie-wrap taxocsie-addons-page">
 			<?php if ( isset( $_GET['updated'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['updated'] ) ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Add-on setting saved.', 'taxonomy-csv-import-export' ); ?></p></div>
 			<?php endif; ?>
 
-			<section class="taxocsie-addons-catalog tw-mt-5 tw-overflow-hidden tw-rounded-2xl tw-border tw-border-slate-200 tw-bg-white tw-shadow-soft" aria-labelledby="taxocsie-addons-title">
-				<div class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-border-b tw-border-slate-100 tw-bg-slate-50/80 tw-px-6 tw-py-5 sm:tw-px-8">
+			<section class="taxocsie-addons-catalog tw-overflow-hidden tw-rounded-2xl tw-border tw-border-slate-200 tw-bg-white tw-shadow-soft" aria-labelledby="taxocsie-addons-title">
+				<div class="taxocsie-addons-catalog__header tw-flex tw-items-center tw-justify-between tw-gap-4 tw-border-b tw-border-slate-100 tw-bg-slate-50/80">
 					<div>
 						<h2 id="taxocsie-addons-title" class="tw-m-0 tw-text-base tw-font-bold tw-text-slate-900"><?php esc_html_e( 'Add-on catalog', 'taxonomy-csv-import-export' ); ?></h2>
-						<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Open a tool from its card. If it is unavailable, check its license and required plugin.', 'taxonomy-csv-import-export' ); ?></p>
+						<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Read each add-on\'s documentation or open an available tool from its card.', 'taxonomy-csv-import-export' ); ?></p>
 					</div>
-					<a class="tw-shrink-0 tw-rounded-full tw-bg-brand-100 tw-px-3 tw-py-1 tw-text-xs tw-font-semibold tw-text-brand-700 tw-no-underline" href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'Pro features', 'taxonomy-csv-import-export' ); ?></a>
+					<div class="taxocsie-addons-catalog__tools">
+						<?php if ( ! empty( $addons ) ) : ?>
+							<div class="taxocsie-addons-search" data-addon-search hidden>
+								<span class="dashicons dashicons-search" aria-hidden="true"></span>
+								<label class="screen-reader-text" for="taxocsie-addon-search"><?php esc_html_e( 'Search add-ons', 'taxonomy-csv-import-export' ); ?></label>
+								<input type="search" id="taxocsie-addon-search" placeholder="<?php esc_attr_e( 'Search add-ons', 'taxonomy-csv-import-export' ); ?>" autocomplete="off" aria-controls="taxocsie-addons-grid">
+							</div>
+						<?php endif; ?>
+					</div>
 				</div>
 
 				<?php if ( empty( $addons ) ) : ?>
@@ -1551,7 +1654,7 @@ class Menu {
 						<?php endif; ?>
 					</div>
 				<?php else : ?>
-					<div class="taxocsie-addons-grid">
+					<div class="taxocsie-addons-grid" id="taxocsie-addons-grid">
 						<?php foreach ( $addons as $addon ) : ?>
 							<?php
 							if ( ! is_array( $addon ) || empty( $addon['name'] ) ) {
@@ -1562,6 +1665,7 @@ class Menu {
 							$description = isset( $addon['description'] ) ? (string) $addon['description'] : '';
 							$icon        = isset( $addon['icon'] ) ? sanitize_html_class( $addon['icon'] ) : 'dashicons-admin-plugins';
 							$addon_url   = isset( $addon['url'] ) ? esc_url( $addon['url'] ) : '';
+							$docs_url    = isset( $addon['docs_url'] ) ? esc_url( $addon['docs_url'] ) : '';
 							$addon_key   = isset( $addon['key'] ) ? sanitize_key( $addon['key'] ) : '';
 							$toggleable  = AddonSettings::is_supported( $addon_key );
 							$feature     = $toggleable ? AddonSettings::features()[ $addon_key ] : ( isset( $addon['feature'] ) ? sanitize_key( $addon['feature'] ) : '' );
@@ -1571,7 +1675,7 @@ class Menu {
 							$unavailable = $needs_woo || $needs_acf;
 							$enabled     = ( $toggleable ? AddonSettings::is_enabled( $addon_key ) : true ) && ! $unavailable;
 							?>
-							<article class="taxocsie-addon-card"<?php echo $toggleable ? ' data-addon-card="' . esc_attr( $addon_key ) . '" data-requires-woocommerce="' . ( $needs_woo ? '1' : '0' ) . '" data-requires-acf="' . ( $needs_acf ? '1' : '0' ) . '"' : ''; ?>>
+							<article class="taxocsie-addon-card" data-addon-search-text="<?php echo esc_attr( $name . ' ' . $description ); ?>"<?php echo $toggleable ? ' data-addon-card="' . esc_attr( $addon_key ) . '" data-requires-woocommerce="' . ( $needs_woo ? '1' : '0' ) . '" data-requires-acf="' . ( $needs_acf ? '1' : '0' ) . '"' : ''; ?>>
 								<div class="taxocsie-addon-card__header">
 									<span class="taxocsie-addon-card__icon">
 										<span class="dashicons <?php echo esc_attr( $icon ); ?>" aria-hidden="true"></span>
@@ -1594,7 +1698,9 @@ class Menu {
 								<div class="taxocsie-addon-card__body">
 									<div class="taxocsie-addon-card__title">
 										<h3><?php echo esc_html( $name ); ?></h3>
-										<?php if ( ! $unlocked && '' !== $upgrade_url ) : ?>
+										<?php if ( '' !== $docs_url ) : ?>
+											<a class="taxocsie-addon-card__link" href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( sprintf( /* translators: %s: add-on name. */ __( 'Read documentation for %s', 'taxonomy-csv-import-export' ), $name ) ); ?>"><span class="dashicons dashicons-external" aria-hidden="true"></span></a>
+										<?php elseif ( ! $unlocked && '' !== $upgrade_url ) : ?>
 											<a class="taxocsie-addon-card__link" href="<?php echo esc_url( $upgrade_url ); ?>" aria-label="<?php echo esc_attr( sprintf( /* translators: %s: add-on name. */ __( 'Upgrade to use %s', 'taxonomy-csv-import-export' ), $name ) ); ?>"><span class="dashicons dashicons-external" aria-hidden="true"></span></a>
 										<?php elseif ( '' !== $addon_url ) : ?>
 											<a class="taxocsie-addon-card__link" <?php echo $toggleable ? 'data-addon-open ' : ''; ?>href="<?php echo esc_url( $addon_url ); ?>" aria-label="<?php echo esc_attr( sprintf( /* translators: %s: add-on name. */ __( 'Open %s', 'taxonomy-csv-import-export' ), $name ) ); ?>"<?php echo $toggleable && ( ! $enabled || $unavailable ) ? ' hidden' : ''; ?>><span class="dashicons dashicons-external" aria-hidden="true"></span></a>
@@ -1606,6 +1712,9 @@ class Menu {
 								</div>
 								<?php if ( $toggleable && $unlocked ) : ?>
 									<div class="taxocsie-addon-card__footer">
+										<?php if ( '' !== $docs_url && '' !== $addon_url ) : ?>
+											<a class="taxocsie-addon-card__tool-link" data-addon-open href="<?php echo esc_url( $addon_url ); ?>"<?php echo ! $enabled || $unavailable ? ' hidden' : ''; ?>><?php esc_html_e( 'Open tool', 'taxonomy-csv-import-export' ); ?></a>
+										<?php endif; ?>
 										<span class="taxocsie-addon-card__hint" data-addon-off<?php echo $enabled || $unavailable ? ' hidden' : ''; ?>><?php esc_html_e( 'Turn on to open this add-on', 'taxonomy-csv-import-export' ); ?></span>
 										<span class="taxocsie-addon-card__hint taxocsie-addon-card__hint--warning" data-addon-needs-woo<?php echo ! $needs_woo ? ' hidden' : ''; ?>><?php esc_html_e( 'Activate WooCommerce to use this add-on', 'taxonomy-csv-import-export' ); ?></span>
 										<span class="taxocsie-addon-card__hint taxocsie-addon-card__hint--warning" data-addon-needs-acf<?php echo ! $needs_acf ? ' hidden' : ''; ?>><?php esc_html_e( 'Activate Advanced Custom Fields to use this add-on', 'taxonomy-csv-import-export' ); ?></span>
@@ -1614,6 +1723,20 @@ class Menu {
 							</article>
 						<?php endforeach; ?>
 					</div>
+					<p class="screen-reader-text" role="status" aria-live="polite" data-addon-search-status></p>
+					<div class="taxocsie-addons-empty" data-addon-search-empty hidden>
+						<span class="dashicons dashicons-search" aria-hidden="true"></span>
+						<p><strong><?php esc_html_e( 'No add-ons match your search', 'taxonomy-csv-import-export' ); ?></strong></p>
+						<p><?php esc_html_e( 'Try a different word, such as a feature or plugin name.', 'taxonomy-csv-import-export' ); ?></p>
+						<button type="button" class="button" data-addon-search-clear><?php esc_html_e( 'Clear search', 'taxonomy-csv-import-export' ); ?></button>
+					</div>
+					<?php if ( '' !== $upgrade_url ) : ?>
+						<div class="taxocsie-addons-catalog__footer">
+							<span class="dashicons dashicons-star-filled" aria-hidden="true"></span>
+							<p><?php esc_html_e( 'Add-ons are part of WP Taxonomy Manager Pro. There is no separate plugin to install.', 'taxonomy-csv-import-export' ); ?></p>
+							<a href="<?php echo esc_url( $upgrade_url ); ?>"><?php esc_html_e( 'View Pro features', 'taxonomy-csv-import-export' ); ?><span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span></a>
+						</div>
+					<?php endif; ?>
 				<?php endif; ?>
 			</section>
 		</div>
@@ -2001,7 +2124,7 @@ class Menu {
 						</div>
 						<div>
 							<h2 class="tw-m-0 tw-text-base tw-font-bold tw-text-slate-900"><?php esc_html_e( 'Export Users', 'taxonomy-csv-import-export' ); ?></h2>
-						<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Download WordPress accounts as CSV. The file contains sensitive account data; store it securely.', 'taxonomy-csv-import-export' ); ?></p>
+							<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Download WordPress accounts. The file contains sensitive account data; store it securely.', 'taxonomy-csv-import-export' ); ?></p>
 						</div>
 					</div>
 					<form class="taxocsie-panel__form tw-px-6 tw-py-7 sm:tw-px-8" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -2021,12 +2144,20 @@ class Menu {
 									</label>
 								<?php endforeach; ?>
 							</div>
-							<span class="taxocsie-field-hint"><?php esc_html_e( 'Leave all unchecked to export every user.', 'taxonomy-csv-import-export' ); ?></span>
+							<span class="taxocsie-field-hint taxocsie-user-export-hint"><?php esc_html_e( 'Leave all unchecked to export every user.', 'taxonomy-csv-import-export' ); ?></span>
 						</div>
 
 						<div class="taxocsie-panel__actions">
+							<label class="taxocsie-user-format" for="taxocsie_user_export_format">
+								<span><?php esc_html_e( 'File type', 'taxonomy-csv-import-export' ); ?></span>
+								<select id="taxocsie_user_export_format" name="user_format">
+									<option value="csv"><?php esc_html_e( 'CSV (.csv)', 'taxonomy-csv-import-export' ); ?></option>
+									<option value="xlsx"><?php esc_html_e( 'Excel (.xlsx)', 'taxonomy-csv-import-export' ); ?></option>
+									<option value="json"><?php esc_html_e( 'JSON (.json)', 'taxonomy-csv-import-export' ); ?></option>
+								</select>
+							</label>
 							<button type="submit" class="button button-primary taxocsie-panel__btn-submit tw-inline-flex tw-h-11 tw-items-center tw-justify-center tw-rounded-lg tw-border-0 tw-bg-brand-600 tw-px-6 tw-text-sm tw-font-semibold tw-text-white tw-shadow-sm tw-transition hover:tw-bg-brand-700 focus:tw-ring-4 focus:tw-ring-brand-100">
-								<?php esc_html_e( 'Export CSV', 'taxonomy-csv-import-export' ); ?>
+								<?php esc_html_e( 'Download users', 'taxonomy-csv-import-export' ); ?>
 							</button>
 						</div>
 
@@ -2041,7 +2172,7 @@ class Menu {
 						</div>
 						<div>
 							<h2 class="tw-m-0 tw-text-base tw-font-bold tw-text-slate-900"><?php esc_html_e( 'Import Users', 'taxonomy-csv-import-export' ); ?></h2>
-						<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Create or update WordPress accounts from a CSV file. Review roles before importing.', 'taxonomy-csv-import-export' ); ?></p>
+							<p class="tw-m-0 tw-mt-1 tw-text-sm tw-text-slate-500"><?php esc_html_e( 'Create or update WordPress accounts from a user data file. Review roles before importing.', 'taxonomy-csv-import-export' ); ?></p>
 						</div>
 					</div>
 
@@ -2054,7 +2185,7 @@ class Menu {
 					<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					if ( isset( $_GET['user-imported'] ) && $_GET['user-imported'] === 'error' ) : ?>
 						<div class="notice notice-error taxocsie-panel__notice">
-							<p><?php esc_html_e( 'User import failed. Please check the CSV file and try again.', 'taxonomy-csv-import-export' ); ?></p>
+							<p><?php esc_html_e( 'User import failed. Check the selected file type, file structure, and required user fields, then try again.', 'taxonomy-csv-import-export' ); ?></p>
 						</div>
 					<?php endif; ?>
 
@@ -2063,25 +2194,33 @@ class Menu {
 
 						<div class="taxocsie-panel__field taxocsie-user-import-field">
 							<label class="taxocsie-panel__field-label" for="taxocsie_import_file">
-								<?php esc_html_e( 'CSV File', 'taxonomy-csv-import-export' ); ?>
+								<?php esc_html_e( 'User data file', 'taxonomy-csv-import-export' ); ?>
 								<span class="taxocsie-required">*</span>
 							</label>
 							<div class="taxocsie-user-upload">
 								<div class="taxocsie-user-upload__intro">
 									<span class="taxocsie-user-upload__icon dashicons dashicons-media-spreadsheet" aria-hidden="true"></span>
 									<div>
-										<strong><?php esc_html_e( 'Upload a user CSV', 'taxonomy-csv-import-export' ); ?></strong>
-										<p><?php esc_html_e( 'Choose a .csv file from your computer.', 'taxonomy-csv-import-export' ); ?></p>
+										<strong><?php esc_html_e( 'Upload user data', 'taxonomy-csv-import-export' ); ?></strong>
+										<p><?php esc_html_e( 'Choose a CSV, Excel, or JSON file.', 'taxonomy-csv-import-export' ); ?></p>
 									</div>
 								</div>
 								<div class="taxocsie-user-upload__control">
-									<input type="file" id="taxocsie_import_file" name="taxocsie_import_file" accept=".csv,text/csv" aria-describedby="taxocsie-user-import-columns" required>
-									<span class="taxocsie-field-hint" id="taxocsie-user-import-columns"><?php esc_html_e( 'Columns: username, email, password_hash, roles, first_name, last_name, meta', 'taxonomy-csv-import-export' ); ?></span>
+									<input type="file" id="taxocsie_import_file" name="taxocsie_import_file" accept=".csv,.xlsx,.json,text/csv,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-describedby="taxocsie-user-import-columns" required>
+									<span class="taxocsie-field-hint" id="taxocsie-user-import-columns"><?php esc_html_e( 'Max 10 MB. Fields: username, email, password_hash, roles, first_name, last_name, meta', 'taxonomy-csv-import-export' ); ?></span>
 								</div>
 							</div>
 						</div>
 
 						<div class="taxocsie-panel__actions">
+							<label class="taxocsie-user-format" for="taxocsie_user_import_format">
+								<span><?php esc_html_e( 'File type', 'taxonomy-csv-import-export' ); ?></span>
+								<select id="taxocsie_user_import_format" name="user_format">
+									<option value="csv"><?php esc_html_e( 'CSV (.csv)', 'taxonomy-csv-import-export' ); ?></option>
+									<option value="xlsx"><?php esc_html_e( 'Excel (.xlsx)', 'taxonomy-csv-import-export' ); ?></option>
+									<option value="json"><?php esc_html_e( 'JSON (.json)', 'taxonomy-csv-import-export' ); ?></option>
+								</select>
+							</label>
 							<button type="submit" name="taxocsie_import_users" class="button button-primary taxocsie-panel__btn-submit tw-inline-flex tw-h-11 tw-items-center tw-justify-center tw-rounded-lg tw-border-0 tw-bg-brand-600 tw-px-6 tw-text-sm tw-font-semibold tw-text-white tw-shadow-sm tw-transition hover:tw-bg-brand-700 focus:tw-ring-4 focus:tw-ring-brand-100">
 								<?php esc_html_e( 'Import Users', 'taxonomy-csv-import-export' ); ?>
 							</button>

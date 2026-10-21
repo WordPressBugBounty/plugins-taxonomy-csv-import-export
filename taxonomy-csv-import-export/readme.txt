@@ -1,12 +1,12 @@
 === WP Taxonomy Manager ===
-Contributors: rlorakib, codora
+Contributors: rlorakib, auvrenthstudio
 Author URI: https://rlorakib.wp-taxonomy-manager.com/
 Plugin URI: https://wp-taxonomy-manager.com/
 Tags: csv import, csv export, taxonomy, custom taxonomy, bulk import
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 2.1.1
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,12 +16,21 @@ Manage WordPress taxonomies and terms with CSV import/export, visual column mapp
 
 **WP Taxonomy Manager** brings taxonomy setup, term maintenance, and CSV transfers into one WordPress admin workspace. Work with categories, tags, WooCommerce product taxonomies, and custom taxonomies that your account can manage.
 
+= Website and documentation =
+
+* **Live website:** [wp-taxonomy-manager.com](https://wp-taxonomy-manager.com/) - see the features, screenshots, and latest updates.
+* **Documentation:** [Setup and feature guides](https://wp-taxonomy-manager.com/documentation/) for every screen, including CSV import and export.
+* **Pro plans:** [Compare plans and pricing](https://wp-taxonomy-manager.com/pricing) for the Pro tools listed below.
+
 = Free features =
 
 * **CSV term export** - Download term names, slugs, descriptions, parent slugs, and custom links from a selected taxonomy.
 * **Export preview** - Review the selected terms in the admin before downloading a file.
 * **Export filters** - Narrow exports by empty state, name, parent, or term count.
-* **CSV term import** - Create new terms from CSV and skip existing names or slugs; resolve parent slugs against terms already present in the taxonomy.
+* **CSV term import** - Create new terms from CSV and skip existing names or slugs. Parent rows are created before their children wherever they appear in the file, and equal names can be imported under different parents.
+* **Spreadsheet-friendly CSV** - Comma, semicolon, and tab-separated files are detected automatically, and UTF-16 or Windows-1252 files saved by Excel are converted to UTF-8.
+* **Term paths** - Describe a hierarchy in one column, such as "Clothing > Men > Shirts"; missing parent terms are created.
+* **Import undo** - Review the last five CSV imports and undo one. Undo previews every term first and keeps terms that are now in use.
 * **Visual column mapping** - Match source CSV columns to import fields and ignore columns you do not need.
 * **Custom taxonomy builder** - Register hierarchical or non-hierarchical taxonomies and attach them to selected post types without code.
 * **Term creation** - Add terms from the plugin workspace, including an AJAX form for quick creation.
@@ -33,11 +42,11 @@ Manage WordPress taxonomies and terms with CSV import/export, visual column mapp
 * **Demo term generator** - Create sample terms for development or content planning.
 * **Keyword auto tagging** - Assign existing taxonomy terms to published posts when configured keywords match.
 * **User CSV transfer** - Export users by role, then import new accounts or update existing users' profile details. Exports include password hashes and should be stored securely.
-* **Dashboard and settings** - View activity counts and adjust the plugin's available options.
+* **Dashboard and settings** - View term and activity counts, recent CSV imports, and quick links, and adjust the plugin's available options.
 
 = CSV fields =
 
-The Free term CSV uses a required 'name' field and supports 'slug', 'description', 'parent_slug', and 'custom_link'. A parent slug must match an existing term when that row is imported. Import accepts .csv or .txt files with CSV content.
+The Free term CSV needs a 'name' or 'term_path' field and supports 'slug', 'description', 'parent_slug', and 'custom_link'. A parent slug can match an existing term or another row in the same file. Import accepts .csv or .txt files with CSV content.
 
 = Pro features =
 
@@ -47,7 +56,7 @@ Pro features require an eligible license or trial.
 * **Import presets** - Save per-user column mappings and choose which mapped fields may update existing terms.
 * **XLSX and JSON transfers** - Import and export taxonomy terms in Excel and JSON formats.
 * **Term images** - Add or replace Media Library images on term screens, import images from public URLs, include image URLs in CSV exports, and display images with a shortcode.
-* **Term ordering** - Drag terms into a custom order and optionally apply that order to frontend term queries.
+* **Term ordering** - Order siblings within each parent group, browse large groups 100 terms at a time, and save in bounded batches. Optionally apply that order to frontend term queries that use WordPress's default sort; explicit query sorts are preserved.
 * **Duplicate term management** - Find normalized-name duplicates and read-only similar-spelling or initials suggestions, inspect merge impact, merge with confirmation, and restore from the audit history. Successful merges can also create a redirect from the removed term's old archive URL.
 * **Scheduled remote CSV sync** - Import a bounded remote CSV on a schedule with optional Basic or Bearer authentication and a recent-run log; requires Action Scheduler.
 * **Custom term fields** - Define text, color, image, select, and URL fields and display saved values with a shortcode.
@@ -69,11 +78,11 @@ WP Taxonomy Manager is useful for site administrators moving term data between s
 
 == Screenshots ==
 
-1. Export categories, tags, and custom taxonomy terms through the guided Data Manager.
-2. Search and manage terms from the All Terms workspace.
-3. Register a custom taxonomy with labels, structure, and post type settings.
-4. Create keyword rules that add existing categories or tags to published posts.
-5. Preview unused terms before cleanup, with restore history available afterward.
+1. Dashboard with term and activity totals, quick actions, and recent CSV imports.
+2. Preview the categories, tags, or custom taxonomy terms before downloading the export.
+3. Map CSV columns to term fields; comma, semicolon, and tab files are detected automatically.
+4. Search and manage terms from the All Terms workspace.
+5. Review an import before undoing it; terms now in use are kept.
 
 == Frequently Asked Questions ==
 
@@ -81,7 +90,13 @@ WP Taxonomy Manager is useful for site administrators moving term data between s
 Built-in categories and tags, plus custom taxonomies registered by a theme or plugin, including WooCommerce product taxonomies when WooCommerce is active. Your account must have permission to manage the selected taxonomy.
 
 = Can I import terms with parent-child relationships? =
-Yes. Include a parent_slug column. In the Free importer, the parent term must already exist when its child row is processed. Pro Advanced Import also checks hierarchy during preview.
+Yes. Include a parent_slug column, or a term_path column such as "Clothing > Men > Shirts". The Free importer creates parent rows before their children wherever they appear in the file; a term_path also creates missing parents. Pro Advanced Import also checks hierarchy during preview.
+
+= Can I undo a CSV import? =
+Yes, for the last five Free CSV imports. Open **Data Manager > Import** or the Dashboard, choose **Review undo**, and check the preview. Undo deletes only terms that import created and keeps any term that is now assigned to content, is a default term, or has child terms from elsewhere. Existing terms that the import skipped are never changed.
+
+= My spreadsheet saved the CSV with semicolons. Will it import? =
+Yes. The Free importer detects comma, semicolon, and tab separators from the header row, and converts UTF-16 ("Unicode text") and Windows-1252 files to UTF-8. Other legacy encodings should be saved as "CSV UTF-8" first.
 
 = Does this work with large CSV files? =
 CSV imports are subject to the upload, memory, and execution limits configured on your WordPress server. Pro Advanced Import enforces its configured file-size and row limits, processes prepared rows in bounded background batches, and can resume paused or stalled jobs within the job lifetime. Resume is best effort if a process stops between a term write and its saved progress.
@@ -105,7 +120,35 @@ No. Pro Duplicate Terms shows normalized-name matches plus read-only suggestions
 = Can I create a custom taxonomy without writing code? =
 Yes. Use the **Register Taxonomy** page to create, name, and attach a taxonomy to any post type directly from the admin UI.
 
+= How do I ask the team a question? =
+Click the round **Ask a question** button at the bottom right of any WP Taxonomy Manager screen, write your question, and send it. The team replies to the email shown in the form. You can also use the [contact page](https://wp-taxonomy-manager.com/contact/).
+
+== External services ==
+
+WP Taxonomy Manager connects to the services below. Nothing is sent until an administrator takes the action described.
+
+= WP Taxonomy Manager support (wp-taxonomy-manager.com) =
+When an administrator sends the **Ask a question** form, the plugin sends the name, reply email, topic, and question to `https://wp-taxonomy-manager.com/wp-json/wtmp-support/v1/message` so the team can reply by email. If **Include site details** stays checked, it also sends the site address, the WordPress, PHP, and plugin versions, the Free or Pro plan, and the site language. [Privacy policy](https://wp-taxonomy-manager.com/privacy-policy/).
+
+= WP Taxonomy Manager email updates (wp-taxonomy-manager.com and SendFox) =
+Only after an administrator clicks **Yes, subscribe me** in the updates notice, the plugin sends that administrator's email and the site address to `https://wp-taxonomy-manager.com/wp-json/wtmp-updates/v1/subscribe`, which adds the email to the WP Taxonomy Manager list in SendFox. [Privacy policy](https://wp-taxonomy-manager.com/privacy-policy/), [SendFox privacy policy](https://sendfox.com/privacy).
+
+= Freemius (licensing) =
+License activation, Pro updates, and the optional account connection invitation use the Freemius SDK. [Freemius terms](https://freemius.com/terms/), [Freemius privacy policy](https://freemius.com/privacy/).
+
+= AI provider (Pro AI suggestions) =
+Only when Pro AI suggestions are turned on, up to 6,000 characters from the post and up to 100 existing term names are sent to the text provider configured in the WordPress AI Client on your site. The provider's own terms and privacy policy apply.
+
 == Upgrade Notice ==
+
+= 2.2.0 =
+Imports Excel CSV files with semicolons or UTF-16 text, keeps hierarchy in name-sorted files, adds term paths and import undo, and refreshes the Dashboard.
+
+= 2.1.3 =
+Makes the Data Manager steps easier to scan side by side and reduces unused space in the export form.
+
+= 2.1.2 =
+Improves Pro term ordering for large and hierarchical taxonomies, with a clearer paging interface and safer frontend query behavior.
 
 = 2.1.1 =
 Improves the optional email updates opt-in response handling and error messages.
@@ -117,6 +160,30 @@ Adds safer term maintenance and transfer tools, import presets, unused-term clea
 Adds term management and Pro workflows, refreshes translations, and strengthens CSV and permission handling.
 
 == Changelog ==
+
+= 2.2.0 - 20/10/2026 =
+* Added: CSV import detects comma, semicolon, and tab separators, and converts UTF-16 and Windows-1252 files to UTF-8.
+* Added: A term_path (or category_path) column, such as "Clothing > Men > Shirts", creates missing parent terms.
+* Added: Recent CSV imports with a previewed undo that keeps terms now in use, default terms, and terms with other children.
+* Added: Search on the Add-ons page.
+* Added: An "Ask a question" button on every plugin screen that sends a question to the WP Taxonomy Manager team, with optional site details.
+* Improved: The readme lists the external services the plugin connects to and what each receives.
+* Improved: Parent rows are created before their children wherever they appear in a CSV, so name-sorted exports keep their hierarchy on re-import.
+* Improved: Equal term names can be imported under different parents.
+* Improved: Redesigned Dashboard with term totals, grouped quick actions, recent imports, and a responsive layout.
+* Improved: Sidebar submenu groups align and size correctly on mobile.
+* Improved: Every plugin screen has the same, wider spacing on both sides, on desktop and mobile.
+* Fixed: The Data Manager "Choose an action" step no longer overflows its card on tablets and phones.
+* Fixed (Pro): Excel and JSON term exports failed with an "export request is invalid" error because the download link was HTML-escaped.
+* Fixed: Term names and descriptions containing "&" were exported, previewed, and edited as "&amp;". Pro Advanced Import now also matches such names to existing terms.
+
+= 2.1.3 - 12/10/2026 =
+* Improved: Place Data Manager steps 1 and 2 side by side on wide screens, with a compact layout that stacks on smaller screens.
+* Improved: Reduce excess spacing in the export panel so choices and actions stay closer together.
+
+= 2.1.2 - 12/10/2026 =
+* Improved (Pro): Browse and reorder direct siblings within a parent group, with page controls, keyboard-friendly move buttons, and bounded batch saves instead of a 500-term limit.
+* Improved (Pro): Frontend custom ordering applies when a term query omits orderby; explicitly requested sorting remains intact.
 
 = 2.1.1 - 11/10/2026 =
 * Improved: The optional email updates opt-in accepts confirmed 2xx responses and reports server error codes when a subscription fails.

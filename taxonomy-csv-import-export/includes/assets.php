@@ -100,9 +100,23 @@ class Assets
 			'fieldParent'          => __('Parent slug', 'taxonomy-csv-import-export'),
 			'fieldLink'            => __('Custom link', 'taxonomy-csv-import-export'),
 			'fieldImage'           => __('Image source', 'taxonomy-csv-import-export'),
+			'fieldPath'            => __('Term path (Parent > Child)', 'taxonomy-csv-import-export'),
+			'mappingNameOrPath'    => __('Map one CSV column to Name or Term path.', 'taxonomy-csv-import-export'),
 			'massChooseTaxonomy'   => __( 'Choose a taxonomy first.', 'taxonomy-csv-import-export' ),
 			'massLoading'          => __( 'Loading terms...', 'taxonomy-csv-import-export' ),
 			'massNoTerms'          => __( 'No matching terms were found.', 'taxonomy-csv-import-export' ),
+			'orderItems'           => __( 'items', 'taxonomy-csv-import-export' ),
+			'orderOpenChildren'    => __( 'Open children', 'taxonomy-csv-import-export' ),
+			'orderMoveUp'         => __( 'Move up', 'taxonomy-csv-import-export' ),
+			'orderMoveDown'       => __( 'Move down', 'taxonomy-csv-import-export' ),
+			'orderPosition'       => __( 'Position', 'taxonomy-csv-import-export' ),
+			'orderPage'           => __( 'Page', 'taxonomy-csv-import-export' ),
+			'orderTerms'          => __( 'terms in this group', 'taxonomy-csv-import-export' ),
+			'orderUnsaved'        => __( 'Unsaved changes', 'taxonomy-csv-import-export' ),
+			'orderSaved'          => __( 'All changes saved', 'taxonomy-csv-import-export' ),
+			'orderSaving'         => __( 'Saving batch', 'taxonomy-csv-import-export' ),
+			'orderSaveComplete'   => __( 'Term order saved.', 'taxonomy-csv-import-export' ),
+			'orderSaveFailed'     => __( 'The save stopped. Your changes are still here; try saving again.', 'taxonomy-csv-import-export' ),
 			'massUnsavedConfirm'   => __( 'Discard the unsaved term changes?', 'taxonomy-csv-import-export' ),
 			'massNoChanges'        => __( 'No term changes to save.', 'taxonomy-csv-import-export' ),
 			'massSaving'           => __( 'Saving term changes...', 'taxonomy-csv-import-export' ),
@@ -113,6 +127,9 @@ class Assets
 		// Enqueue CSS
 		wp_enqueue_style('taxocsie-style', TAXOCSIE_ASSETS_URI . '/css/menu.css', array('wp-components'), filemtime( TAXOCSIE_ASSETS_DIR_PATH . '/css/menu.css' ), 'all');
 		wp_enqueue_style('taxocsie-tailwind', TAXOCSIE_ASSETS_URI . '/css/tailwind.css', array('taxocsie-style'), filemtime( TAXOCSIE_ASSETS_DIR_PATH . '/css/tailwind.css' ), 'all');
+		if ( 'toplevel_page_' . TAXOCSIE_PLUGIN_SLUG === $hook_suffix ) {
+			wp_enqueue_style( 'taxocsie-dashboard', TAXOCSIE_ASSETS_URI . '/css/dashboard.css', array( 'taxocsie-style', 'taxocsie-tailwind' ), filemtime( TAXOCSIE_ASSETS_DIR_PATH . '/css/dashboard.css' ) );
+		}
 		
 		// NEW: Enqueue dashicons for status icons
 		wp_enqueue_style('dashicons');

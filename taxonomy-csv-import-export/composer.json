@@ -32,8 +32,12 @@
 			"@php tests/import-presets-test.php",
 			"@php tests/update-fields-test.php",
 			"@php tests/user-import-test.php",
+			"@php tests/user-formats-test.php",
 			"@php tests/term-query-filters-test.php",
 			"@php tests/csv-safety-test.php",
+			"@php tests/parent-first-order-test.php",
+			"@php tests/csv-reader-test.php",
+			"@php tests/support-request-test.php",
 			"@php tests/taxonomy-permission-test.php",
 			"@php tests/auto-tagging-combined-save-test.php",
 			"@php tests/settings-pro-visibility-test.php"

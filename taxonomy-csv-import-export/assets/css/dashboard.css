@@ -1,0 +1,782 @@
+/* =============================================
+   Dashboard
+   One accent color, neutral surfaces, and a clear
+   reading order: header, metrics, tasks, history.
+   ============================================= */
+.taxocsie-wrap.taxocsie-dashboard {
+    --dash-ink: #172036;
+    --dash-text: #3b4559;
+    --dash-muted: #5f6b80;
+    --dash-faint: #8a94a8;
+    --dash-line: #e3e7ef;
+    --dash-line-soft: #eef1f6;
+    --dash-surface: #fff;
+    --dash-subtle: #f7f8fb;
+    --dash-brand: #5b4fd1;
+    --dash-brand-strong: #4a3fbb;
+    --dash-brand-soft: #f1effe;
+    --dash-brand-line: #dcd7fb;
+    --dash-radius: 12px;
+    --dash-shadow: 0 1px 2px rgba(23, 32, 54, .04);
+    --dash-gap: 20px;
+
+    width: auto;
+    /* Fill the width between the shared page gutters, like every other screen. */
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0 0 40px;
+    padding: 0;
+    color: var(--dash-text);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.taxocsie-dashboard *,
+.taxocsie-dashboard *::before,
+.taxocsie-dashboard *::after {
+    box-sizing: border-box;
+}
+
+/* Zero-specificity reset so component rules below win without. */
+.taxocsie-dashboard :where(p, h1, h2, h3, ul, ol, dl, dd) {
+    margin: 0;
+    padding: 0;
+}
+
+.taxocsie-dashboard .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.taxocsie-dashboard a:focus-visible {
+    outline: 2px solid var(--dash-brand);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Header ------------------------------------- */
+.taxocsie-dashboard__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding: 28px 0 22px;
+}
+
+.taxocsie-dashboard .taxocsie-dashboard__title {
+    color: var(--dash-ink);
+    font-size: 24px;
+    font-weight: 650;
+    letter-spacing: -.01em;
+    line-height: 1.25;
+}
+
+.taxocsie-dashboard__subtitle {
+    margin-top: 4px;
+    color: var(--dash-muted);
+    font-size: 14px;
+}
+
+.taxocsie-dashboard__header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.taxocsie-dashboard__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 0 15px;
+    border: 1px solid var(--dash-line);
+    border-radius: 8px;
+    background: var(--dash-surface);
+    box-shadow: var(--dash-shadow);
+    color: var(--dash-ink);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.taxocsie-dashboard__button:hover {
+    border-color: var(--dash-brand-line);
+    background: var(--dash-brand-soft);
+    color: var(--dash-brand-strong);
+}
+
+.taxocsie-dashboard__button--primary {
+    border-color: var(--dash-brand);
+    background: var(--dash-brand);
+    color: #fff;
+}
+
+.taxocsie-dashboard__button--primary:hover {
+    border-color: var(--dash-brand-strong);
+    background: var(--dash-brand-strong);
+    color: #fff;
+}
+
+/* Free plan notice --------------------------- */
+.taxocsie-dashboard__upgrade {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    margin-bottom: var(--dash-gap);
+    padding: 12px 14px 12px 18px;
+    border: 1px solid var(--dash-brand-line);
+    border-radius: var(--dash-radius);
+    background: var(--dash-brand-soft);
+}
+
+.taxocsie-dashboard__upgrade p {
+    color: var(--dash-text);
+    font-size: 13px;
+}
+
+.taxocsie-dashboard__upgrade strong {
+    margin-right: 4px;
+    color: var(--dash-ink);
+}
+
+.taxocsie-dashboard__upgrade-button,
+.taxocsie-pro-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #f59e0b;
+    color: #1d2327;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s ease;
+}
+
+.taxocsie-dashboard__upgrade-button:hover,
+.taxocsie-pro-card__button:hover {
+    background: #fbbf24;
+    color: #111827;
+}
+
+/* Metrics ------------------------------------ */
+.taxocsie-dashboard__metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.taxocsie-dashboard__metric {
+    min-width: 0;
+    padding: 18px 20px;
+    border: 1px solid var(--dash-line);
+    border-radius: var(--dash-radius);
+    background: var(--dash-surface);
+    box-shadow: var(--dash-shadow);
+}
+
+.taxocsie-dashboard__metric-top {
+    display: flex;
+    /* Keep the icon level with the first line when a label wraps. */
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.taxocsie-dashboard__metric-label {
+    padding-top: 6px;
+    color: var(--dash-muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.taxocsie-dashboard__metric-icon,
+.taxocsie-dashboard__action-icon,
+.taxocsie-dashboard__import-icon,
+.taxocsie-dashboard__empty-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--dash-brand-soft);
+    color: var(--dash-brand);
+}
+
+.taxocsie-dashboard__metric-value {
+    margin-top: 10px;
+    color: var(--dash-ink);
+    font-size: 30px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+}
+
+.taxocsie-dashboard__metric-note {
+    margin-top: 6px;
+    color: var(--dash-faint);
+    font-size: 12.5px;
+}
+
+/* Layout ------------------------------------- */
+.taxocsie-dashboard__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    /* Cards in the same row share one height so their bottoms line up. */
+    align-items: stretch;
+    gap: var(--dash-gap);
+    margin-top: var(--dash-gap);
+}
+
+/* Quick actions span the first row (sharing it with the Pro card on Free);
+   recent imports and the side cards share the second row. */
+.taxocsie-dashboard__layout > * {
+    min-width: 0;
+}
+
+.taxocsie-dashboard__actions {
+    grid-column: 1 / -1;
+}
+
+.taxocsie-dashboard__layout--with-pro > .taxocsie-dashboard__actions,
+.taxocsie-dashboard__imports-panel {
+    grid-column: 1;
+}
+
+.taxocsie-dashboard__aside {
+    display: grid;
+    grid-column: 2;
+    gap: var(--dash-gap);
+}
+
+/* Panels and cards --------------------------- */
+.taxocsie-dashboard__panel,
+.taxocsie-dashboard__card {
+    overflow: hidden;
+    border: 1px solid var(--dash-line);
+    border-radius: var(--dash-radius);
+    background: var(--dash-surface);
+    box-shadow: var(--dash-shadow);
+}
+
+.taxocsie-dashboard__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--dash-line-soft);
+}
+
+.taxocsie-dashboard__panel-header h2,
+.taxocsie-dashboard__card-header h2 {
+    color: var(--dash-ink);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.taxocsie-dashboard__panel-header p {
+    margin-top: 2px;
+    color: var(--dash-muted);
+    font-size: 13px;
+}
+
+.taxocsie-dashboard__panel-link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 5px;
+    color: var(--dash-brand);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.taxocsie-dashboard__panel-link:hover {
+    color: var(--dash-brand-strong);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Quick actions ------------------------------ */
+/* Let the action groups fill a panel stretched to its row, so the divider runs full height. */
+.taxocsie-dashboard__actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.taxocsie-dashboard__groups {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.taxocsie-dashboard__group {
+    min-width: 0;
+    padding: 16px 12px 12px;
+}
+
+.taxocsie-dashboard__group + .taxocsie-dashboard__group {
+    border-left: 1px solid var(--dash-line-soft);
+}
+
+.taxocsie-dashboard__group-title {
+    padding: 0 10px 8px;
+    color: var(--dash-faint);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.taxocsie-dashboard__action-list {
+    list-style: none;
+}
+
+.taxocsie-dashboard__action-list li {
+    margin: 0;
+}
+
+.taxocsie-dashboard__action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--dash-ink);
+    text-decoration: none;
+    transition: background-color .15s ease;
+}
+
+.taxocsie-dashboard__action:hover {
+    background: var(--dash-subtle);
+    color: var(--dash-ink);
+}
+
+.taxocsie-dashboard__action-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+}
+
+.taxocsie-dashboard__action-copy {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.taxocsie-dashboard__action-copy strong,
+.taxocsie-dashboard__action-copy span {
+    display: block;
+}
+
+.taxocsie-dashboard__action-copy strong {
+    color: var(--dash-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.taxocsie-dashboard__action-copy span {
+    margin-top: 1px;
+    color: var(--dash-muted);
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+
+.taxocsie-dashboard .taxocsie-dashboard__action-meta {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 7px;
+    vertical-align: 1px;
+    font-style: normal;
+    border-radius: 999px;
+    background: var(--dash-line-soft);
+    color: var(--dash-muted);
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.taxocsie-dashboard .taxocsie-dashboard__action-arrow {
+    flex: 0 0 auto;
+    color: var(--dash-faint);
+    transition: color .15s ease, transform .15s ease;
+}
+
+.taxocsie-dashboard__action:hover .taxocsie-dashboard__action-arrow {
+    color: var(--dash-brand);
+    transform: translateX(2px);
+}
+
+/* Recent imports ----------------------------- */
+.taxocsie-dashboard__imports {
+    list-style: none;
+}
+
+.taxocsie-dashboard__import {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 12px 20px;
+}
+
+.taxocsie-dashboard__import + .taxocsie-dashboard__import {
+    border-top: 1px solid var(--dash-line-soft);
+}
+
+.taxocsie-dashboard__import-icon {
+    background: var(--dash-subtle);
+    color: var(--dash-muted);
+}
+
+.taxocsie-dashboard__import-copy {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.taxocsie-dashboard__import-copy strong,
+.taxocsie-dashboard__import-copy span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.taxocsie-dashboard__import-copy strong {
+    color: var(--dash-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.taxocsie-dashboard__import-copy span {
+    color: var(--dash-muted);
+    font-size: 12.5px;
+}
+
+.taxocsie-dashboard__status {
+    flex: 0 0 auto;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--dash-line-soft);
+    color: var(--dash-muted);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.taxocsie-dashboard__status--imported {
+    background: #ecfdf3;
+    color: #157347;
+}
+
+.taxocsie-dashboard__status--partial {
+    background: #fff7e6;
+    color: #a35a0a;
+}
+
+.taxocsie-dashboard__import-link {
+    flex: 0 0 auto;
+    color: var(--dash-brand);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.taxocsie-dashboard__import-link:hover {
+    color: var(--dash-brand-strong);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.taxocsie-dashboard__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 32px 20px 28px;
+    text-align: center;
+}
+
+.taxocsie-dashboard__empty-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+}
+
+.taxocsie-dashboard__empty p {
+    max-width: 380px;
+    color: var(--dash-muted);
+}
+
+.taxocsie-dashboard__empty strong {
+    color: var(--dash-ink);
+    font-size: 14px;
+}
+
+.taxocsie-dashboard__empty .taxocsie-dashboard__button {
+    margin-top: 10px;
+}
+
+/* Aside cards -------------------------------- */
+.taxocsie-dashboard__card {
+    padding: 18px 20px 20px;
+}
+
+.taxocsie-dashboard__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.taxocsie-dashboard__facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-top: 1px solid var(--dash-line-soft);
+}
+
+.taxocsie-dashboard__facts dt {
+    color: var(--dash-muted);
+}
+
+.taxocsie-dashboard__facts dd {
+    color: var(--dash-ink);
+    font-weight: 600;
+    text-align: right;
+}
+
+.taxocsie-dashboard__steps {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+    counter-reset: taxocsie-step;
+}
+
+.taxocsie-dashboard__steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    color: var(--dash-text);
+    counter-increment: taxocsie-step;
+}
+
+.taxocsie-dashboard__steps li::before {
+    content: counter(taxocsie-step);
+    display: inline-flex;
+    flex: 0 0 22px;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--dash-brand-soft);
+    color: var(--dash-brand);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.taxocsie-dashboard__guide-note {
+    margin: 14px 0 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--dash-line-soft);
+    color: var(--dash-muted);
+    font-size: 12.5px;
+}
+
+/* Pro card (Free plan) ----------------------- */
+.taxocsie-dashboard .taxocsie-pro-card {
+    overflow: hidden;
+    border: 1px solid var(--dash-brand-line);
+    border-radius: var(--dash-radius);
+    background: var(--dash-surface);
+    box-shadow: var(--dash-shadow);
+}
+
+.taxocsie-dashboard .taxocsie-pro-card__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    background: linear-gradient(115deg, #4a3fbb, #5b4fd1);
+    color: #fff;
+}
+
+.taxocsie-dashboard .taxocsie-pro-card__header h2 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.taxocsie-dashboard .taxocsie-pro-card__body {
+    padding: 16px 20px 20px;
+}
+
+.taxocsie-dashboard .taxocsie-pro-card__body > p {
+    color: var(--dash-muted);
+}
+
+.taxocsie-dashboard .taxocsie-pro-card ul {
+    display: grid;
+    gap: 9px;
+    margin: 14px 0 18px;
+    list-style: none;
+}
+
+.taxocsie-dashboard .taxocsie-pro-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    color: var(--dash-text);
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+
+.taxocsie-dashboard .taxocsie-pro-card li .dashicons {
+    margin-top: 1px;
+    color: var(--dash-brand);
+}
+
+.taxocsie-dashboard .taxocsie-pro-card__button {
+    width: 100%;
+}
+
+/* Responsive --------------------------------- */
+@media (max-width: 1280px) {
+    .taxocsie-wrap.taxocsie-dashboard {
+        --dash-gap: 16px;
+    }
+
+    .taxocsie-dashboard__layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .taxocsie-dashboard__layout > * {
+        grid-column: 1 / -1;
+    }
+
+    /* Full-width Pro card: list in columns, button at its natural width. */
+    .taxocsie-dashboard .taxocsie-pro-card ul {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        column-gap: 24px;
+    }
+
+    .taxocsie-dashboard .taxocsie-pro-card__button {
+        width: auto;
+    }
+
+    .taxocsie-dashboard__aside {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        align-items: start;
+    }
+}
+
+@media (max-width: 960px) {
+    .taxocsie-dashboard__metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 782px) {
+    /* Stack the title above the buttons so buttons keep their normal height. */
+    .taxocsie-dashboard__header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px 0 16px;
+    }
+
+    .taxocsie-dashboard__header-actions,
+    .taxocsie-dashboard__header-actions .taxocsie-dashboard__button {
+        flex: 1 1 auto;
+    }
+
+    .taxocsie-dashboard__groups {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .taxocsie-dashboard__group + .taxocsie-dashboard__group {
+        border-top: 1px solid var(--dash-line-soft);
+        border-left: 0;
+    }
+
+    .taxocsie-dashboard__aside {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .taxocsie-dashboard__metrics {
+        gap: 10px;
+    }
+
+    .taxocsie-dashboard__metric {
+        padding: 14px;
+    }
+
+    .taxocsie-dashboard__metric-value {
+        font-size: 24px;
+    }
+
+    .taxocsie-dashboard__panel-header {
+        flex-wrap: wrap;
+        padding: 14px 16px;
+    }
+
+    .taxocsie-dashboard__import {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+
+    .taxocsie-dashboard__import-copy {
+        flex-basis: calc(100% - 44px);
+    }
+
+    .taxocsie-dashboard__import-copy span {
+        white-space: normal;
+    }
+
+    .taxocsie-dashboard__status {
+        margin-left: 44px;
+    }
+
+    .taxocsie-dashboard__card {
+        padding: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .taxocsie-dashboard__button,
+    .taxocsie-dashboard__action,
+    .taxocsie-dashboard .taxocsie-dashboard__action-arrow {
+        transition: none;
+    }
+
+    .taxocsie-dashboard__action:hover .taxocsie-dashboard__action-arrow {
+        transform: none;
+    }
+}

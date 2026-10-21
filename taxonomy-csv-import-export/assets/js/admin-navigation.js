@@ -299,9 +299,32 @@
             entry.loadedAt = Date.now();
 
             // Events inside the routed iframe do not reach the parent document.
+            // Native form submissions and their redirects must not load a full
+            // WordPress admin screen inside the routed iframe.
+            loadedPage.querySelectorAll('form:not([target])').forEach((form) => {
+                form.target = '_top';
+            });
             loadedPage.addEventListener('pointerdown', () => closeOtherGroups(), true);
             loadedPage.addEventListener('focusin', () => closeOtherGroups(), true);
-            loadedPage.addEventListener('submit', () => invalidateOtherPages(entry), true);
+            loadedPage.addEventListener('submit', (event) => {
+                invalidateOtherPages(entry);
+                const form = event.target;
+                if (!(form instanceof frame.contentWindow.HTMLFormElement)) {
+                    return;
+                }
+                if (!form.hasAttribute('target')) {
+                    form.target = '_top';
+                }
+                if (form.method.toLowerCase() !== 'get' || form.target !== '_top' || event.defaultPrevented) {
+                    return;
+                }
+                const destination = new URL(form.action, loadedUrl.href);
+                destination.search = new URLSearchParams(new FormData(form)).toString();
+                if (isPluginPage(destination)) {
+                    event.preventDefault();
+                    route(destination);
+                }
+            }, true);
             loadedPage.addEventListener('click', (event) => {
                 const link = event.target.closest('a[href]');
                 if (event.target.closest('button, input[type="button"], input[type="submit"]')) {

@@ -1,0 +1,446 @@
+/* =============================================
+   Support button and question dialog
+   ============================================= */
+.taxocsie-support-launcher,
+.taxocsie-support {
+    --support-ink: #172036;
+    --support-text: #3b4559;
+    --support-muted: #5f6b80;
+    --support-line: #e3e7ef;
+    --support-field: #d5dbe5;
+    --support-brand: #5b4fd1;
+    --support-brand-strong: #4a3fbb;
+    --support-brand-soft: #f1effe;
+}
+
+/* Floating button, bottom corner of the screen. */
+.taxocsie-support-launcher {
+    position: fixed;
+    bottom: 24px;
+    inset-inline-end: var(--taxocsie-gutter, 24px);
+    z-index: 9990;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--support-brand);
+    box-shadow: 0 10px 24px -8px rgba(54, 41, 160, .6), 0 2px 6px rgba(23, 32, 54, .15);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color .15s ease, transform .15s ease;
+}
+
+.taxocsie-support-launcher:hover {
+    background: var(--support-brand-strong);
+    transform: translateY(-2px);
+}
+
+.taxocsie-support-launcher:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 0;
+    box-shadow: 0 0 0 6px var(--support-brand);
+}
+
+.taxocsie-support-launcher .taxocsie-support-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Label that appears beside the button on hover or keyboard focus. */
+.taxocsie-support-launcher__label {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: calc(100% + 10px);
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--support-ink);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: opacity .15s ease;
+}
+
+.taxocsie-support-launcher:hover .taxocsie-support-launcher__label,
+.taxocsie-support-launcher:focus-visible .taxocsie-support-launcher__label {
+    opacity: 1;
+}
+
+/* Keep the WordPress version text clear of the button. */
+body.taxocsie-admin-page #footer-upgrade {
+    margin-inline-end: 72px;
+}
+
+/* Dialog ------------------------------------- */
+.taxocsie-support {
+    box-sizing: border-box;
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 24px 60px -12px rgba(15, 23, 42, .35);
+    color: var(--support-text);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.taxocsie-support *,
+.taxocsie-support *::before,
+.taxocsie-support *::after {
+    box-sizing: border-box;
+}
+
+.taxocsie-support::backdrop {
+    background: rgba(15, 23, 42, .45);
+}
+
+.taxocsie-support__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--support-line);
+}
+
+.taxocsie-support__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--support-brand-soft);
+    color: var(--support-brand);
+}
+
+.taxocsie-support__icon .taxocsie-support-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.taxocsie-support h2,
+.taxocsie-support h3 {
+    margin: 0;
+    padding: 0;
+    color: var(--support-ink);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.taxocsie-support__header p {
+    margin: 2px 0 0;
+    color: var(--support-muted);
+}
+
+.taxocsie-support__close {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: -4px -6px 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--support-muted);
+    cursor: pointer;
+}
+
+.taxocsie-support__close:hover {
+    background: #f1f3f7;
+    color: var(--support-ink);
+}
+
+/* Form --------------------------------------- */
+.taxocsie-support__form {
+    display: grid;
+    gap: 14px;
+    padding: 18px 20px 20px;
+}
+
+.taxocsie-support__form[hidden],
+.taxocsie-support__done[hidden],
+.taxocsie-support__error[hidden] {
+    display: none;
+}
+
+.taxocsie-support__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.taxocsie-support__field {
+    display: grid;
+    /* Keep rows at their natural height when a neighbouring field is taller. */
+    align-content: start;
+    gap: 6px;
+    min-width: 0;
+}
+
+.taxocsie-support__field > span {
+    color: var(--support-ink);
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.taxocsie-support input[type="text"],
+.taxocsie-support input[type="email"],
+.taxocsie-support select,
+.taxocsie-support textarea {
+    width: 100%;
+    max-width: none;
+    min-height: 38px;
+    margin: 0;
+    padding: 7px 10px;
+    border: 1px solid var(--support-field);
+    border-radius: 8px;
+    /* background-color only, so the select keeps WordPress's arrow image. */
+    background-color: #fff;
+    box-shadow: none;
+    color: var(--support-ink);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.taxocsie-support select {
+    padding-right: 28px;
+}
+
+.taxocsie-support textarea {
+    min-height: 128px;
+    resize: vertical;
+}
+
+.taxocsie-support input:focus,
+.taxocsie-support select:focus,
+.taxocsie-support textarea:focus {
+    border-color: var(--support-brand);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(91, 79, 209, .18);
+}
+
+.taxocsie-support__hint {
+    color: var(--support-muted);
+    font-size: 12px;
+}
+
+.taxocsie-support__count {
+    justify-self: end;
+    color: var(--support-muted);
+    font-size: 12px;
+}
+
+.taxocsie-support__check {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--support-text);
+}
+
+.taxocsie-support__check input[type="checkbox"] {
+    flex: 0 0 auto;
+    margin: 2px 0 0;
+}
+
+.taxocsie-support__privacy {
+    margin: 0;
+    color: var(--support-muted);
+    font-size: 12px;
+}
+
+.taxocsie-support a {
+    color: var(--support-brand);
+    font-weight: 600;
+}
+
+.taxocsie-support__error {
+    padding: 10px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.taxocsie-support__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 4px;
+}
+
+.taxocsie-support__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 16px;
+    border: 1px solid var(--support-line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--support-ink);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.taxocsie-support__button:hover {
+    border-color: #dcd7fb;
+    background: var(--support-brand-soft);
+    color: var(--support-brand-strong);
+}
+
+.taxocsie-support__button--primary {
+    border-color: var(--support-brand);
+    background: var(--support-brand);
+    color: #fff;
+}
+
+.taxocsie-support__button--primary:hover {
+    border-color: var(--support-brand-strong);
+    background: var(--support-brand-strong);
+    color: #fff;
+}
+
+.taxocsie-support__button:disabled {
+    cursor: wait;
+    opacity: .7;
+}
+
+.taxocsie-support__button:focus-visible,
+.taxocsie-support__close:focus-visible {
+    outline: 2px solid var(--support-brand);
+    outline-offset: 2px;
+}
+
+/* Sent --------------------------------------- */
+.taxocsie-support__done {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px 24px 28px;
+    text-align: center;
+    outline: 0;
+}
+
+.taxocsie-support__done-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+    background: #ecfdf3;
+    color: #157347;
+}
+
+.taxocsie-support__done-icon .dashicons {
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+}
+
+.taxocsie-support__done p {
+    margin: 0 0 8px;
+    color: var(--support-muted);
+}
+
+/* Reminder that the answer arrives by email. */
+.taxocsie-support__inbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 440px;
+    margin: 4px 0 12px;
+    padding: 12px 14px;
+    border: 1px solid #dcd7fb;
+    border-radius: 10px;
+    background: var(--support-brand-soft);
+    text-align: start;
+}
+
+.taxocsie-support__inbox .dashicons {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    color: var(--support-brand);
+    font-size: 20px;
+}
+
+.taxocsie-support .taxocsie-support__inbox p {
+    margin: 0;
+    color: var(--support-text);
+}
+
+.taxocsie-support__inbox strong {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--support-ink);
+}
+
+@media (max-width: 782px) {
+    .taxocsie-support-launcher {
+        bottom: 16px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .taxocsie-support-launcher .taxocsie-support-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .taxocsie-support-launcher__label {
+        display: none;
+    }
+
+    body.taxocsie-admin-page #footer-upgrade {
+        margin-inline-end: 60px;
+    }
+
+    .taxocsie-support__row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .taxocsie-support__header,
+    .taxocsie-support__form {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .taxocsie-support__actions .taxocsie-support__button {
+        flex: 1 1 auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .taxocsie-support-launcher,
+    .taxocsie-support-launcher__label {
+        transition: none;
+    }
+
+    .taxocsie-support-launcher:hover {
+        transform: none;
+    }
+}

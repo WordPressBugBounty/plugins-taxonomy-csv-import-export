@@ -58,7 +58,15 @@ body.wp-admin :is(
     .taxocsie-duplicate-page table.widefat,
     .taxocsie-maintenance-page table.widefat
 ) tbody tr:last-child :is(th, td) {
-    border-bottom: 0;
+    border-bottom: 1px solid #dfe4ef;
+}
+
+body.wp-admin table.taxocsie-all-terms__table tbody tr.taxocsie-all-terms__row--last td {
+    border-bottom: 1px solid #cbd5e1;
+}
+
+body.wp-admin table.taxocsie-all-terms__table tbody tr.taxocsie-term-edit-row:last-child:not([hidden]) td {
+    border-bottom: 1px solid #cbd5e1;
 }
 
 body.wp-admin :is(

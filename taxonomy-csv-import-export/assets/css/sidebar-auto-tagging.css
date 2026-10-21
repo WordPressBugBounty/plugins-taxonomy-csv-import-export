@@ -1,51 +1,159 @@
-#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group { margin: 0; padding: 0; }
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
 
-#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group > a.taxocsie-sidebar-menu-group__parent-link {
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group > .taxocsie-sidebar-menu-group__parent-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 5px 24px 5px 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: rgba(240, 246, 252, .7);
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
 }
 
-#adminmenu .taxocsie-sidebar-menu-group:hover > .taxocsie-sidebar-menu-group__parent-link,
-#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__parent-link {
-    background: rgba(255, 255, 255, .08);
+/* Link and toggle share one row, so the toggle always matches the row height. */
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group.has-page-link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 28px;
 }
 
-#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__parent-link {
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group.has-page-link > .taxocsie-sidebar-menu-group__parent-link {
+    padding-right: 4px;
+}
+
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group.has-page-link > ul.taxocsie-sidebar-menu-group__children {
+    grid-column: 1 / -1;
+}
+
+#adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group.has-page-link > button.taxocsie-sidebar-menu-group__toggle {
+    position: relative;
+    align-self: stretch;
+    width: auto;
+    height: auto;
+    min-height: 28px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: rgba(240, 246, 252, .7);
+    cursor: pointer;
+}
+
+#adminmenu .taxocsie-sidebar-menu-group__parent-link:not(a)::after,
+#adminmenu .taxocsie-sidebar-menu-group__toggle::after {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 5px;
+    height: 5px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    content: '';
+    transform: translateY(-70%) rotate(135deg);
+}
+
+#adminmenu .taxocsie-sidebar-menu-group.is-open > .taxocsie-sidebar-menu-group__parent-link:not(a)::after,
+#adminmenu .taxocsie-sidebar-menu-group.is-open > .taxocsie-sidebar-menu-group__toggle::after {
+    transform: translateY(-30%) rotate(-45deg);
+}
+
+#adminmenu .taxocsie-sidebar-menu-group__parent-link:hover,
+#adminmenu .taxocsie-sidebar-menu-group__parent-link:focus-visible,
+#adminmenu .taxocsie-sidebar-menu-group__toggle:hover,
+#adminmenu .taxocsie-sidebar-menu-group__toggle:focus-visible {
+    color: #72aee6;
+}
+
+#adminmenu .taxocsie-sidebar-menu-group__parent-link:focus-visible,
+#adminmenu .taxocsie-sidebar-menu-group__toggle:focus-visible {
+    box-shadow: inset 4px 0 0 currentColor;
+    outline: 0;
+}
+
+#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__parent-link,
+#adminmenu .taxocsie-sidebar-menu-group.is-current > .taxocsie-sidebar-menu-group__toggle {
     color: #fff;
 }
 
-#adminmenu .taxocsie-sidebar-menu-group__parent-link:focus-visible { outline: 2px solid #a9a1f1; outline-offset: -2px; }
-#adminmenu .taxocsie-sidebar-menu-group__children {
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group > ul.taxocsie-sidebar-menu-group__children {
+    display: none;
     position: relative;
-    margin: 0 0 4px 18px;
-    padding: 0;
+    width: auto;
+    min-width: 0;
+    margin: 0 0 4px 14px;
+    padding: 0 0 0 8px;
     list-style: none;
 }
-#adminmenu .taxocsie-sidebar-menu-group__children[hidden] { display: none; }
+
 #adminmenu .taxocsie-sidebar-menu-group__children::before {
     position: absolute;
     top: 0;
     bottom: 14px;
     left: 0;
-    border-left: 1px solid rgba(199, 207, 219, .5);
+    border-left: 1px solid rgba(240, 246, 252, .32);
     content: '';
     pointer-events: none;
 }
-#adminmenu .taxocsie-sidebar-menu-group__children > li {
+
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group.is-open > ul.taxocsie-sidebar-menu-group__children {
+    display: block;
+}
+
+#adminmenu .wp-submenu li.taxocsie-sidebar-menu-group > ul.taxocsie-sidebar-menu-group__children > li {
     position: relative;
     margin: 0;
+    padding: 0;
 }
+
 #adminmenu .taxocsie-sidebar-menu-group__children > li::before {
     position: absolute;
     top: 50%;
-    left: 0;
-    width: 10px;
-    border-top: 1px solid rgba(199, 207, 219, .5);
+    left: -8px;
+    width: 8px;
+    border-top: 1px solid rgba(240, 246, 252, .32);
     content: '';
     pointer-events: none;
 }
+
 #adminmenu .taxocsie-sidebar-menu-group__children > li.current::before {
-    border-color: #a9a1f1;
+    border-color: #72aee6;
 }
+
 #adminmenu .wp-submenu li.taxocsie-sidebar-menu-group > ul.taxocsie-sidebar-menu-group__children > li > a {
-    padding-left: 17px;
+    padding: 5px 6px;
+}
+
+@media screen and (max-width: 782px) {
+    #adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group > .taxocsie-sidebar-menu-group__parent-link {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 16px;
+    }
+
+    /* Larger touch target for the expand/collapse control. */
+    #adminmenu .wp-submenu > li.taxocsie-sidebar-menu-group.has-page-link {
+        grid-template-columns: minmax(0, 1fr) 44px;
+    }
+
+    #adminmenu .taxocsie-sidebar-menu-group__toggle::after {
+        right: 18px;
+    }
+
+    #adminmenu .wp-submenu li.taxocsie-sidebar-menu-group > ul.taxocsie-sidebar-menu-group__children > li > a {
+        padding-top: 9px;
+        padding-bottom: 9px;
+    }
 }

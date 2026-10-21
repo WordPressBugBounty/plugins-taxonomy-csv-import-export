@@ -7,20 +7,35 @@
     const findItem = (slug) => Array.from(submenu.querySelectorAll(':scope > li > a[href]'))
         .find((link) => new URL(link.href, window.location.href).searchParams.get('page') === slug)?.closest('li');
     const syncGroups = [];
+    const groups = [];
 
-    const addGroup = (slugs, titleText, childLabels = {}) => {
+    const addGroup = (slugs, titleText, childLabels = {}, openFirstPage = false) => {
         const items = slugs.map(findItem).filter(Boolean);
         if (items.length < 2) return;
 
         const group = document.createElement('li');
         group.className = 'taxocsie-sidebar-menu-group';
-        const title = document.createElement('a');
+        const title = document.createElement(openFirstPage ? 'a' : 'button');
+        if (openFirstPage) {
+            title.href = items[0].querySelector('a').href;
+            group.classList.add('has-page-link');
+        } else {
+            title.type = 'button';
+        }
         title.className = 'taxocsie-sidebar-menu-group__parent-link';
-        title.href = items[0].querySelector('a').href;
         title.textContent = titleText;
+        const toggle = openFirstPage ? document.createElement('button') : title;
+        if (openFirstPage) {
+            toggle.type = 'button';
+            toggle.className = 'taxocsie-sidebar-menu-group__toggle';
+            toggle.setAttribute('aria-label', `${labels.toggleSubmenu || 'Toggle submenu'}: ${titleText}`);
+        }
         const children = document.createElement('ul');
         children.className = 'taxocsie-sidebar-menu-group__children';
+        children.id = `taxocsie-sidebar-${slugs[0]}`;
         children.hidden = true;
+        toggle.setAttribute('aria-controls', children.id);
+        toggle.setAttribute('aria-expanded', 'false');
 
         items.forEach((item) => {
             const link = item.querySelector('a');
@@ -29,27 +44,42 @@
         });
         items[0].before(group);
         children.append(...items);
-        group.append(title, children);
+        group.append(title);
+        if (openFirstPage) group.append(toggle);
+        group.append(children);
 
         const setOpen = (open) => {
-            children.hidden = !open;
             group.classList.toggle('is-open', open);
+            children.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
         };
+        toggle.addEventListener('click', () => {
+            const shouldOpen = !group.classList.contains('is-open');
+            groups.forEach((entry) => {
+                if (entry.group !== group && !entry.group.classList.contains('is-current')) {
+                    entry.setOpen(false);
+                }
+            });
+            setOpen(shouldOpen);
+        });
+        group.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && group.classList.contains('is-open')) {
+                setOpen(false);
+                toggle.focus();
+                event.preventDefault();
+            }
+        });
+        groups.push({ group, setOpen });
+
         const syncActive = () => {
             const active = items.some((item) => item.classList.contains('current'));
+            const wasActive = group.classList.contains('is-current');
             group.classList.toggle('is-current', active);
-            setOpen(active || group.matches(':hover') || group.contains(document.activeElement));
+            if (active && !wasActive) setOpen(true);
+            if (!active && wasActive) setOpen(false);
         };
         syncGroups.push(syncActive);
         syncActive();
-        group.addEventListener('mouseenter', () => setOpen(true));
-        group.addEventListener('mouseleave', () => {
-            if (!group.classList.contains('is-current')) setOpen(false);
-        });
-        group.addEventListener('focusin', () => setOpen(true));
-        group.addEventListener('focusout', (event) => {
-            if (!group.contains(event.relatedTarget) && !group.classList.contains('is-current')) setOpen(false);
-        });
     };
 
     addGroup(
@@ -58,7 +88,8 @@
         {
             'taxonomy-csv-import-export-auto-tagging': labels.manual || 'Manually',
             'taxonomy-csv-import-export-auto-tagging-ai': labels.ai || 'AI Suggestions',
-        }
+        },
+        true
     );
     addGroup(
         [
@@ -68,8 +99,18 @@
             'taxonomy-csv-import-export-unused',
             'taxonomy-csv-import-export-duplicates',
         ],
-        labels.termTools || 'Term Tools'
+        labels.termTools || 'Term Tools',
+        {},
+        true
     );
+
+    document.addEventListener('click', (event) => {
+        groups.forEach((entry) => {
+            if (!entry.group.contains(event.target) && !entry.group.classList.contains('is-current')) {
+                entry.setOpen(false);
+            }
+        });
+    });
 
     window.taxocsieSidebarMenuSync = () => syncGroups.forEach((sync) => sync());
 })();

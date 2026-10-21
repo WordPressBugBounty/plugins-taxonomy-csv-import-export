@@ -161,7 +161,7 @@
     left: auto;
 }
 
-.taxocsie-admin-navigation__group:hover > .taxocsie-admin-navigation__dropdown,
+/* Dropdowns open on click: a closed <details> never renders its content, even on hover. */
 .taxocsie-admin-navigation__group[open] > .taxocsie-admin-navigation__dropdown {
     display: block;
 }
@@ -253,6 +253,60 @@ body.taxocsie-account-admin-page .fs-secure-notice {
     position: static;
     margin-left: -20px;
     box-sizing: border-box;
+}
+
+/* =============================================
+   Page gutters
+   Equal space on both sides of every plugin screen, set in one place.
+   #wpcontent already pads the left by 20px (10px on mobile), so
+   #wpbody-content adds the rest. Page wrappers add no side spacing.
+   ============================================= */
+body.taxocsie-admin-page {
+    --taxocsie-gutter: 32px;
+}
+
+body.taxocsie-admin-page #wpbody-content {
+    box-sizing: border-box;
+    padding-right: var(--taxocsie-gutter);
+    padding-left: calc(var(--taxocsie-gutter) - 20px);
+}
+
+/* Auto side margins resolve to 0 on full-width screens and centre a screen
+   that caps its width (such as the Users view), so both sides stay equal. */
+body.taxocsie-admin-page #wpbody-content > .wrap,
+body.taxocsie-admin-page #wpbody-content > .taxocsie-wrap {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+body.taxocsie-admin-page #wpbody-content > .notice {
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+body.taxocsie-admin-page #wpfooter {
+    padding-right: var(--taxocsie-gutter);
+    padding-left: var(--taxocsie-gutter);
+}
+
+/* While the page shows another screen in a frame, that screen adds the gutters. */
+body.taxocsie-admin-page.taxocsie-content-routing #wpbody-content {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+@media (max-width: 782px) {
+    body.taxocsie-admin-page {
+        --taxocsie-gutter: 16px;
+    }
+
+    body.taxocsie-admin-page #wpbody-content {
+        padding-left: calc(var(--taxocsie-gutter) - 10px);
+    }
 }
 
 #wpbody-content.taxocsie-content-routing > :not(.taxocsie-content-frame) {

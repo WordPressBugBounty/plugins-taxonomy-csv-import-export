@@ -1,3 +1,64 @@
+// Filter add-on cards by name and description as the user types.
+(function () {
+    'use strict';
+
+    const search = document.querySelector('[data-addon-search]');
+    const input = search ? search.querySelector('input') : null;
+    const cards = Array.from(document.querySelectorAll('[data-addon-search-text]'));
+    if (!input || !cards.length) {
+        return;
+    }
+
+    const labels = window.taxocsieAddonToggle || {};
+    const status = document.querySelector('[data-addon-search-status]');
+    const empty = document.querySelector('[data-addon-search-empty]');
+    // Case- and accent-insensitive matching.
+    const normalize = (text) => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const index = cards.map((card) => normalize(card.dataset.addonSearchText || card.textContent));
+    let announceTimer = 0;
+
+    const apply = () => {
+        const words = normalize(input.value).split(/\s+/).filter(Boolean);
+        let visible = 0;
+        cards.forEach((card, i) => {
+            const match = words.every((word) => index[i].includes(word));
+            card.hidden = !match;
+            visible += match ? 1 : 0;
+        });
+        empty.hidden = visible > 0;
+
+        // Announce once typing pauses, and only while a search is active.
+        window.clearTimeout(announceTimer);
+        announceTimer = window.setTimeout(() => {
+            if (!words.length) {
+                status.textContent = '';
+            } else if (!visible) {
+                status.textContent = labels.searchNone || '';
+            } else {
+                status.textContent = ((visible === 1 ? labels.searchResult : labels.searchResults) || '%d').replace('%d', visible);
+            }
+        }, 400);
+    };
+
+    search.hidden = false;
+    input.addEventListener('input', apply);
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && input.value) {
+            input.value = '';
+            apply();
+            event.preventDefault();
+        }
+    });
+    document.querySelector('[data-addon-search-clear]').addEventListener('click', () => {
+        input.value = '';
+        apply();
+        input.focus();
+    });
+    if (input.value) {
+        apply();
+    }
+}());
+
 (function () {
     'use strict';
 
