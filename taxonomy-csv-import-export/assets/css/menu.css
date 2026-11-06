@@ -609,7 +609,7 @@
 
 .taxocsie-manager-nav {
     display: grid;
-    grid-template-columns: minmax(0, .36fr) minmax(0, .64fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
     gap: 22px;
     margin-top: 0;
@@ -2591,6 +2591,12 @@ table.taxocsie-export__preview-table.widefat thead th,
         overflow: hidden;
         padding-bottom: 0;
     }
+
+    /* An admin notice above the page eats into the fixed height, so let the page scroll instead. */
+    body.taxocsie-create-admin-page:has(#wpbody-content > .notice:not(.hidden)),
+    body.taxocsie-create-admin-page:has(#wpbody-content > .notice:not(.hidden)) #wpbody-content {
+        overflow: visible;
+    }
 }
 
 .taxocsie-create-shell {
@@ -4492,6 +4498,18 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
         flex: 0 0 auto;
     }
 
+    /* An admin notice above the page eats into the fixed height, so let the page scroll instead. */
+    body.taxocsie-demo-admin-page:has(#wpbody-content > .notice:not(.hidden)),
+    body.taxocsie-demo-admin-page:has(#wpbody-content > .notice:not(.hidden)) #wpbody-content {
+        overflow: visible;
+    }
+
+    body.taxocsie-demo-admin-page:has(#wpbody-content > .notice:not(.hidden)) .taxocsie-demo-page {
+        height: auto;
+        min-height: calc(100dvh - 128px);
+        overflow: visible;
+    }
+
     .taxocsie-panel--demo > .taxocsie-panel__form,
     .taxocsie-panel--demo-stats > #taxocsie-demo-stats {
         flex: 1 1 auto;
@@ -5983,3 +6001,20 @@ table.taxocsie-enhanced-table:not(.taxocsie-panel__table) thead th {
     justify-content: flex-end;
     gap: 8px;
 }
+
+/* Re-parent by dragging: drop zones appear only while a row is being dragged. */
+.taxocsie-order-into { display: none; flex: 0 0 auto; padding: 4px 10px; border: 1px dashed #4b53bc; border-radius: 6px; color: #4b53bc; font-size: 12px; background: #f1f2ff; }
+.taxocsie-order-list.is-reparenting li:not(.is-dragging) .taxocsie-order-into { display: inline-block; }
+.taxocsie-order-into.is-drop-target, .taxocsie-order-breadcrumbs .is-drop-target { background: #4b53bc; color: #fff; border-color: #4b53bc; }
+.taxocsie-order-breadcrumbs.is-reparenting button[data-parent-id] { outline: 1px dashed #4b53bc; outline-offset: 2px; }
+
+/* Data Manager steps: keep the step numbers clearly visible, without boxes. */
+.taxocsie-manager-step-heading .taxocsie-manager-step-number,
+.taxocsie-manager-current-step .taxocsie-manager-step-number,
+.taxocsie-manager-nav__actions.is-locked .taxocsie-manager-step-number,
+.taxocsie-manager-current-step.is-locked .taxocsie-manager-step-number {
+    background: #5144bd;
+    color: #fff;
+}
+.taxocsie-manager-step-heading strong,
+.taxocsie-manager-current-step strong { font-weight: 700; }

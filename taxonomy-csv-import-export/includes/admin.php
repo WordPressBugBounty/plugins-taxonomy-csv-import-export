@@ -908,6 +908,7 @@ class Admin
 		remove_all_actions( 'all_admin_notices' );
 		remove_all_actions( 'network_admin_notices' );
 		remove_all_actions( 'user_admin_notices' );
+		add_action( 'admin_notices', array( PromoBanner::class, 'render' ) );
 		add_action( 'admin_notices', array( ReviewPrompt::class, 'render' ) );
 		add_action( 'admin_notices', array( UpdatesOptin::class, 'render' ) );
 	}

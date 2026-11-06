@@ -1,25 +1,25 @@
 === WP Taxonomy Manager ===
-Contributors: rlorakib, auvrenthstudio
+Contributors: rlorakib, codora, freemius
 Author URI: https://rlorakib.wp-taxonomy-manager.com/
 Plugin URI: https://wp-taxonomy-manager.com/
 Tags: csv import, csv export, taxonomy, custom taxonomy, bulk import
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Manage WordPress taxonomies and terms with CSV import/export, visual column mapping, bulk editing, custom links, and user transfers.
+Manage WordPress taxonomies and terms with CSV import/export, bulk editing, post ordering, term redirects, and user transfers.
 
 == Description ==
 
-**WP Taxonomy Manager** brings taxonomy setup, term maintenance, and CSV transfers into one WordPress admin workspace. Work with categories, tags, WooCommerce product taxonomies, and custom taxonomies that your account can manage.
+**WP Taxonomy Manager** brings taxonomy setup, term maintenance, and CSV transfers into one WordPress admin workspace. Work with categories, tags, WooCommerce product taxonomies, and custom taxonomies that your account can manage. Optional add-ons, such as Post Order, are switched on from the Add-ons screen and stay hidden until you do.
 
 = Website and documentation =
 
 * **Live website:** [wp-taxonomy-manager.com](https://wp-taxonomy-manager.com/) - see the features, screenshots, and latest updates.
-* **Documentation:** [Setup and feature guides](https://wp-taxonomy-manager.com/documentation/) for every screen, including CSV import and export.
+* **Documentation:** [Setup and feature guides](https://wp-taxonomy-manager.com/docs/) for every screen, including CSV import and export.
 * **Pro plans:** [Compare plans and pricing](https://wp-taxonomy-manager.com/pricing) for the Pro tools listed below.
 
 = Free features =
@@ -42,7 +42,9 @@ Manage WordPress taxonomies and terms with CSV import/export, visual column mapp
 * **Demo term generator** - Create sample terms for development or content planning.
 * **Keyword auto tagging** - Assign existing taxonomy terms to published posts when configured keywords match.
 * **User CSV transfer** - Export users by role, then import new accounts or update existing users' profile details. Exports include password hashes and should be stored securely.
-* **Dashboard and settings** - View term and activity counts, recent CSV imports, and quick links, and adjust the plugin's available options.
+* **Post Order add-on** - Switch it on in Add-ons to order the posts of a category: type an order number, rename titles in place, or move posts to the Trash. The post editor's Order field fills in the next number for the chosen category. Show the result with the `[taxocsie_ordered_posts]` shortcode or the Ordered Posts block. Drag and drop is Pro.
+* **Data Manager overview** - Illustrated cards explain export, import, bulk edit, term ordering, and user transfers before you pick a task.
+* **Dashboard and settings** - View term and activity counts, recent CSV imports, and a getting-started checklist with a sample CSV, and adjust the plugin's available options.
 
 = CSV fields =
 
@@ -55,11 +57,13 @@ Pro features require an eligible license or trial.
 * **Advanced CSV Import** - Preview row-level errors and warnings, check hierarchy, and choose create-only, update-only, or combined imports. Apply prepared rows in bounded background batches, resume paused jobs, and download row-level error reports.
 * **Import presets** - Save per-user column mappings and choose which mapped fields may update existing terms.
 * **XLSX and JSON transfers** - Import and export taxonomy terms in Excel and JSON formats.
-* **Term images** - Add or replace Media Library images on term screens, import images from public URLs, include image URLs in CSV exports, and display images with a shortcode.
-* **Term ordering** - Order siblings within each parent group, browse large groups 100 terms at a time, and save in bounded batches. Optionally apply that order to frontend term queries that use WordPress's default sort; explicit query sorts are preserved.
+* **Term images** - Add or replace Media Library images on term screens, import images from public URLs, include image URLs in CSV exports, and display images with a shortcode or the Term Image block.
+* **Term ordering** - Order siblings within each parent group, browse large groups 100 terms at a time, and save in bounded batches. Optionally apply that order to frontend term queries that use WordPress's default sort; explicit query sorts are preserved. Drag a term onto a sibling or a breadcrumb to move it under another parent; the old URLs get redirects.
 * **Duplicate term management** - Find normalized-name duplicates and read-only similar-spelling or initials suggestions, inspect merge impact, merge with confirmation, and restore from the audit history. Successful merges can also create a redirect from the removed term's old archive URL.
 * **Scheduled remote CSV sync** - Import a bounded remote CSV on a schedule with optional Basic or Bearer authentication and a recent-run log; requires Action Scheduler.
-* **Custom term fields** - Define text, color, image, select, and URL fields and display saved values with a shortcode.
+* **Custom term fields** - Define text, color, image, select, and URL fields and display saved values with a shortcode or the Term Field block.
+* **Post Order drag and drop** - Drag posts into place, sort a whole category in one click (A-Z, Z-A, newest, oldest, reverse), and undo the last change.
+* **Bulk Assign add-on** - Select many posts and add, remove, or replace their terms in one step, with undo for one hour.
 * **Term Meta Transfer** - Preview, export, and import registered scalar metadata for existing terms. Supported ACF taxonomy fields require active ACF and the ACF Term Fields add-on.
 * **Term Maintenance** - Preview bulk term-field changes or copy and move terms between compatible taxonomies, with bounded batches and a conflict-aware restore window.
 * **AI auto tagging** - Suggest existing taxonomy terms through any configured WordPress AI Client text provider. Requires WordPress 7.0 or later and a provider API key; WooCommerce is not required.
@@ -141,6 +145,9 @@ Only when Pro AI suggestions are turned on, up to 6,000 characters from the post
 
 == Upgrade Notice ==
 
+= 2.3.0 =
+Adds the free Post Order add-on, Pro Bulk Assign, drag-to-move terms under another parent, Term Image and Term Field blocks, and a getting-started checklist. Post Order and Bulk Assign start switched off; turn them on in Add-ons.
+
 = 2.2.0 =
 Imports Excel CSV files with semicolons or UTF-16 text, keeps hierarchy in name-sorted files, adds term paths and import undo, and refreshes the Dashboard.
 
@@ -160,6 +167,23 @@ Adds safer term maintenance and transfer tools, import presets, unused-term clea
 Adds term management and Pro workflows, refreshes translations, and strengthens CSV and permission handling.
 
 == Changelog ==
+
+= 2.3.0 - 06/11/2026 =
+* Added: Post Order add-on (free, off by default). Type an order number for the posts of a category, rename titles in place, and move posts to the Trash. The Order field in the post editor fills in the next number for the chosen category.
+* Added: The `[taxocsie_ordered_posts]` shortcode and an Ordered Posts block list a category in its saved order.
+* Added (Pro): Drag and drop, quick sort (A-Z, Z-A, newest, oldest, reverse), and undo in Post Order.
+* Added (Pro): Bulk Assign add-on (off by default) to add, remove, or replace terms on many posts, with undo for one hour.
+* Added (Pro): Drag a term onto a sibling or a breadcrumb in Term Ordering to move it under another parent.
+* Added (Pro): Term Image and Term Field blocks.
+* Added: A getting-started checklist and a sample CSV download on the Dashboard.
+* Added: An illustrated overview of what the Data Manager can do, shown before you choose a task.
+* Added: A new "Post Tools" group in the plugin navigation.
+* Improved: Renaming or moving a parent term now also records redirects for its child terms (up to 200 per change).
+* Improved: The Pro offer banner appears only on the Dashboard and Add-ons screens, only to Free sites, and can be closed.
+* Improved: Pro upgrade and documentation links open in a new tab, and the documentation link points to wp-taxonomy-manager.com/docs/.
+* Improved: The Data Manager step headings are easier to see, and steps 1 and 2 are equal width.
+* Improved: The translation template is refreshed, and block editor text is ready for translation.
+* Improved: Code follows the WordPress coding standards in the files added or changed in this release.
 
 = 2.2.0 - 20/10/2026 =
 * Added: CSV import detects comma, semicolon, and tab separators, and converts UTF-16 and Windows-1252 files to UTF-8.

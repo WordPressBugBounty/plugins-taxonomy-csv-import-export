@@ -499,6 +499,10 @@ jQuery(function ($) {
             $details.append($('<strong>').text(term.name));
             $details.append($('<small>').text('ID ' + term.id + ' · ' + term.count + ' ' + taxocsieData.orderItems));
             $row.append($details);
+            if (state.hierarchical) {
+                // Visible only while a row is being dragged: dropping on it makes the dragged term a child of this one.
+                $row.append($('<span>', { class: 'taxocsie-order-into', 'data-into-id': term.id }).text(taxocsieData.orderMoveInto));
+            }
             if (state.hierarchical && term.has_children) {
                 $row.append($('<button>', { type: 'button', class: 'button button-secondary taxocsie-order-children', 'data-parent-id': term.id, disabled: state.saving }).text(taxocsieData.orderOpenChildren));
             }
@@ -637,6 +641,7 @@ jQuery(function ($) {
         if (!orderState || orderState.saving) { event.preventDefault(); return; }
         draggedOrderItem = this;
         $(this).addClass('is-dragging');
+        $('#taxocsie-order-list, #taxocsie-order-breadcrumbs').addClass('is-reparenting');
         event.originalEvent.dataTransfer.effectAllowed = 'move';
         event.originalEvent.dataTransfer.setData('text/plain', String($(this).data('term-id')));
     }).on('dragover', 'li', function (event) {
@@ -647,6 +652,8 @@ jQuery(function ($) {
     }).on('drop', 'li', function (event) { event.preventDefault(); })
       .on('dragend', 'li', function () {
         $(this).removeClass('is-dragging');
+        $('#taxocsie-order-list, #taxocsie-order-breadcrumbs').removeClass('is-reparenting');
+        $('.is-drop-target').removeClass('is-drop-target');
         if (orderState && draggedOrderItem) {
             var start = (orderState.page - 1) * orderState.pageSize;
             var byId = {};
@@ -657,6 +664,56 @@ jQuery(function ($) {
             renderOrder();
         }
         draggedOrderItem = null;
+    });
+    // Re-parent by dragging a row onto "Drop to make child" (a sibling) or onto a breadcrumb (an ancestor / top level).
+    function moveTermToParent(newParent) {
+        if (!orderState || orderState.saving || !draggedOrderItem) { return; }
+        var state = orderState;
+        var termId = Number($(draggedOrderItem).data('term-id'));
+        // Clear the drag state first so the list's dragend handler does not rebuild the order from the DOM.
+        draggedOrderItem = null;
+        $('#taxocsie-order-list, #taxocsie-order-breadcrumbs').removeClass('is-reparenting');
+        $('.is-drop-target').removeClass('is-drop-target');
+        state.saving = true;
+        renderOrder();
+        $.post(taxocsieData.ajaxUrl, {
+            action: 'taxocsie_move_term_parent', nonce: taxocsieData.termOrderingNonce,
+            taxonomy: state.taxonomy, term_id: termId, new_parent: newParent
+        }).done(function (response) {
+            if (!response || !response.success) {
+                showTaxocsieNotification('error', getNotificationText(response && response.data));
+                return;
+            }
+            state.terms = state.terms.filter(function (term) { return term.id !== termId; });
+            state.terms.forEach(function (term) { if (term.id === newParent) { term.has_children = true; } });
+            showTaxocsieNotification('success', taxocsieData.orderMoved);
+        }).fail(function () {
+            showTaxocsieNotification('error', taxocsieData.error);
+        }).always(function () {
+            state.saving = false;
+            renderOrder();
+        });
+    }
+    $('#taxocsie-order-list').on('dragover', '.taxocsie-order-into', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $(this).addClass('is-drop-target');
+    }).on('dragleave', '.taxocsie-order-into', function () {
+        $(this).removeClass('is-drop-target');
+    }).on('drop', '.taxocsie-order-into', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        moveTermToParent(Number($(this).data('into-id')));
+    });
+    $('#taxocsie-order-breadcrumbs').on('dragover', 'button[data-parent-id]', function (event) {
+        if (!draggedOrderItem) { return; }
+        event.preventDefault();
+        $(this).addClass('is-drop-target');
+    }).on('dragleave', 'button[data-parent-id]', function () {
+        $(this).removeClass('is-drop-target');
+    }).on('drop', 'button[data-parent-id]', function (event) {
+        event.preventDefault();
+        moveTermToParent(Number($(this).data('parent-id')));
     });
     $('#taxocsie-order-frontend').on('change', function () {
         if (orderState && !orderState.saving) { orderState.dirty = true; renderOrder(); }

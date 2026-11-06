@@ -7,9 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class TermRedirects {
-	private const OPTION = 'taxocsie_term_redirects';
-	private const PAGE = 'taxonomy-csv-import-export-redirects';
-	private static $before = array();
+	private const OPTION           = 'taxocsie_term_redirects';
+	private const PAGE             = 'taxonomy-csv-import-export-redirects';
+	private const DESCENDANT_LIMIT = 200;
+	private static $before         = array();
+	private static $descendants    = array();
 
 	public static function init(): void {
 		add_action( 'edit_terms', array( __CLASS__, 'before_edit' ), 10, 2 );
@@ -30,6 +32,21 @@ final class TermRedirects {
 			return;
 		}
 		self::$before[ $key ] = self::term_path( absint( $term_id ), sanitize_key( $taxonomy ) );
+
+		// Renaming or moving a parent also changes every descendant archive URL.
+		if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+			$children = get_term_children( absint( $term_id ), sanitize_key( $taxonomy ) );
+			if ( is_array( $children ) && $children ) {
+				$paths = array();
+				foreach ( array_slice( $children, 0, self::DESCENDANT_LIMIT ) as $child_id ) {
+					$path = self::term_path( absint( $child_id ), sanitize_key( $taxonomy ) );
+					if ( $path ) {
+						$paths[ absint( $child_id ) ] = $path;
+					}
+				}
+				self::$descendants[ $key ] = $paths;
+			}
+		}
 	}
 
 	public static function after_edit( $term_id, $tt_id, $taxonomy ): void {
@@ -40,6 +57,15 @@ final class TermRedirects {
 		$new = self::term_path( absint( $term_id ), sanitize_key( $taxonomy ) );
 		if ( $old && $new && $old !== $new ) {
 			self::record( $old, absint( $term_id ), sanitize_key( $taxonomy ) );
+		}
+
+		$descendants = self::$descendants[ $key ] ?? array();
+		unset( self::$descendants[ $key ] );
+		foreach ( $descendants as $child_id => $child_old ) {
+			$child_new = self::term_path( (int) $child_id, sanitize_key( $taxonomy ) );
+			if ( $child_new && $child_old !== $child_new ) {
+				self::record( $child_old, (int) $child_id, sanitize_key( $taxonomy ) );
+			}
 		}
 	}
 
@@ -53,9 +79,9 @@ final class TermRedirects {
 		if ( is_wp_error( $url ) || ! is_string( $url ) ) {
 			return '';
 		}
-		$home_host = strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
-		$host = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
-		$path = (string) wp_parse_url( $url, PHP_URL_PATH );
+		$home_host  = strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
+		$host       = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
+		$path       = (string) wp_parse_url( $url, PHP_URL_PATH );
 		$normalized = $path ? self::normalize_path( $path ) : '';
 		return $home_host && $home_host === $host && '/' !== $normalized ? $normalized : '';
 	}
@@ -73,9 +99,13 @@ final class TermRedirects {
 		if ( '/' === $source_path || ! $target_path || $source_path === $target_path ) {
 			return;
 		}
-		$rules = get_option( self::OPTION, array() );
-		$rules = is_array( $rules ) ? $rules : array();
-		$rules[ $source_path ] = array( 'target_id' => $target_id, 'taxonomy' => $taxonomy, 'token' => $token );
+		$rules                 = get_option( self::OPTION, array() );
+		$rules                 = is_array( $rules ) ? $rules : array();
+		$rules[ $source_path ] = array(
+			'target_id' => $target_id,
+			'taxonomy'  => $taxonomy,
+			'token'     => $token,
+		);
 		update_option( self::OPTION, array_slice( $rules, -500, null, true ), false );
 	}
 
@@ -103,10 +133,35 @@ final class TermRedirects {
 		$rules = is_array( $rules ) ? $rules : array();
 		?>
 		<div class="wrap taxocsie-redirect-page"><h1><?php esc_html_e( 'Term Redirects', 'taxonomy-csv-import-export' ); ?></h1><p><?php esc_html_e( 'Old taxonomy URLs saved after a term URL changes or two terms are merged. A redirect runs only when the old URL is a 404.', 'taxonomy-csv-import-export' ); ?></p>
-			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only result. ?>
-			<?php if ( isset( $_GET['removed'] ) ) : ?><div class="notice notice-success inline"><p><?php esc_html_e( 'Redirect removed.', 'taxonomy-csv-import-export' ); ?></p></div><?php endif; ?>
-			<?php if ( ! $rules ) : ?><p><?php esc_html_e( 'No redirects have been created yet.', 'taxonomy-csv-import-export' ); ?></p><?php else : ?><table class="widefat striped"><thead><tr><th><?php esc_html_e( 'Old path', 'taxonomy-csv-import-export' ); ?></th><th><?php esc_html_e( 'Current destination', 'taxonomy-csv-import-export' ); ?></th><th><?php esc_html_e( 'Action', 'taxonomy-csv-import-export' ); ?></th></tr></thead><tbody>
-			<?php foreach ( $rules as $path => $rule ) : ?><?php $term = is_array( $rule ) ? get_term( absint( $rule['target_id'] ?? 0 ), sanitize_key( $rule['taxonomy'] ?? '' ) ) : null; $url = $term instanceof \WP_Term ? get_term_link( $term ) : ''; ?><tr><td><code><?php echo esc_html( $path ); ?></code></td><td><?php if ( is_string( $url ) && $url ) : ?><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $url ); ?></a><?php else : ?><?php esc_html_e( 'Destination missing', 'taxonomy-csv-import-export' ); ?><?php endif; ?></td><td><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="taxocsie_remove_redirect"><input type="hidden" name="path" value="<?php echo esc_attr( $path ); ?>"><?php wp_nonce_field( 'taxocsie_remove_redirect_' . $path ); ?><button class="button" type="submit"><?php esc_html_e( 'Remove', 'taxonomy-csv-import-export' ); ?></button></form></td></tr><?php endforeach; ?>
+			<?php
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only result.
+			if ( isset( $_GET['removed'] ) ) :
+				?>
+				<div class="notice notice-success inline"><p><?php esc_html_e( 'Redirect removed.', 'taxonomy-csv-import-export' ); ?></p></div><?php endif; ?>
+			<?php
+			if ( ! $rules ) :
+				?>
+				<p><?php esc_html_e( 'No redirects have been created yet.', 'taxonomy-csv-import-export' ); ?></p>
+				<?php
+else :
+	?>
+				<table class="widefat striped"><thead><tr><th><?php esc_html_e( 'Old path', 'taxonomy-csv-import-export' ); ?></th><th><?php esc_html_e( 'Current destination', 'taxonomy-csv-import-export' ); ?></th><th><?php esc_html_e( 'Action', 'taxonomy-csv-import-export' ); ?></th></tr></thead><tbody>
+					<?php
+					foreach ( $rules as $path => $rule ) :
+						?>
+						<?php
+						$term = is_array( $rule ) ? get_term( absint( $rule['target_id'] ?? 0 ), sanitize_key( $rule['taxonomy'] ?? '' ) ) : null;
+						$url  = $term instanceof \WP_Term ? get_term_link( $term ) : '';
+						?>
+<tr><td><code><?php echo esc_html( $path ); ?></code></td><td>
+						<?php
+						if ( is_string( $url ) && $url ) :
+							?>
+	<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $url ); ?></a>
+							<?php
+else :
+	?>
+	<?php esc_html_e( 'Destination missing', 'taxonomy-csv-import-export' ); ?><?php endif; ?></td><td><form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="taxocsie_remove_redirect"><input type="hidden" name="path" value="<?php echo esc_attr( $path ); ?>"><?php wp_nonce_field( 'taxocsie_remove_redirect_' . $path ); ?><button class="button" type="submit"><?php esc_html_e( 'Remove', 'taxonomy-csv-import-export' ); ?></button></form></td></tr><?php endforeach; ?>
 			</tbody></table><?php endif; ?>
 		</div>
 		<?php
@@ -123,7 +178,15 @@ final class TermRedirects {
 			unset( $rules[ $path ] );
 			update_option( self::OPTION, $rules, false );
 		}
-		wp_safe_redirect( add_query_arg( array( 'page' => self::PAGE, 'removed' => '1' ), admin_url( 'admin.php' ) ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => self::PAGE,
+					'removed' => '1',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
 		exit;
 	}
 
@@ -131,20 +194,20 @@ final class TermRedirects {
 		if ( ! is_404() || is_admin() || 'GET' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) ) {
 			return;
 		}
-		$path = self::normalize_path( (string) wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ) );
+		$path  = self::normalize_path( (string) wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ) );
 		$rules = get_option( self::OPTION, array() );
-		$rule = is_array( $rules ) ? ( $rules[ $path ] ?? null ) : null;
+		$rule  = is_array( $rules ) ? ( $rules[ $path ] ?? null ) : null;
 		if ( ! is_array( $rule ) ) {
 			return;
 		}
 		$taxonomy = sanitize_key( $rule['taxonomy'] ?? '' );
-		$target = get_term( absint( $rule['target_id'] ?? 0 ), $taxonomy );
+		$target   = get_term( absint( $rule['target_id'] ?? 0 ), $taxonomy );
 		if ( ! $target instanceof \WP_Term || TermCustomLinks::get( (int) $target->term_id ) ) {
 			return;
 		}
-		$url = get_term_link( $target );
+		$url  = get_term_link( $target );
 		$host = is_string( $url ) ? strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) ) : '';
-		if ( is_wp_error( $url ) || $host !== strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) ) || self::normalize_path( (string) wp_parse_url( $url, PHP_URL_PATH ) ) === $path ) {
+		if ( is_wp_error( $url ) || strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) ) !== $host || self::normalize_path( (string) wp_parse_url( $url, PHP_URL_PATH ) ) === $path ) {
 			return;
 		}
 		wp_safe_redirect( $url, 301, 'WP Taxonomy Manager' );

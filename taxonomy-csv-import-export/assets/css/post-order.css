@@ -1,0 +1,76 @@
+.taxocsie-po__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: flex-end;
+	margin: 16px 0;
+}
+.taxocsie-po__filters label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-weight: 600;
+}
+.taxocsie-po__hint,
+.taxocsie-po__empty {
+	color: #50575e;
+}
+.taxocsie-po__status {
+	min-height: 20px;
+	margin-bottom: 8px;
+	color: #1d6f42;
+	font-weight: 600;
+}
+.taxocsie-po__status.is-error {
+	color: #b32d2e;
+}
+.taxocsie-po__table {
+	max-width: 960px;
+}
+.taxocsie-po__col-handle {
+	width: 32px;
+}
+.taxocsie-po__col-num {
+	width: 84px;
+}
+.taxocsie-po__col-actions {
+	width: 140px;
+	white-space: nowrap;
+}
+.taxocsie-po-handle {
+	cursor: grab;
+	color: #787c82;
+}
+.taxocsie-po-handle:hover {
+	color: #1d2327;
+}
+.taxocsie-po-num {
+	width: 64px;
+	min-height: 30px;
+	text-align: center;
+	font-weight: 600;
+}
+.taxocsie-po-title {
+	width: 100%;
+	max-width: 480px;
+}
+.taxocsie-po-placeholder td {
+	background: #f0f6fc;
+	border: 1px dashed #72aee6;
+}
+.ui-sortable-helper {
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.taxocsie-po__toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin: 12px 0;
+}
+.taxocsie-po__toolbar span {
+	font-weight: 600;
+	margin-right: 4px;
+}

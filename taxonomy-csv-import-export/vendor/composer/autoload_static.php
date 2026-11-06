@@ -4,12 +4,8 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564
+class ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b
 {
-    public static $files = array (
-        '8d50dc88e56bace65e1e72f6017983ed' => __DIR__ . '/..' . '/freemius/wordpress-sdk/start.php',
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'TaxoCSIE\\AddonSettings' => __DIR__ . '/../..' . '/includes/class-addon-settings.php',
@@ -17,12 +13,17 @@ class ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564
         'TaxoCSIE\\Assets' => __DIR__ . '/../..' . '/includes/assets.php',
         'TaxoCSIE\\CsvReader' => __DIR__ . '/../..' . '/includes/class-csv-reader.php',
         'TaxoCSIE\\Dashboard' => __DIR__ . '/../..' . '/includes/dashboard.php',
+        'TaxoCSIE\\DataManagerOverview' => __DIR__ . '/../..' . '/includes/data-manager-overview.php',
         'TaxoCSIE\\Freemius' => __DIR__ . '/../..' . '/includes/freemius.php',
         'TaxoCSIE\\FreemiusOptin' => __DIR__ . '/../..' . '/includes/freemius-optin.php',
         'TaxoCSIE\\Helper' => __DIR__ . '/../..' . '/includes/helper.php',
         'TaxoCSIE\\ImportHistory' => __DIR__ . '/../..' . '/includes/class-import-history.php',
         'TaxoCSIE\\Menu' => __DIR__ . '/../..' . '/includes/menu.php',
         'TaxoCSIE\\Modules\\RulesAutoTagging' => __DIR__ . '/../..' . '/includes/modules/ai-auto-tagging/ai-auto-tagging.php',
+        'TaxoCSIE\\OnboardingChecklist' => __DIR__ . '/../..' . '/includes/onboarding-checklist.php',
+        'TaxoCSIE\\PostOrder' => __DIR__ . '/../..' . '/includes/class-post-order.php',
+        'TaxoCSIE\\PostOrderEditor' => __DIR__ . '/../..' . '/includes/class-post-order-editor.php',
+        'TaxoCSIE\\PromoBanner' => __DIR__ . '/../..' . '/includes/promo-banner.php',
         'TaxoCSIE\\ReviewPrompt' => __DIR__ . '/../..' . '/includes/review-prompt.php',
         'TaxoCSIE\\Settings' => __DIR__ . '/../..' . '/includes/settings.php',
         'TaxoCSIE\\SupportRequest' => __DIR__ . '/../..' . '/includes/class-support-request.php',
@@ -38,7 +39,7 @@ class ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitdc8ed197e434e95b9be2504e7fa76564::$classMap;
+            $loader->classMap = ComposerStaticInitfbb038b05a6c8f420f514df7bd9b243b::$classMap;
 
         }, null, ClassLoader::class);
     }

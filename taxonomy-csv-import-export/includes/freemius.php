@@ -188,6 +188,24 @@ final class Freemius {
 		return is_string( $url ) ? esc_url_raw( $url ) : '';
 	}
 
+	/** WordPress cannot set a target on submenu links, so open the website pricing page in a new tab. */
+	public static function open_get_pro_in_new_tab(): void {
+		$url = self::get_upgrade_url();
+		if ( '' === $url ) {
+			return;
+		}
+		?>
+		<script>
+		document.querySelectorAll('#toplevel_page_taxonomy-csv-import-export .wp-submenu a[href]').forEach(function (link) {
+			if (link.getAttribute('href') === <?php echo wp_json_encode( $url ); ?>) {
+				link.target = '_blank';
+				link.rel = 'noopener noreferrer';
+			}
+		});
+		</script>
+		<?php
+	}
+
 	/**
 	 * Register Settings and the appropriate Free or Premium menu entry.
 	 *
@@ -211,6 +229,7 @@ final class Freemius {
 				self::get_upgrade_url(),
 				__( 'Get Pro', 'taxonomy-csv-import-export' ),
 			);
+			add_action( 'admin_footer', array( __CLASS__, 'open_get_pro_in_new_tab' ) );
 			return;
 		}
 
